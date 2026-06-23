@@ -41,31 +41,35 @@ h1{
 .menu {
     display: flex;
     flex-direction: column;
-    /* 최소 25px, 화면 너비의 3%, 최대 60px 사이에서 자동 조절 */
-    gap: 40px; 
+    align-items: center;       /* 가로 중앙 정렬 */
+    justify-content: center;    /* 세로 중앙 정렬 */
+    min-height: 100vh;         /* 화면 전체 높이를 확보하여 찌그러짐 방지 */
+    box-sizing: border-box;
 }
 
-button{
+button {
+    width: 450px;
+    height: 100px;
+    border: none;
+    border-radius: 20px;
+    font-size: 36px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
 
-    width:450px;
+    /* 🔥 [핵심 1] TV 브라우저에서 절대 압착되지 않도록 고정 */
+    flex-shrink: 0; 
 
-    height:80px;
-
-    border:none;
-
-    border-radius:20px;
-
-    font-size:36px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:0.2s;
+    /* 🔥 [핵심 2] gap 대신 구형 브라우저도 다 알아먹는 마진 사용 */
+    margin-bottom: 35px; 
 }
 
-button:hover{
-
-    transform:scale(1.03);
-
+/* 마지막 버튼은 아래 여백이 필요 없으므로 제거 */
+button:last-child {
+    margin-bottom: 0;
 }
+
+button:hover {
+    transform: scale(1.03);
+}
+
