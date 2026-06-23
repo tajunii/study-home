@@ -42,8 +42,6 @@ h1{
     display: flex;
     flex-direction: column;
     align-items: center;       /* 가로 중앙 정렬 */
-    justify-content: center;    /* 세로 중앙 정렬 */
-    min-height: 100vh;         /* 화면 전체 높이를 확보하여 찌그러짐 방지 */
     box-sizing: border-box;
 }
 
