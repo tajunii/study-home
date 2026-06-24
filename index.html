@@ -1,46 +1,362 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語を勉強しよう!! - TV Menu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&family=Noto+Sans+JP:wght@400;700;800&display=swap" rel="stylesheet">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg-color: #080710;
+            --card-bg: #131224; 
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            
+            /* 4가지 메뉴를 위한 개별 포인트 테마 컬러 */
+            --color-theme1: #c084fc; /* 보라: 쉐도잉 */
+            --color-theme2: #34d399; /* 녹색: 단어/문법 */
+            --color-theme3: #fbbf24; /* 노랑: 일상 표현 */
+            --color-theme4: #38bdf8; /* 파랑: 문형 익히기 */
+            
+            --transition-speed: 0.2s;
+        }
 
-<title>日本語を勉強しよう!!</title>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 80%);
+            color: var(--text-primary);
+            font-family: 'Outfit', 'Noto Sans KR', 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden; /* TV 화면용 스크롤 방지 */
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&display=swap"
-rel="stylesheet">
+        header {
+            width: 100%;
+            max-width: 1600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 80px 20px 80px;
+        }
 
-<link rel="stylesheet" href="style.css">
+        h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin: 0;
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid var(--card-border);
+        }
+
+        .container {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 80px;
+        }
+
+        .horizontal-menu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 40px;
+            /* 혹시 작은 화면일 경우 가로 스크롤 허용, 포커스 시 자동 스크롤됨 */
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 스크롤바 숨기기 */
+        .horizontal-menu::-webkit-scrollbar {
+            display: none;
+        }
+        .horizontal-menu {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .menu-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 36px; 
+            width: 320px;     /* 4개가 잘 들어가도록 너비 조정 */
+            height: 420px;
+            padding: 40px 30px;
+            
+            /* TV 브라우저에서 절대 압착되지 않도록 고정 */
+            flex-shrink: 0; 
+            /* 구형 브라우저 호환을 위한 우측 마진 */
+            margin-right: 35px; 
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            
+            transition: transform var(--transition-speed) ease, 
+                        border-color var(--transition-speed) ease, 
+                        background-color var(--transition-speed) ease,
+                        box-shadow var(--transition-speed) ease;
+        }
+
+        .menu-btn:last-child {
+            margin-right: 0;
+        }
+
+        .menu-icon {
+            font-size: 56px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.04);
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease;
+        }
+
+        .menu-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-text h3 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            transition: color var(--transition-speed) ease;
+            word-break: keep-all;
+        }
+
+        .menu-text p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            word-break: keep-all;
+        }
+
+        /* [1] 쉐도잉 연습 (보라색 테마) */
+        .menu-btn.theme-1:hover, .menu-btn.theme-1:focus {
+            transform: scale(1.06) translateY(-10px);
+            border-color: var(--color-theme1);
+            background: rgba(192, 132, 252, 0.05);
+            box-shadow: 0 20px 50px rgba(168, 85, 247, 0.2);
+            z-index: 10;
+        }
+        .menu-btn.theme-1:hover .menu-icon, .menu-btn.theme-1:focus .menu-icon {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: var(--color-theme1);
+        }
+        .menu-btn.theme-1:hover h3, .menu-btn.theme-1:focus h3 {
+            color: var(--color-theme1);
+        }
+
+        /* [2] 단어/문법 (녹색 테마) */
+        .menu-btn.theme-2:hover, .menu-btn.theme-2:focus {
+            transform: scale(1.06) translateY(-10px);
+            border-color: var(--color-theme2);
+            background: rgba(52, 211, 153, 0.05);
+            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.2);
+            z-index: 10;
+        }
+        .menu-btn.theme-2:hover .menu-icon, .menu-btn.theme-2:focus .menu-icon {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--color-theme2);
+        }
+        .menu-btn.theme-2:hover h3, .menu-btn.theme-2:focus h3 {
+            color: var(--color-theme2);
+        }
+
+        /* [3] 일상 표현 (노란색 테마) */
+        .menu-btn.theme-3:hover, .menu-btn.theme-3:focus {
+            transform: scale(1.06) translateY(-10px);
+            border-color: var(--color-theme3);
+            background: rgba(251, 191, 36, 0.05);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.2);
+            z-index: 10;
+        }
+        .menu-btn.theme-3:hover .menu-icon, .menu-btn.theme-3:focus .menu-icon {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--color-theme3);
+        }
+        .menu-btn.theme-3:hover h3, .menu-btn.theme-3:focus h3 {
+            color: var(--color-theme3);
+        }
+
+        /* [4] 문형 익히기 (파란색 테마) */
+        .menu-btn.theme-4:hover, .menu-btn.theme-4:focus {
+            transform: scale(1.06) translateY(-10px);
+            border-color: var(--color-theme4);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 20px 50px rgba(14, 165, 233, 0.2);
+            z-index: 10;
+        }
+        .menu-btn.theme-4:hover .menu-icon, .menu-btn.theme-4:focus .menu-icon {
+            background: rgba(14, 165, 233, 0.15);
+            border-color: var(--color-theme4);
+        }
+        .menu-btn.theme-4:hover h3, .menu-btn.theme-4:focus h3 {
+            color: var(--color-theme4);
+        }
+
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>日本語 敎室</h1>
-</header>
+    <header>
+        <h1>日本語 敎室</h1>
+        <div class="header-right">
+            <span id="currentTime">12:00 PM</span>
+        </div>
+    </header>
 
-<div class="menu">
+    <div class="container">
+        <div class="horizontal-menu" id="menuContainer">
+            
+            <!-- 메뉴 1: 쉐도잉 연습 -->
+            <button class="menu-btn theme-1" tabindex="1" data-url="https://tajunii.github.io/japanese-study/">
+                <div class="menu-icon">🎤</div>
+                <div class="menu-text">
+                    <h3>쉐도잉 연습</h3>
+                    <p>원어민의 발음과<br>억양을 따라해 보세요</p>
+                </div>
+            </button>
 
-<button onclick="window.location.href='https://tajunii.github.io/japanese-study/'">
-쉐도잉 연습
-</button>
+            <!-- 메뉴 2: 단어 / 문법 -->
+            <button class="menu-btn theme-2" tabindex="2" data-url="https://tajunii.github.io/wpstudy/">
+                <div class="menu-icon">📚</div>
+                <div class="menu-text">
+                    <h3>단어 / 문법<br><span style="font-size: 14px; font-weight: 400; color: #94a3b8;">(쉐도잉 관련)</span></h3>
+                    <p>핵심 어휘와 문법을<br>확실하게 다져보세요</p>
+                </div>
+            </button>
 
-<button onclick="window.location.href='https://tajunii.github.io/wpstudy/'">
-단어 / 문법 (쉐도잉 관련)
-</button>
+            <!-- 메뉴 3: 일상 표현 익히기 -->
+            <button class="menu-btn theme-3" tabindex="3" data-url="https://tajunii.github.io/conversationstudy/">
+                <div class="menu-icon">💬</div>
+                <div class="menu-text">
+                    <h3>일상 표현 익히기</h3>
+                    <p>실제 생활에서 쓰이는<br>자연스러운 회화 표현</p>
+                </div>
+            </button>
 
-<button onclick="window.location.href='https://tajunii.github.io/conversationstudy/'">
-일상 표현 익히기
-</button>
+            <!-- 메뉴 4: 문형 익히기 -->
+            <button class="menu-btn theme-4" tabindex="4" data-url="https://tajunii.github.io/ptn-convstudy/">
+                <div class="menu-icon">🧩</div>
+                <div class="menu-text">
+                    <h3>문형 익히기</h3>
+                    <p>다양한 패턴과 문형을<br>통해 응용력을 키우세요</p>
+                </div>
+            </button>
 
-<button onclick="window.location.href='https://tajunii.github.io/ptn-convstudy/'">
-문형 익히기
-</button>
+        </div>
+    </div>
 
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = Array.from(document.querySelectorAll('.menu-btn'));
+            
+            // 페이지 로드 시 첫 번째 버튼에 자동 포커스
+            if (buttons.length > 0) {
+                buttons[0].focus();
+            }
 
+            // 마우스 클릭 시 페이지 이동 로직 연동
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetUrl = this.getAttribute('data-url');
+                    if(targetUrl) {
+                        window.location.href = targetUrl;
+                    }
+                });
+            });
+
+            // 키보드(리모컨 방향키) 이벤트 리스너 추가
+            document.addEventListener('keydown', (e) => {
+                const currentIndex = buttons.indexOf(document.activeElement);
+
+                if (e.key === 'ArrowRight') {
+                    // 오른쪽 화살표: 다음 메뉴로 이동
+                    e.preventDefault(); 
+                    const nextIndex = currentIndex + 1 < buttons.length ? currentIndex + 1 : 0;
+                    buttons[nextIndex].focus();
+                    // 포커스 이동 시 화면에 잘 보이도록 스크롤 이동 유도
+                    buttons[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else if (e.key === 'ArrowLeft') {
+                    // 왼쪽 화살표: 이전 메뉴로 이동
+                    e.preventDefault();
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    buttons[prevIndex].focus();
+                    buttons[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else if (e.key === 'Enter') {
+                    // 엔터 키: 링크 이동
+                    if(currentIndex !== -1) {
+                        const targetUrl = buttons[currentIndex].getAttribute('data-url');
+                        if(targetUrl) {
+                            window.location.href = targetUrl;
+                        }
+                    }
+                }
+            });
+
+            // 상단 실시간 시계 표시 로직
+            function updateTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                
+                hours = hours % 12;
+                hours = hours ? hours : 12; 
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                
+                document.getElementById('currentTime').innerText = `${hours}:${minutes} ${ampm}`;
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+        });
+    </script>
 </body>
 </html>
