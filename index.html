@@ -48,7 +48,7 @@
             width: 100%;
             max-width: 1600px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: 60px 80px 20px 80px;
         }
@@ -247,9 +247,6 @@
 
     <header>
         <h1>日本語 敎室</h1>
-        <div class="header-right">
-            <span id="currentTime">12:00 PM</span>
-        </div>
     </header>
 
     <div class="container">
@@ -341,22 +338,6 @@
                 }
             });
 
-            // 상단 실시간 시계 표시 로직
-            function updateTime() {
-                const now = new Date();
-                let hours = now.getHours();
-                let minutes = now.getMinutes();
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                
-                hours = hours % 12;
-                hours = hours ? hours : 12; 
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                
-                document.getElementById('currentTime').innerText = `${hours}:${minutes} ${ampm}`;
-            }
-            setInterval(updateTime, 1000);
-            updateTime();
-        });
     </script>
 </body>
 </html>
