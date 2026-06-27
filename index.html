@@ -60,7 +60,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 60px 20px 60px;
+            padding: 30px 60px 15px 60px;
             z-index: 10;
         }
 
@@ -71,7 +71,7 @@
         }
 
         h1 {
-            font-size: 38px;
+            font-size: 36px;
             font-weight: 800;
             font-family: 'Noto Sans JP', sans-serif;
             background: linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
@@ -94,16 +94,16 @@
         .nav-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .nav-btn {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--card-border);
             color: var(--text-secondary);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             outline: none;
@@ -131,7 +131,7 @@
             width: 100%;
             max-width: 1600px;
             margin: 0 auto;
-            padding: 20px 60px 40px 60px;
+            padding: 10px 60px 30px 60px;
             position: relative;
         }
 
@@ -154,11 +154,11 @@
            모드 A: 홈 (대시보드)
            ------------------------------------- */
         #homePage {
-            padding-top: 40px;
+            padding-top: 30px;
         }
 
         .welcome-text {
-            font-size: 22px;
+            font-size: 20px;
             color: var(--text-secondary);
             margin-bottom: 40px;
             text-align: center;
@@ -178,7 +178,7 @@
             border: 2px solid var(--card-border);
             border-radius: 32px;
             width: 290px;
-            height: 390px;
+            height: 380px;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
@@ -220,7 +220,6 @@
             word-break: keep-all;
         }
 
-        /* 모드별 테마 컬러 매핑 */
         .menu-card.theme-shadow:focus, .menu-card.theme-shadow:hover { border-color: var(--color-theme-shadow); box-shadow: 0 0 25px rgba(192, 132, 252, 0.25); transform: translateY(-8px); }
         .menu-card.theme-word:focus, .menu-card.theme-word:hover { border-color: var(--color-theme-word); box-shadow: 0 0 25px rgba(52, 211, 153, 0.25); transform: translateY(-8px); }
         .menu-card.theme-pattern:focus, .menu-card.theme-pattern:hover { border-color: var(--color-theme-pattern); box-shadow: 0 0 25px rgba(251, 191, 36, 0.25); transform: translateY(-8px); }
@@ -240,13 +239,13 @@
             gap: 25px;
             max-width: 1100px;
             margin: 0 auto;
-            height: calc(100vh - 220px);
+            height: calc(100vh - 200px);
         }
 
         .shadow-audio-player {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
-            padding: 20px 30px;
+            padding: 15px 30px;
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -369,7 +368,6 @@
             font-size: 16px;
             color: var(--text-secondary);
             display: none;
-            transition: opacity 0.3s;
         }
 
         .shadow-ko.reveal {
@@ -377,21 +375,21 @@
         }
 
         /* -------------------------------------
-           모드 C: 통합 퀴즈 플레이어 뷰
+           모드 C: 통합 학습 / 퀴즈 뷰
            ------------------------------------- */
         .quiz-layout {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
-            padding-top: 10px;
+            gap: 20px;
+            padding-top: 5px;
         }
 
         .quiz-header {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -402,7 +400,7 @@
 
         .quiz-progress-bar-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             height: 8px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 4px;
@@ -418,15 +416,138 @@
             transition: width 0.3s ease;
         }
 
-        /* 플래시 카드 */
+        /* 공부 / 퀴즈 서브 탭 스위치 */
+        .sub-tab-container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 5px;
+        }
+
+        .sub-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .sub-tab-btn.active-subtab {
+            background: var(--focus-ring);
+            color: #000;
+            box-shadow: 0 2px 8px var(--focus-glow);
+        }
+
+        /* 학습(Study)용 상세 공부 카드 */
+        .study-card-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            gap: 20px;
+        }
+
+        .study-word-header {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            padding-bottom: 15px;
+        }
+
+        .study-word-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--color-theme-word);
+            font-family: 'Noto Sans JP', sans-serif;
+            cursor: pointer;
+        }
+        .quiz-pattern .study-word-title { color: var(--color-theme-pattern); }
+        .quiz-expression .study-word-title { color: var(--color-theme-expression); }
+
+        .study-word-furigana {
+            font-size: 22px;
+            color: var(--text-secondary);
+        }
+
+        .study-meanings-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .study-meaning-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .study-badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 2px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .study-examples-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        .study-example-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .study-example-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .study-ex-ja {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .study-ex-ko {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* 퀴즈용 플래시 카드 */
         .flash-card {
             width: 100%;
-            max-width: 800px;
-            height: 400px;
+            max-width: 850px;
+            min-height: 400px;
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 36px;
-            padding: 50px 40px;
+            padding: 40px 45px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -442,6 +563,12 @@
         .flash-card:focus {
             border-color: var(--focus-ring);
             box-shadow: 0 0 30px var(--focus-glow);
+        }
+
+        /* 공부 모드일 때는 카드가 전체 오픈된 뷰로 크기 유연하게 대응 */
+        .flash-card.study-mode-view {
+            justify-content: flex-start;
+            cursor: default;
         }
 
         .card-inner {
@@ -484,13 +611,12 @@
         .card-answer {
             font-size: 38px;
             font-weight: 700;
-            color: #fbbf24; /* 디폴트 강조색 */
+            color: #fbbf24;
             margin-bottom: 12px;
             font-family: 'Noto Sans JP', sans-serif;
             word-break: keep-all;
         }
 
-        /* 퀴즈 정답 강조 컬러 */
         .quiz-word .card-answer { color: var(--color-theme-word); }
         .quiz-pattern .card-answer { color: var(--color-theme-pattern); }
         .quiz-expression .card-answer { color: var(--color-theme-expression); }
@@ -518,7 +644,7 @@
             display: flex;
             gap: 20px;
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             justify-content: center;
             margin-top: 15px;
         }
@@ -693,9 +819,6 @@
             margin-top: 30px;
         }
 
-        /* -------------------------------------
-           반응형 폰트 조정 및 TV 최적화
-           ------------------------------------- */
         @media (max-width: 1280px) {
             .menu-card {
                 width: 250px;
@@ -722,9 +845,9 @@
         <div class="nav-container" id="nav">
             <button class="nav-btn active-nav" onclick="showPage('home')">홈 (Home)</button>
             <button class="nav-btn" onclick="startShadowing()">🎤 쉐도잉 (Shadowing)</button>
-            <button class="nav-btn" onclick="startQuiz('word')">📚 단어/문법 (Vocabulary)</button>
-            <button class="nav-btn" onclick="startQuiz('pattern')">🧩 문형 80 (Patterns)</button>
-            <button class="nav-btn" onclick="startQuiz('expression')">💬 일상 표현 (Expressions)</button>
+            <button class="nav-btn" onclick="startStudyOrQuiz('word')">📚 단어/문법 (Vocabulary)</button>
+            <button class="nav-btn" onclick="startStudyOrQuiz('pattern')">🧩 문형 80 (Patterns)</button>
+            <button class="nav-btn" onclick="startStudyOrQuiz('expression')">💬 일상 표현 (Expressions)</button>
         </div>
     </header>
 
@@ -738,17 +861,17 @@
                     <h3>쉐도잉 연습</h3>
                     <p>원어민 발음을 듣고<br>따라 하는 쉐도잉 훈련</p>
                 </button>
-                <button class="menu-card theme-word" onclick="startQuiz('word')" tabindex="2">
+                <button class="menu-card theme-word" onclick="startStudyOrQuiz('word')" tabindex="2">
                     <div class="menu-card-icon">📚</div>
                     <h3>단어 / 문법</h3>
-                    <p>쉐도잉 대본 기반의<br>어휘 및 문법 퀴즈</p>
+                    <p>쉐도잉 대본 기반의<br>어휘 및 문법 학습/퀴즈</p>
                 </button>
-                <button class="menu-card theme-pattern" onclick="startQuiz('pattern')" tabindex="3">
+                <button class="menu-card theme-pattern" onclick="startStudyOrQuiz('pattern')" tabindex="3">
                     <div class="menu-card-icon">🧩</div>
                     <h3>문형 익히기</h3>
-                    <p>핵심 80개 패턴 기반<br>문장 훈련 퀴즈</p>
+                    <p>핵심 80개 패턴 기반<br>문장 훈련 학습/퀴즈</p>
                 </button>
-                <button class="menu-card theme-expression" onclick="startQuiz('expression')" tabindex="4">
+                <button class="menu-card theme-expression" onclick="startStudyOrQuiz('expression')" tabindex="4">
                     <div class="menu-card-icon">💬</div>
                     <h3>일상 표현</h3>
                     <p>생활 속 유용한<br>일본어 회화 표현 익히기</p>
@@ -772,13 +895,20 @@
             </div>
         </div>
 
-        <!-- 3. 통합 퀴즈 플레이어 화면 -->
+        <!-- 3. 통합 학습/퀴즈 플레이어 화면 -->
         <div id="quizPage" class="page">
             <div class="quiz-layout" id="quizLayoutContainer">
                 <div class="quiz-header">
                     <span id="quizModeLabel">문형 익히기</span>
+                    
+                    <!-- 공부 / 퀴즈 모드 전환 탭 스위치 -->
+                    <div class="sub-tab-container" id="subTabs">
+                        <button class="sub-tab-btn active-subtab" id="subtab-study" onclick="setSubMode('study')">📖 공부</button>
+                        <button class="sub-tab-btn" id="subtab-quiz" onclick="setSubMode('quiz')">🎯 퀴즈</button>
+                    </div>
+
                     <div class="filter-section" id="quizFilterContainer">
-                        <label for="quizWeekSelect">주차 선택:</label>
+                        <label for="quizWeekSelect">주차:</label>
                         <select id="quizWeekSelect" class="select-custom" onchange="changeQuizFilter(this.value)">
                             <option value="all">전체보기</option>
                         </select>
@@ -789,32 +919,23 @@
                     <div class="quiz-progress-bar" id="quizProgressBar"></div>
                 </div>
 
-                <!-- 플래시 카드 -->
+                <!-- 플래시 카드 (학습/퀴즈 겸용) -->
                 <div class="flash-card" id="flashCard" tabindex="1" onclick="handleCardClick()">
-                    <div class="card-inner">
-                        <div class="card-question" id="quizQuestion">한국어 질문이 표시됩니다.</div>
-                        <div class="card-divider" id="cardDivider"></div>
-                        <div class="card-answer-container" id="quizAnswerContainer">
-                            <div class="card-answer" id="quizAnswer">일본어 정답</div>
-                            <div class="card-meta" id="quizMeta">독음 및 후리가나</div>
-                            <div class="card-usage-box" id="quizUsageBox" style="display:none;">설명</div>
-                        </div>
+                    <div class="card-inner" id="cardInnerContent">
+                        <!-- 공부 혹은 퀴즈 구성 요소가 동적으로 교체되어 들어감 -->
                     </div>
                 </div>
 
                 <!-- 조작 버튼 -->
-                <div class="quiz-controls">
-                    <button class="quiz-btn" id="quizBackBtn" onclick="prevQuizItem()">← 이전 문제</button>
-                    <button class="quiz-btn" id="quizResetBtn" onclick="resetQuizProgress()">처음부터 다시</button>
-                    <button class="quiz-btn" id="quizAudioBtn" onclick="replayAudio()">🔊 다시 듣기 (Space)</button>
-                    <button class="quiz-btn quiz-btn-primary" id="quizActionBtn" onclick="handleQuizAction()">정답 보기 (Enter)</button>
+                <div class="quiz-controls" id="quizControlsContainer">
+                    <!-- 하단 조작 버튼 영역 동적 생성 -->
                 </div>
 
                 <!-- 리모컨 단축키 팁 -->
-                <div class="quiz-tip-bar">
+                <div class="quiz-tip-bar" id="remoteTipsLabel">
                     <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
-                    <div><span class="tip-tag">방향키 좌(←)</span> 이전 문제</div>
-                    <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 오디오 다시듣기</div>
+                    <div><span class="tip-tag">방향키 좌/우(←/→)</span> 이전/다음 문제</div>
+                    <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 음성 다시듣기</div>
                     <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
                 </div>
             </div>
@@ -852,27 +973,29 @@
         // ==========================================
         // 1. 상태 관리 (State Management)
         // ==========================================
-        let allData = []; // 통합 데이터베이스 [{id, type, category, group, cycle, week, jp, kr, audio, meta}]
+        let allData = []; // 원본 1행 단위 통합 데이터 [{id, type, ...}]
         let currentMode = 'home'; // 'home' | 'shadow' | 'word' | 'pattern' | 'expression'
-        
-        // 퀴즈 엔진 상태
-        let quizFilteredItems = [];
-        let quizRemainingIndices = [];
-        let quizSolvedHistory = []; // [index] 이전으로 돌아가기용
-        let quizCurrentIndex = -1; // quizFilteredItems 기준
-        let quizState = 'question'; // 'question' | 'answer' | 'finished'
+        let currentSubMode = 'study'; // 'study' (공부) | 'quiz' (퀴즈)
         let currentQuizWeekFilter = 'all';
+
+        // 퀴즈 엔진용 문항 단위 데이터셋
+        let quizItems = []; // [{question, answer, audio, meta, week}]
+        let quizRemainingIndices = [];
+        let quizSolvedHistory = [];
+        let quizCurrentIndex = -1;
+        let quizState = 'question'; // 'question' | 'answer' | 'finished'
+
+        // 공부 엔진용 1행 단위 데이터셋
+        let studyItems = []; // 원본 allData 필터링본
+        let studyCurrentIndex = -1;
 
         // 쉐도잉 상태
         let isShadowTranslationVisible = false;
 
-        // 오디오 시스템
         const globalAudioPlayer = new Audio();
-
-        // 환경 변수 (로컬 vs 배포)
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
 
-        // 기본 내장 쉐도잉 대본 데이터 (심야식당 s1ep1)
+        // 기본 내장 쉐도잉 데이터
         const defaultShadowingData = [
             {
                 id: "shadow_1",
@@ -880,7 +1003,6 @@
                 category: "대본",
                 group: "심야식당 S1E1-1",
                 jp: "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。",
-                meta: "いちにち が 오わり、ひとびと が いえじ へと いそぐころ、おれ の いちにち は はじまる。",
                 kr: "하루가 끝나고 사람들이 집으로 서두를 때, 나의 하루는 시작된다.",
                 audio: "1.mp3"
             },
@@ -889,8 +1011,7 @@
                 type: "shadow",
                 category: "대본",
                 group: "심야식당 S1E1-1",
-                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。",
-                meta: "メニュー は これだけ、あとは かって に ちゅうもん してくれりゃ できるもんなら つくるよ ってのが、おれ の えいぎょうほうしん さ。",
+                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできる도んなら作るよってのが、俺の営業方針さ。",
                 kr: "메뉴는 이것뿐, 나머지는 마음대로 주문해서 할 수 있는 거라면 만드는 게 내 영업 방침이지.",
                 audio: "2.mp3"
             },
@@ -900,7 +1021,6 @@
                 category: "대본",
                 group: "심야식당 S1E1-1",
                 jp: "営業時間夜12時から朝7時ごろまで、人は深夜食堂って言ってるよ。",
-                meta: "えいぎょうじかん は よる じゅうにじ から あさ ななじ ごろまで、ひと は しんやしょくどう って いってるよ。",
                 kr: "영업시간은 밤 12시부터 아침 7시경까지, 사람들은 심야식당이라고 불러.",
                 audio: "3.mp3"
             },
@@ -909,8 +1029,7 @@
                 type: "shadow",
                 category: "대본",
                 group: "심야식당 S1E1-1",
-                jp: "客が来るかって？",
-                meta: "きゃく が くるかって？",
+                jp: "客이来るかって？",
                 kr: "손님이 오냐고?",
                 audio: "4.mp3"
             },
@@ -920,14 +1039,13 @@
                 category: "대본",
                 group: "심야식당 S1E1-1",
                 jp: "それが結構来るんだよ。",
-                meta: "それが けっこう くるんだよ。",
                 kr: "그게 꽤 온단 말이지.",
                 audio: "5.mp3"
             }
         ];
 
         // ==========================================
-        // 2. 데이터 연동 (Data Sync)
+        // 2. 데이터 동기화 & 파싱 (Data Sync)
         // ==========================================
         const DEFAULT_URLS = {
             single: "",
@@ -937,7 +1055,6 @@
             pattern_list: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=1779898264&single=true&output=csv"
         };
 
-        // 로컬스토리지에서 URL 설정 불러오기
         function getSheetUrls() {
             const single = localStorage.getItem("sheet_url_single") || DEFAULT_URLS.single;
             return {
@@ -949,14 +1066,12 @@
             };
         }
 
-        // 데이터 통합 파싱 및 불러오기
         async function initData() {
             const urls = getSheetUrls();
             allData = [];
 
             try {
                 if (urls.single) {
-                    // 1. 단일 통합 시트 로드
                     console.log("통합 시트 불러오기 중...");
                     const res = await fetch(urls.single);
                     const csvText = await res.text();
@@ -972,103 +1087,70 @@
                         jp: row.jp || '',
                         kr: row.kr || '',
                         audio: row.audio || '',
-                        meta: row.meta || row.additional || ''
-                    })).filter(item => item.jp && item.kr);
-                    console.log(`통합 시트로부터 ${allData.length}개 데이터를 성공적으로 파싱했습니다.`);
+                        meta: row.meta || row.additional || '',
+                        // 공부 카드 구조용 확장
+                        word: row.word || '',
+                        furigana: row.furigana || '',
+                        meaning1: row.meaning1 || '',
+                        meaning2: row.meaning2 || '',
+                        usage: row.usage || '',
+                        example1: row.example1 || '',
+                        reading1: row.reading1 || '',
+                        translation1: row.translation1 || '',
+                        example2: row.example2 || '',
+                        reading2: row.reading2 || '',
+                        translation2: row.translation2 || ''
+                    })).filter(item => item.jp || item.word || item.pattern);
                 } else {
-                    // 2. 기존 개별 시트들 fetch 후 단일 포맷으로 통합 병합 (하위 호환)
-                    console.log("개별 시트들을 각각 로드하여 통합 중...");
+                    console.log("개별 시트 통합 중...");
                     
-                    // A. 단어/문법 로드
+                    // A. 단어/문법 시트 로드 (원본 1행 구조를 온전히 보관)
                     const wordRes = await fetch(urls.word);
                     const wordCsv = await wordRes.text();
                     const wordParsed = Papa.parse(wordCsv, { header: false, skipEmptyLines: true });
                     const wordRows = wordParsed.data.slice(1);
                     wordRows.forEach((cols, idx) => {
-                        if(cols[0] && cols[2]) {
-                            // 단어 행
-                            allData.push({
-                                id: `word_${idx}`,
-                                type: 'word',
-                                category: cols[2] || '', // 품사
-                                group: '단어',
-                                cycle: '',
-                                week: cols[10] || '',
-                                jp: cols[0],
-                                kr: cols[2] + (cols[3] ? `, ${cols[3]}` : ''),
-                                audio: '',
-                                meta: cols[1] ? `[독음: ${cols[1]}]` : ''
-                            });
-                        }
-                        if(cols[4] && cols[6]) {
-                            // 예문 1
-                            allData.push({
-                                id: `word_ex1_${idx}`,
-                                type: 'word',
-                                category: '예문',
-                                group: '단어 예문',
-                                cycle: '',
-                                week: cols[10] || '',
-                                jp: cols[4],
-                                kr: cols[6],
-                                audio: '',
-                                meta: cols[5] ? `독음: ${cols[5]}` : ''
-                            });
-                        }
-                        if(cols[7] && cols[9]) {
-                            // 예문 2
-                            allData.push({
-                                id: `word_ex2_${idx}`,
-                                type: 'word',
-                                category: '예문',
-                                group: '단어 예문',
-                                cycle: '',
-                                week: cols[10] || '',
-                                jp: cols[7],
-                                kr: cols[9],
-                                audio: '',
-                                meta: cols[8] ? `독음: ${cols[8]}` : ''
-                            });
-                        }
+                        allData.push({
+                            id: `word_${idx}`,
+                            type: 'word',
+                            word: cols[0]?.trim() || "",
+                            furigana: cols[1]?.trim() || "",
+                            meaning1: cols[2]?.trim() || "",
+                            meaning2: cols[3]?.trim() || "",
+                            example1: cols[4]?.trim() || "",
+                            reading1: cols[5]?.trim() || "",
+                            translation1: cols[6]?.trim() || "",
+                            example2: cols[7]?.trim() || "",
+                            reading2: cols[8]?.trim() || "",
+                            translation2: cols[9]?.trim() || "",
+                            week: cols[10]?.trim() || ""
+                        });
                     });
 
-                    // B. 문형 정보 및 예문 로드 (wpstudy gid=97570951)
-                    const ptnInfoRes = await fetch(urls.pattern_info);
-                    const ptnInfoCsv = await ptnInfoRes.text();
-                    const ptnInfoParsed = Papa.parse(ptnInfoCsv, { header: false, skipEmptyLines: true });
-                    const ptnInfoRows = ptnInfoParsed.data.slice(1);
-                    ptnInfoRows.forEach((cols, idx) => {
-                        if(cols[0] && cols[1]) {
-                            allData.push({
-                                id: `ptn_info_${idx}`,
-                                type: 'pattern',
-                                category: '문형 기본',
-                                group: cols[0], // 문형명
-                                cycle: '',
-                                week: cols[10] || '',
-                                jp: cols[0],
-                                kr: cols[1] + (cols[2] ? `, ${cols[2]}` : '') + ` (설명: ${cols[3] || ''})`,
-                                audio: '',
-                                meta: cols[3] || ''
-                            });
-                        }
-                        if(cols[4] && cols[6]) {
-                            allData.push({
-                                id: `ptn_info_ex1_${idx}`,
-                                type: 'pattern',
-                                category: '문형 예문',
-                                group: cols[0],
-                                cycle: '',
-                                week: cols[10] || '',
-                                jp: cols[4],
-                                kr: cols[6],
-                                audio: '',
-                                meta: cols[5] ? `독음: ${cols[5]}` : ''
-                            });
-                        }
+                    // B. 문형 정보 시트 로드 (원본 1행 구조 온전히 보관)
+                    const ptnRes = await fetch(urls.pattern_info);
+                    const ptnCsv = await ptnRes.text();
+                    const ptnParsed = Papa.parse(ptnCsv, { header: false, skipEmptyLines: true });
+                    const ptnRows = ptnParsed.data.slice(1);
+                    ptnRows.forEach((cols, idx) => {
+                        allData.push({
+                            id: `ptn_${idx}`,
+                            type: 'pattern',
+                            pattern: cols[0]?.trim() || "",
+                            meaning1: cols[1]?.trim() || "",
+                            meaning2: cols[2]?.trim() || "",
+                            usage: cols[3]?.trim() || "",
+                            example1: cols[4]?.trim() || "",
+                            reading1: cols[5]?.trim() || "",
+                            translation1: cols[6]?.trim() || "",
+                            example2: cols[7]?.trim() || "",
+                            reading2: cols[8]?.trim() || "",
+                            translation2: cols[9]?.trim() || "",
+                            week: cols[10]?.trim() || ""
+                        });
                     });
 
-                    // C. 일상회화 로드 (convstudy gid=619535186)
+                    // C. 일상회화 로드 (convstudy)
                     const exprRes = await fetch(urls.expression);
                     const exprCsv = await exprRes.text();
                     const exprParsed = Papa.parse(exprCsv, { header: false, skipEmptyLines: true });
@@ -1081,9 +1163,8 @@
                                 id: `expr_${idx}`,
                                 type: 'expression',
                                 category: cols[2] || '일상회화',
-                                group: cols[3] || '인사/공감',
-                                cycle: '',
-                                week: cols[6] || '',
+                                group: cols[3] || '기본 표현',
+                                week: cols[6] || '', // 주차
                                 jp: jpVal,
                                 kr: krVal,
                                 audio: '',
@@ -1092,7 +1173,7 @@
                         }
                     });
 
-                    // D. 문형 80 퀴즈 데이터 로드 (ptn&convstudy gid=1779898264)
+                    // D. 문형 80 퀴즈 전용 데이터 병합 (80문형)
                     const ptnListRes = await fetch(urls.pattern_list);
                     const ptnListCsv = await ptnListRes.text();
                     const ptnListParsed = Papa.parse(ptnListCsv, { header: false, skipEmptyLines: true });
@@ -1100,230 +1181,393 @@
                     ptnListRows.forEach((cols, idx) => {
                         const jpVal = cols[4] || "";
                         const krVal = cols[5] || "";
-                        const audioVal = cols[6] || "";
                         if (jpVal && krVal) {
                             allData.push({
                                 id: `ptn_80_${idx}`,
-                                type: 'pattern',
+                                type: 'pattern_80_quiz', // 기존 퀴즈 하위호환용 구분
                                 category: cols[2] || '문형80 예문',
                                 group: cols[3] || '80 패턴',
                                 cycle: cols[1] || '',
-                                week: cols[0] || '', // 주차
+                                week: cols[0] || '',
                                 jp: jpVal,
                                 kr: krVal,
-                                audio: audioVal,
+                                audio: cols[6] || '',
                                 meta: cols[3] ? `문형: ${cols[3]}` : ''
                             });
                         }
                     });
 
-                    console.log(`개별 시트 병합 완료. 총 ${allData.length}개의 데이터 로드됨.`);
+                    console.log(`개별 시트 병합 완료. 총 ${allData.length}개 로드.`);
                 }
             } catch (err) {
-                console.error("데이터 로드 중 에러 발생, 내장 백업 데이터를 활용합니다.", err);
+                console.error("데이터 로드 중 에러 발생. 내장 데이터를 씁니다.", err);
             }
 
-            // 쉐도잉 데이터를 통합 데이터에 삽입
             allData = allData.concat(defaultShadowingData);
         }
 
         // ==========================================
-        // 3. 페이지 네비게이션 (SPA Navigation)
+        // 3. 네비게이션 & 뷰 전환 (SPA Logic)
         // ==========================================
         function showPage(pageId) {
             currentMode = pageId;
-
-            // 모든 페이지 숨기기
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            // 네비게이션 탭 스타일 리셋
-            document.querySelectorAll('#nav button').forEach(btn => {
-                btn.classList.remove('active-nav');
-            });
-
-            // 오디오 중지
             globalAudioPlayer.pause();
 
-            // 대상 페이지 보이기
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('#nav button').forEach(btn => btn.classList.remove('active-nav'));
+
             const targetPage = document.getElementById(pageId + 'Page');
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+            if (targetPage) targetPage.classList.add('active');
 
-            // 활성화 탭 표시
-            let targetNavBtn;
-            if (pageId === 'home') {
-                targetNavBtn = document.querySelector(`#nav button[onclick*="showPage('home')"]`);
-            } else if (pageId === 'shadow') {
+            let targetNavBtn = document.querySelector(`#nav button[onclick*="showPage('home')"]`);
+            if (pageId === 'shadow') {
                 targetNavBtn = document.querySelector(`#nav button[onclick*="startShadowing()"]`);
-            } else {
-                targetNavBtn = document.querySelector(`#nav button[onclick*="startQuiz('${pageId}')"]`);
-            }
-            if (targetNavBtn) {
-                targetNavBtn.classList.add('active-nav');
+            } else if (pageId === 'quiz') {
+                // 서브 페이지 진입 시 해당 타입 네비 활성화
+                const typeNavMap = {
+                    word: "startStudyOrQuiz('word')",
+                    pattern: "startStudyOrQuiz('pattern')",
+                    expression: "startStudyOrQuiz('expression')"
+                };
+                targetNavBtn = document.querySelector(`#nav button[onclick*="${typeNavMap[currentSubCategory]}"]`);
             }
 
-            // 포커스 자동 관리
+            if (targetNavBtn) targetNavBtn.classList.add('active-nav');
+
             if (pageId === 'home') {
                 const firstCard = document.querySelector('.menu-card');
                 if (firstCard) firstCard.focus();
-            } else if (pageId === 'quiz') {
-                const flashCard = document.getElementById('flashCard');
-                if (flashCard) flashCard.focus();
             }
         }
 
-        // ==========================================
-        // 4. 쉐도잉 연습 (Shadowing practice)
-        // ==========================================
-        function startShadowing() {
-            showPage('shadow');
+        let currentSubCategory = 'word'; // 'word' | 'pattern' | 'expression'
 
-            const shadowItems = allData.filter(d => d.type === 'shadow');
-            const shadowList = document.getElementById('shadowListContainer');
-            shadowList.innerHTML = '';
+        function startStudyOrQuiz(type) {
+            currentSubCategory = type;
+            currentMode = 'quiz'; // HTML 상의 quizPage 영역 공유
+            currentQuizWeekFilter = 'all';
 
-            // 전체 오디오 경로 연결
-            const fullAudioEl = document.getElementById('shadowFullAudio');
-            fullAudioEl.src = getAudioUrl('shadow', 'full.mp3');
-
-            shadowItems.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'shadow-item';
-                div.tabIndex = idx + 1;
-                div.id = `shadow-item-${idx}`;
-                div.onclick = () => playShadowItemAudio(item.audio);
-                
-                // 루비 후리가나 태그가 meta에 들어있는 형태
-                // 기존 대본 ruby 적용
-                const rubyText = item.jp === "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。" 
-                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>が<ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>い소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
-                    : item.jp === "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。" || item.jp.includes("メニュー")
-                    ? `メニューはこれだけ、あとは<ruby>勝手<rt>かって</rt></ruby>に<ruby>注文<rt>ちゅうもん</rt></ruby>してくれりゃできるもんなら<ruby>作<rt>つく</rt></ruby>るよってのが、<ruby>俺<rt>おれ</rt></ruby>의 <ruby>営業方針<rt>えいぎょうほうしん</rt></ruby>さ。`
-                    : item.jp.includes("営業時間")
-                    ? `<ruby>営業時間<rt>えいぎょうじかん</rt></ruby>は<ruby>夜<rt>よる</rt></ruby>12<ruby>時<rt>じ</rt></ruby>から<ruby>朝<rt>あさ</rt></ruby>7<ruby>時<rt>じ</rt></ruby>ごろまで、<ruby>人<rt>ひと</rt></ruby>は<ruby>深夜食堂<rt>しんやしょくどう</rt></ruby>って<ruby>言<rt>い</rt></ruby>ってるよ。`
-                    : item.jp.includes("客")
-                    ? `<ruby>客<rt>きゃく</rt></ruby>が<ruby>来<rt>く</rt></ruby>るかって？`
-                    : item.jp.includes("結構")
-                    ? `それが<ruby>結構<rt>けっこう</rt></ruby><ruby>来<rt>く</rt></ruby>るんだ요。`
-                    : item.jp;
-
-                div.innerHTML = `
-                    <button class="shadow-play-btn">▶</button>
-                    <div class="shadow-content">
-                        <div class="shadow-ja">${rubyText}</div>
-                        <div class="shadow-ko ${isShadowTranslationVisible ? 'reveal' : ''}" id="shadow-ko-${idx}">${item.kr}</div>
-                    </div>
-                `;
-                shadowList.appendChild(div);
-            });
-
-            // 첫 아이템 포커스
-            setTimeout(() => {
-                const firstItem = document.getElementById('shadow-item-0');
-                if(firstItem) firstItem.focus();
-            }, 100);
-        }
-
-        function playShadowItemAudio(filename) {
-            const url = getAudioUrl('shadow', filename);
-            globalAudioPlayer.src = url;
-            globalAudioPlayer.play().catch(e => console.error("오디오 재생 실패:", e));
-        }
-
-        function toggleAllShadowTranslations() {
-            isShadowTranslationVisible = !isShadowTranslationVisible;
-            document.querySelectorAll('.shadow-ko').forEach(el => {
-                if (isShadowTranslationVisible) el.classList.add('reveal');
-                else el.classList.remove('reveal');
-            });
-            document.getElementById('shadowToggleAllBtn').textContent = 
-                isShadowTranslationVisible ? '해석 전체 숨기기' : '해석 전체 보기';
-        }
-
-        // ==========================================
-        // 5. 통합 퀴즈 플레이어 (Quiz Engine)
-        // ==========================================
-        function startQuiz(type) {
-            currentMode = type;
             showPage('quiz');
 
-            // 퀴즈 레이아웃 스타일 구분
-            const layout = document.getElementById('quizLayoutContainer');
-            layout.className = `quiz-layout quiz-${type}`;
+            // 서브 탭 노출 제어 (일상회화는 퀴즈 위주이나 공부 모드도 단순 노출 제공)
+            document.getElementById('subTabs').style.display = 'flex';
 
-            // 타이틀 설정
             const titleMap = {
-                word: '📚 단어 및 문법 퀴즈',
-                pattern: '🧩 문형 익히기 퀴즈',
-                expression: '💬 일상 표현 퀴즈'
+                word: '📚 단어 / 문법 학습관',
+                pattern: '🧩 핵심 문형 학습관',
+                expression: '💬 일상 표현 학습관'
             };
-            document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 퀴즈';
-
-            // 데이터 필터링
-            quizFilteredItems = allData.filter(d => d.type === type);
-
-            // 주차 필터 드롭다운 구성
+            document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 학습관';
+            
+            // 필터링 주차 데이터 생성 및 드롭다운 갱신
             buildWeekFilter(type);
 
-            // 진행 상태 로드
-            currentQuizWeekFilter = 'all';
-            document.getElementById('quizWeekSelect').value = 'all';
-            initQuizItems();
+            // 기본 공부(study) 모드로 시작
+            setSubMode('study');
         }
 
+        // 주차 필터링 드롭다운 빌드
         function buildWeekFilter(type) {
             const select = document.getElementById('quizWeekSelect');
             const filterContainer = document.getElementById('quizFilterContainer');
-            
-            // 일상회화(expression)는 주차가 거의 없으므로 필터 숨김 처리
-            if (type === 'expression') {
+
+            // allData에서 해당 type의 주차 목록 수집
+            const weeks = new Set();
+            allData.filter(d => {
+                // pattern_80_quiz 데이터도 pattern으로 묶어 필터 적용
+                if (type === 'pattern') return d.type === 'pattern' || d.type === 'pattern_80_quiz';
+                return d.type === type;
+            }).forEach(item => {
+                if (item.week) weeks.add(item.week);
+            });
+
+            // 주차가 전혀 없는 경우 필터 레이블 숨김
+            if (weeks.size === 0) {
                 filterContainer.style.display = 'none';
                 return;
             }
             filterContainer.style.display = 'flex';
 
-            const weeks = new Set();
-            allData.filter(d => d.type === type).forEach(item => {
-                if (item.week) weeks.add(item.week);
+            const sortedWeeks = Array.from(weeks).sort((a, b) => {
+                const numA = parseInt(a, 10);
+                const numB = parseInt(b, 10);
+                if(!isNaN(numA) && !isNaN(numB)) return numA - numB;
+                return String(a).localeCompare(String(b));
             });
-
-            const sortedWeeks = Array.from(weeks).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
             let html = '<option value="all">전체보기</option>';
             sortedWeeks.forEach(w => {
                 html += `<option value="${w}">${w}주차</option>`;
             });
             select.innerHTML = html;
+            select.value = 'all';
         }
 
         function changeQuizFilter(weekVal) {
             currentQuizWeekFilter = weekVal;
-            initQuizItems();
+            if (currentSubMode === 'study') {
+                initStudyEngine();
+            } else {
+                initQuizEngine();
+            }
         }
 
-        function initQuizItems() {
-            // 필터링 적용
-            let items = allData.filter(d => d.type === currentMode);
+        function setSubMode(subMode) {
+            currentSubMode = subMode;
+
+            // 탭 스타일 활성화
+            document.getElementById('subtab-study').classList.remove('active-subtab');
+            document.getElementById('subtab-quiz').classList.remove('active-subtab');
+            document.getElementById(`subtab-${subMode}`).classList.add('active-subtab');
+
+            // 테마 클래스 재결합
+            const layout = document.getElementById('quizLayoutContainer');
+            layout.className = `quiz-layout quiz-${currentSubCategory}`;
+
+            if (subMode === 'study') {
+                initStudyEngine();
+            } else {
+                initQuizEngine();
+            }
+        }
+
+        // ==========================================
+        // 4. 원래 있었던 공부 기능 (Study Engine)
+        // ==========================================
+        function initStudyEngine() {
+            // 필터링 적용된 원본 1행 데이터 수집
+            let items = allData.filter(d => d.type === currentSubCategory);
             if (currentQuizWeekFilter !== 'all') {
                 items = items.filter(d => String(d.week) === String(currentQuizWeekFilter));
             }
-            quizFilteredItems = items;
+            studyItems = items;
+            studyCurrentIndex = studyItems.length > 0 ? 0 : -1;
 
-            if (quizFilteredItems.length === 0) {
-                document.getElementById('quizQuestion').textContent = '해당하는 데이터가 없습니다.';
-                document.getElementById('quizAnswerContainer').classList.remove('reveal');
-                document.getElementById('quizProgressLabel').textContent = '진행률 : 0 / 0';
-                document.getElementById('quizProgressBar').style.width = '0%';
-                document.getElementById('quizActionBtn').style.display = 'none';
+            updateStudyUI();
+        }
+
+        function updateStudyUI() {
+            const cardInner = document.getElementById('cardInnerContent');
+            const flashCard = document.getElementById('flashCard');
+            const controls = document.getElementById('quizControlsContainer');
+            const progress = document.getElementById('quizProgressLabel');
+            const progressBar = document.getElementById('quizProgressBar');
+
+            flashCard.className = "flash-card study-mode-view";
+
+            if (studyCurrentIndex === -1 || studyItems.length === 0) {
+                cardInner.innerHTML = '<div class="card-question">등록된 학습 데이터가 없습니다.</div>';
+                progress.textContent = '진행률 : 0 / 0';
+                progressBar.style.width = '0%';
+                controls.innerHTML = '';
                 return;
             }
 
-            document.getElementById('quizActionBtn').style.display = 'block';
+            const item = studyItems[studyCurrentIndex];
+            
+            // 진행률 게이지 바 매핑 (공부는 푼 진도가 아니라 현재 인덱스 위치 표시)
+            const currentNum = studyCurrentIndex + 1;
+            const totalNum = studyItems.length;
+            progress.textContent = `카드 이동 : ${currentNum} / ${totalNum}`;
+            progressBar.style.width = `${(currentNum / totalNum) * 100}%`;
 
-            // 로컬스토리지에서 푼 목록 복구
-            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+            // 공부 모드 렌더링 분기
+            if (currentSubCategory === 'word') {
+                // 1. 단어/문법 공부 카드
+                cardInner.innerHTML = `
+                    <div class="study-card-content">
+                        <div class="study-word-header">
+                            <span class="study-word-title" onclick="speakText('${item.word.replace(/'/g, "\\'")}')">${item.word}</span>
+                            ${item.furigana ? `<span class="study-word-furigana">(${item.furigana})</span>` : ''}
+                        </div>
+                        <div class="study-meanings-box">
+                            <div class="study-meaning-row"><span class="study-badge">1</span> ${item.meaning1}</div>
+                            ${item.meaning2 ? `<div class="study-meaning-row"><span class="study-badge">2</span> ${item.meaning2}</div>` : ''}
+                        </div>
+                        ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                        ${(item.example1 || item.example2) ? `
+                            <div class="study-examples-box">
+                                ${item.example1 ? `
+                                    <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\\'")}')">
+                                        <div class="study-ex-ja">🔊 ${item.example1} ${item.reading1 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                        <div class="study-ex-ko">${item.translation1}</div>
+                                    </div>
+                                ` : ''}
+                                ${item.example2 ? `
+                                    <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\\'")}')">
+                                        <div class="study-ex-ja">🔊 ${item.example2} ${item.reading2 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                        <div class="study-ex-ko">${item.translation2}</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else if (currentSubCategory === 'pattern') {
+                // 2. 핵심 문형 공부 카드
+                cardInner.innerHTML = `
+                    <div class="study-card-content">
+                        <div class="study-word-header">
+                            <span class="study-word-title" onclick="speakText('${item.pattern.replace(/'/g, "\\'")}')">${item.pattern}</span>
+                        </div>
+                        <div class="study-meanings-box">
+                            <div class="study-meaning-row"><span class="study-badge">뜻</span> ${item.meaning1} ${item.meaning2 ? `, ${item.meaning2}` : ''}</div>
+                            ${item.usage ? `<div class="card-usage-box" style="display:block; margin-top:5px; max-width:100%;">💡 활용: ${item.usage}</div>` : ''}
+                        </div>
+                        ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                        ${(item.example1 || item.example2) ? `
+                            <div class="study-examples-box">
+                                ${item.example1 ? `
+                                    <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\\'")}')">
+                                        <div class="study-ex-ja">🔊 ${item.example1} ${item.reading1 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                        <div class="study-ex-ko">${item.translation1}</div>
+                                    </div>
+                                ` : ''}
+                                ${item.example2 ? `
+                                    <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\\'")}')">
+                                        <div class="study-ex-ja">🔊 ${item.example2} ${item.reading2 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                        <div class="study-ex-ko">${item.translation2}</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else {
+                // 3. 일상회화 공부 카드 (기본)
+                cardInner.innerHTML = `
+                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:250px;">
+                        <div class="study-word-title" style="font-size:38px; margin-bottom:15px;" onclick="speakText('${item.jp.replace(/'/g, "\\'")}')">🔊 ${item.jp}</div>
+                        <div class="card-divider" style="display:block; margin: 10px 0;"></div>
+                        <div class="study-word-furigana" style="font-size:24px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
+                        ${item.category ? `<div style="margin-top:15px; color:var(--text-muted); font-size:14px;">[분류: ${item.category} - ${item.group}]</div>` : ''}
+                    </div>
+                `;
+            }
+
+            // 하단 이동 컨트롤 버튼
+            controls.innerHTML = `
+                <button class="quiz-btn" onclick="prevStudyCard()">← 이전 카드</button>
+                <button class="quiz-btn" onclick="speakStudyMainItem()">🔊 대표음성 듣기</button>
+                <button class="quiz-btn quiz-btn-primary" onclick="nextStudyCard()">다음 카드 →</button>
+            `;
+
+            // 대표 음성 자동 재생
+            speakStudyMainItem();
+            flashCard.focus();
+
+            // 팁 텍스트 갱신
+            document.getElementById('remoteTipsLabel').innerHTML = `
+                <div>리모컨 팁: <span class="tip-tag">방향키 좌/우(←/→)</span> 이전/다음 카드 이동</div>
+                <div><span class="tip-tag">확인(Enter)</span> 음성 다시듣기</div>
+                <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
+            `;
+        }
+
+        function prevStudyCard() {
+            if (studyItems.length === 0) return;
+            studyCurrentIndex = (studyCurrentIndex - 1 + studyItems.length) % studyItems.length;
+            updateStudyUI();
+        }
+
+        function nextStudyCard() {
+            if (studyItems.length === 0) return;
+            studyCurrentIndex = (studyCurrentIndex + 1) % studyItems.length;
+            updateStudyUI();
+        }
+
+        function speakStudyMainItem() {
+            if (studyCurrentIndex === -1 || studyItems.length === 0) return;
+            const item = studyItems[studyCurrentIndex];
+            if (currentSubCategory === 'word') {
+                speakText(item.word);
+            } else if (currentSubCategory === 'pattern') {
+                speakText(item.pattern);
+            } else {
+                speakText(item.jp);
+            }
+        }
+
+        // ==========================================
+        // 5. 통합 퀴즈 플레이어 (Quiz Engine)
+        // ==========================================
+        function initQuizEngine() {
+            // 퀴즈 문제용 문항 데이터셋 빌드 (1문장 단위 퀴즈로 가공 추출)
+            quizItems = [];
+            
+            let filteredRaw = allData.filter(d => {
+                if (currentSubCategory === 'pattern') return d.type === 'pattern' || d.type === 'pattern_80_quiz';
+                return d.type === currentSubCategory;
+            });
+
+            if (currentQuizWeekFilter !== 'all') {
+                filteredRaw = filteredRaw.filter(d => String(d.week) === String(currentQuizWeekFilter));
+            }
+
+            filteredRaw.forEach(item => {
+                if (item.type === 'word') {
+                    // 단어/문법: 예문 기반 퀴즈 출제
+                    if (item.translation1 && item.example1) {
+                        quizItems.push({
+                            question: item.translation1,
+                            answer: item.example1,
+                            audio: '',
+                            meta: item.word ? `[단어: ${item.word}]` : '',
+                            week: item.week
+                        });
+                    }
+                    if (item.translation2 && item.example2) {
+                        quizItems.push({
+                            question: item.translation2,
+                            answer: item.example2,
+                            audio: '',
+                            meta: item.word ? `[단어: ${item.word}]` : '',
+                            week: item.week
+                        });
+                    }
+                } else if (item.type === 'pattern') {
+                    // 핵심 문형: 예문 기반 퀴즈 출제
+                    if (item.translation1 && item.example1) {
+                        quizItems.push({
+                            question: item.translation1,
+                            answer: item.example1,
+                            audio: '',
+                            meta: item.pattern ? `[문형: ${item.pattern}]` : '',
+                            week: item.week
+                        });
+                    }
+                    if (item.translation2 && item.example2) {
+                        quizItems.push({
+                            question: item.translation2,
+                            answer: item.example2,
+                            audio: '',
+                            meta: item.pattern ? `[문형: ${item.pattern}]` : '',
+                            week: item.week
+                        });
+                    }
+                } else if (item.type === 'pattern_80_quiz') {
+                    // 80문형 예문 퀴즈 리스트
+                    quizItems.push({
+                        question: item.kr,
+                        answer: item.jp,
+                        audio: item.audio,
+                        meta: item.meta || '',
+                        week: item.week
+                    });
+                } else {
+                    // 일상회화: jp/kr 한 쌍으로 퀴즈 출제
+                    quizItems.push({
+                        question: item.kr,
+                        answer: item.jp,
+                        audio: item.audio || '',
+                        meta: item.meta || '',
+                        week: item.week
+                    });
+                }
+            });
+
+            // 퀴즈 진행률 로컬스토리지 복구
+            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
             const saved = localStorage.getItem(progressKey);
             
             if (saved) {
@@ -1331,7 +1575,7 @@
                 quizRemainingIndices = parsed.remainingIndices || [];
                 quizSolvedHistory = parsed.solvedHistory || [];
             } else {
-                resetRemainingIndices();
+                resetQuizProgressData();
             }
 
             quizState = 'question';
@@ -1339,20 +1583,19 @@
             nextQuizItem();
         }
 
-        function resetRemainingIndices() {
-            // 남은 인덱스를 전체 셔플하여 배열로 저장
-            quizRemainingIndices = quizFilteredItems.map((_, idx) => idx);
-            // 피셔-예이츠 셔플
+        function resetQuizProgressData() {
+            quizRemainingIndices = quizItems.map((_, idx) => idx);
+            // 셔플
             for (let i = quizRemainingIndices.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [quizRemainingIndices[i], quizRemainingIndices[j]] = [quizRemainingIndices[j], quizRemainingIndices[i]];
             }
             quizSolvedHistory = [];
-            saveProgress();
+            saveQuizProgress();
         }
 
-        function saveProgress() {
-            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+        function saveQuizProgress() {
+            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
             localStorage.setItem(progressKey, JSON.stringify({
                 remainingIndices: quizRemainingIndices,
                 solvedHistory: quizSolvedHistory
@@ -1360,44 +1603,73 @@
         }
 
         function updateQuizProgressUI() {
-            const total = quizFilteredItems.length;
+            const progress = document.getElementById('quizProgressLabel');
+            const progressBar = document.getElementById('quizProgressBar');
+            const total = quizItems.length;
             const solved = total - quizRemainingIndices.length;
-            
-            document.getElementById('quizProgressLabel').textContent = `진행률 : ${solved} / ${total}`;
+
+            progress.textContent = `퀴즈 진행 : ${solved} / ${total}`;
             const pct = total > 0 ? (solved / total) * 100 : 0;
-            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+            progressBar.style.width = `${pct}%`;
         }
 
         function nextQuizItem() {
-            if (quizRemainingIndices.length === 0) {
-                // 한 사이클 다 풀었을 때
-                showQuizFinished();
+            const cardInner = document.getElementById('cardInnerContent');
+            const flashCard = document.getElementById('flashCard');
+            const controls = document.getElementById('quizControlsContainer');
+
+            flashCard.className = "flash-card";
+
+            if (quizItems.length === 0) {
+                cardInner.innerHTML = '<div class="card-question">등록된 퀴즈가 없습니다.</div>';
+                updateQuizProgressUI();
+                controls.innerHTML = '';
                 return;
             }
 
-            // 남은 인덱스 목록의 첫 번째 원소 꺼내기
+            if (quizRemainingIndices.length === 0) {
+                showQuizFinishedUI();
+                return;
+            }
+
             const nextIdx = quizRemainingIndices.shift();
             quizSolvedHistory.push(nextIdx);
             quizCurrentIndex = nextIdx;
 
-            saveProgress();
+            saveQuizProgress();
             updateQuizProgressUI();
 
-            // 질문 세팅 (한국어)
-            const item = quizFilteredItems[quizCurrentIndex];
-            document.getElementById('quizQuestion').textContent = item.kr;
-            
-            // 정답 컨테이너 숨기기
-            document.getElementById('quizAnswerContainer').classList.remove('reveal');
-            document.getElementById('cardDivider').style.display = 'none';
+            const item = quizItems[quizCurrentIndex];
 
-            // 버튼 세팅
+            // 퀴즈 카드 내부 구조 렌더링
+            cardInner.innerHTML = `
+                <div class="card-question" id="quizQuestion">${item.question}</div>
+                <div class="card-divider" id="cardDivider"></div>
+                <div class="card-answer-container" id="quizAnswerContainer">
+                    <div class="card-answer" id="quizAnswer">${item.answer}</div>
+                    <div class="card-meta" id="quizMeta">${item.meta || ''}</div>
+                </div>
+            `;
+
             quizState = 'question';
-            document.getElementById('quizActionBtn').textContent = '정답 보기 (Enter)';
-            document.getElementById('quizActionBtn').className = 'quiz-btn quiz-btn-primary';
 
-            // 카드 리포커스
-            document.getElementById('flashCard').focus();
+            // 버튼 생성
+            controls.innerHTML = `
+                <button class="quiz-btn" id="quizBackBtn" onclick="prevQuizItem()">← 이전 문제</button>
+                <button class="quiz-btn" id="quizResetBtn" onclick="resetQuizProgress()">처음부터 다시</button>
+                <button class="quiz-btn" id="quizAudioBtn" onclick="replayAudio()" style="display:none;">🔊 다시 듣기 (Space)</button>
+                <button class="quiz-btn quiz-btn-primary" id="quizActionBtn" onclick="handleQuizAction()">정답 보기 (Enter)</button>
+            `;
+
+            flashCard.focus();
+
+            // 팁 텍스트 갱신
+            document.getElementById('remoteTipsLabel').innerHTML = `
+                <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
+                <div><span class="tip-tag">방향키 좌(←)</span> 이전 문제</div>
+                <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 음성 다시듣기</div>
+                <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
+            `;
         }
 
         function prevQuizItem() {
@@ -1406,59 +1678,56 @@
                 return;
             }
 
-            // 현재 보던 문제를 다시 남은 인덱스 맨 앞에 끼워넣음
             const currentIdx = quizSolvedHistory.pop();
             quizRemainingIndices.unshift(currentIdx);
 
-            // 바로 직전 푼 문제 꺼내기
             const prevIdx = quizSolvedHistory[quizSolvedHistory.length - 1];
             quizCurrentIndex = prevIdx;
 
-            saveProgress();
+            saveQuizProgress();
             updateQuizProgressUI();
 
-            const item = quizFilteredItems[quizCurrentIndex];
-            document.getElementById('quizQuestion').textContent = item.kr;
+            const item = quizItems[quizCurrentIndex];
             
-            // 이전 카드로 갈 때는 바로 정답을 볼 수 있게 세팅
-            showAnswer();
+            // 질문 렌더링
+            const cardInner = document.getElementById('cardInnerContent');
+            cardInner.innerHTML = `
+                <div class="card-question" id="quizQuestion">${item.question}</div>
+                <div class="card-divider" id="cardDivider"></div>
+                <div class="card-answer-container" id="quizAnswerContainer">
+                    <div class="card-answer" id="quizAnswer">${item.answer}</div>
+                    <div class="card-meta" id="quizMeta">${item.meta || ''}</div>
+                </div>
+            `;
+
+            showAnswerUI();
         }
 
-        function showAnswer() {
+        function showAnswerUI() {
             quizState = 'answer';
-            const item = quizFilteredItems[quizCurrentIndex];
+            const item = quizItems[quizCurrentIndex];
 
             document.getElementById('cardDivider').style.display = 'block';
-            const ansContainer = document.getElementById('quizAnswerContainer');
-            ansContainer.classList.add('reveal');
+            document.getElementById('quizAnswerContainer').classList.add('reveal');
 
-            document.getElementById('quizAnswer').textContent = item.jp;
-            
-            // 메타데이터 및 독음
-            const metaEl = document.getElementById('quizMeta');
-            metaEl.textContent = item.meta || '';
+            // 다시듣기 버튼 및 액션 버튼 업데이트
+            const audioBtn = document.getElementById('quizAudioBtn');
+            if (audioBtn) audioBtn.style.display = 'flex';
 
-            // 80문형의 경우 카테고리나 설명 표기
-            const usageEl = document.getElementById('quizUsageBox');
-            if (item.category && item.type === 'pattern') {
-                usageEl.textContent = `[분류: ${item.category}]`;
-                usageEl.style.display = 'block';
-            } else {
-                usageEl.style.display = 'none';
+            const actionBtn = document.getElementById('quizActionBtn');
+            if (actionBtn) {
+                actionBtn.textContent = '다음 문제 (Enter)';
+                actionBtn.className = 'quiz-btn';
             }
 
-            // 오디오 자동 재생
+            // 음성 자동 출력
             playItemAudio(item);
-
-            // 버튼 상태 변경
-            document.getElementById('quizActionBtn').textContent = '다음 문제 (Enter)';
-            document.getElementById('quizActionBtn').className = 'quiz-btn';
             document.getElementById('flashCard').focus();
         }
 
         function handleQuizAction() {
             if (quizState === 'question') {
-                showAnswer();
+                showAnswerUI();
             } else if (quizState === 'answer') {
                 nextQuizItem();
             } else if (quizState === 'finished') {
@@ -1467,33 +1736,33 @@
         }
 
         function handleCardClick() {
-            handleQuizAction();
+            if (currentSubMode === 'quiz') {
+                handleQuizAction();
+            }
         }
 
-        function showQuizFinished() {
+        function showQuizFinishedUI() {
             quizState = 'finished';
-            document.getElementById('quizQuestion').textContent = "🎉 이번 회차의 모든 문제를 완료했습니다!";
-            document.getElementById('quizAnswerContainer').classList.remove('reveal');
-            document.getElementById('cardDivider').style.display = 'none';
+            const cardInner = document.getElementById('cardInnerContent');
+            const controls = document.getElementById('quizControlsContainer');
 
-            document.getElementById('quizActionBtn').textContent = '다시 시작하기 (Enter)';
-            document.getElementById('quizActionBtn').className = 'quiz-btn quiz-btn-primary';
+            cardInner.innerHTML = '<div class="card-question">🎉 이번 회차의 모든 문제를 완료했습니다!</div>';
             
-            // 진행 게이지 100% 강제
-            document.getElementById('quizProgressBar').style.width = '100%';
-            const total = quizFilteredItems.length;
-            document.getElementById('quizProgressLabel').textContent = `진행률 : ${total} / ${total}`;
-
-            // 오디오 축하 이펙트음 등 필요시 추가 가능
+            controls.innerHTML = `
+                <button class="quiz-btn quiz-btn-primary" onclick="resetQuizProgress()">다시 시작하기 (Enter)</button>
+            `;
+            
+            updateQuizProgressUI();
+            document.getElementById('flashCard').focus();
         }
 
         function resetQuizProgress() {
             if (quizState !== 'finished' && !confirm("학습 진행 상황을 초기화하고 처음부터 다시 공부하시겠습니까?")) {
                 return;
             }
-            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
             localStorage.removeItem(progressKey);
-            initQuizItems();
+            initQuizEngine();
         }
 
         // ==========================================
@@ -1506,7 +1775,7 @@
                 return isLocal 
                     ? `../2.japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`
                     : `https://tajunii.github.io/japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`;
-            } else if (type === 'pattern') {
+            } else if (type === 'pattern' || type === 'pattern_80_quiz') {
                 return isLocal
                     ? `../5.ptn&convstudy/audio/${filename}`
                     : `https://raw.githubusercontent.com/tajunii/ptn-convstudy/main/audio/${filename}`;
@@ -1515,30 +1784,31 @@
         }
 
         function playItemAudio(item) {
-            // 오디오 파일 우선 재생 시도
-            const audioUrl = getAudioUrl(item.type, item.audio);
+            const audioUrl = getAudioUrl(currentSubCategory, item.audio);
             if (audioUrl) {
                 globalAudioPlayer.src = audioUrl;
                 globalAudioPlayer.play().catch(err => {
-                    console.warn("mp3 파일 재생 실패, TTS 재생을 진행합니다.", err);
-                    speakText(item.jp);
+                    console.warn("mp3 파일 재생 실패. TTS로 Fallback 재생합니다.", err);
+                    speakText(item.answer || item.jp);
                 });
             } else {
-                // mp3가 명시되지 않은 경우 브라우저 TTS 출력
-                speakText(item.jp);
+                speakText(item.answer || item.jp);
             }
         }
 
         function replayAudio() {
             if (currentMode === 'home' || currentMode === 'shadow') return;
-            if (quizCurrentIndex !== -1 && quizFilteredItems[quizCurrentIndex]) {
-                playItemAudio(quizFilteredItems[quizCurrentIndex]);
+            if (currentSubMode === 'quiz' && quizCurrentIndex !== -1 && quizItems[quizCurrentIndex]) {
+                playItemAudio(quizItems[quizCurrentIndex]);
+            } else if (currentSubMode === 'study') {
+                speakStudyMainItem();
             }
         }
 
         function speakText(text) {
+            if (!text) return;
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // 기존 재생 중단
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ja-JP';
                 
@@ -1550,50 +1820,93 @@
             }
         }
 
-        // 브라우저 보이스 사전 로딩
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.getVoices();
+        // ==========================================
+        // 7. 쉐도잉 연습 모드 (Shadowing Engine)
+        // ==========================================
+        function startShadowing() {
+            showPage('shadow');
+
+            const shadowItems = allData.filter(d => d.type === 'shadow');
+            const shadowList = document.getElementById('shadowListContainer');
+            shadowList.innerHTML = '';
+
+            const fullAudioEl = document.getElementById('shadowFullAudio');
+            fullAudioEl.src = getAudioUrl('shadow', 'full.mp3');
+
+            shadowItems.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'shadow-item';
+                div.tabIndex = idx + 1;
+                div.id = `shadow-item-${idx}`;
+                div.onclick = () => playShadowItemAudio(item.audio);
+                
+                // 루비 가이드라인 바인딩
+                const rubyText = item.jp === "一日가終わり、人々が家路へと急ぐころ、俺の一日は始まる。" || item.jp.includes("一日")
+                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>가 <ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>이소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
+                    : item.jp.includes("メニュー")
+                    ? `メニューはこれだけ、あとは<ruby>勝手<rt>かって</rt></ruby>に<ruby>注文<rt>ちゅうもん</rt></ruby>してくれりゃできるもんなら<ruby>作<rt>つく</rt></ruby>るよってのが、<ruby>俺<rt>おれ</rt></ruby>の<ruby>営業方針<rt>えいぎょうほうしん</rt></ruby>사。`
+                    : item.jp.includes("営業時間")
+                    ? `<ruby>営業時間<rt>えいぎょうじかん</rt></ruby>는 <ruby>夜<rt>よる</rt></ruby>12<ruby>時<rt>じ</rt></ruby>から<ruby>朝<rt>あさ</rt></ruby>7<ruby>時<rt>じ</rt></ruby>ごろまで、<ruby>人<rt>ひと</rt></ruby>는 <ruby>深夜食堂<rt>しんやしょくどう</rt></ruby>って<ruby>言<rt>い</rt></ruby>ってるよ。`
+                    : item.jp.includes("客")
+                    ? `<ruby>客<rt>きゃく</rt></ruby>이 <ruby>来<rt>く</rt></ruby>るかって？`
+                    : item.jp.includes("結構")
+                    ? `それが<ruby>結構<rt>けっこう</rt></ruby><ruby>来<rt>く</rt></ruby>るんだよ。`
+                    : item.jp;
+
+                div.innerHTML = `
+                    <button class="shadow-play-btn">▶</button>
+                    <div class="shadow-content">
+                        <div class="shadow-ja">${rubyText}</div>
+                        <div class="shadow-ko ${isShadowTranslationVisible ? 'reveal' : ''}" id="shadow-ko-${idx}">${item.kr}</div>
+                    </div>
+                `;
+                shadowList.appendChild(div);
+            });
+
+            setTimeout(() => {
+                const firstItem = document.getElementById('shadow-item-0');
+                if(firstItem) firstItem.focus();
+            }, 100);
+        }
+
+        function playShadowItemAudio(filename) {
+            const url = getAudioUrl('shadow', filename);
+            globalAudioPlayer.src = url;
+            globalAudioPlayer.play().catch(e => console.error(e));
         }
 
         // ==========================================
-        // 7. 스마트 TV 리모컨 제어 모듈 (TV Keyboard Bindings)
+        // 8. 스마트 TV 리모컨 조작 바인딩
         // ==========================================
         document.addEventListener('keydown', function(e) {
-            // 인풋창 포커스 중일 때는 단축키 오동작 방지
             if (document.activeElement.tagName === 'INPUT') return;
 
-            // 1. 홈 화면에서의 단축키
+            // A. 홈 화면 단축키
             if (currentMode === 'home') {
                 const buttons = Array.from(document.querySelectorAll('.menu-grid .menu-card'));
                 const currentIndex = buttons.indexOf(document.activeElement);
 
                 if (e.key === 'ArrowRight') {
                     e.preventDefault();
-                    const next = (currentIndex + 1) % buttons.length;
-                    buttons[next].focus();
+                    buttons[(currentIndex + 1) % buttons.length].focus();
                 } else if (e.key === 'ArrowLeft') {
                     e.preventDefault();
-                    const prev = (currentIndex - 1 + buttons.length) % buttons.length;
-                    buttons[prev].focus();
+                    buttons[(currentIndex - 1 + buttons.length) % buttons.length].focus();
                 } else if (e.key === 'Enter' && currentIndex !== -1) {
                     buttons[currentIndex].click();
                 }
             } 
-            // 2. 쉐도잉 화면에서의 단축키
+            // B. 쉐도잉 화면 단축키
             else if (currentMode === 'shadow') {
                 const items = Array.from(document.querySelectorAll('.shadow-list .shadow-item'));
                 const currentIndex = items.indexOf(document.activeElement);
 
                 if (e.key === 'ArrowDown') {
                     e.preventDefault();
-                    if (currentIndex < items.length - 1) {
-                        items[currentIndex + 1].focus();
-                    }
+                    if (currentIndex < items.length - 1) items[currentIndex + 1].focus();
                 } else if (e.key === 'ArrowUp') {
                     e.preventDefault();
-                    if (currentIndex > 0) {
-                        items[currentIndex - 1].focus();
-                    }
+                    if (currentIndex > 0) items[currentIndex - 1].focus();
                 } else if (e.key === 'Enter' && currentIndex !== -1) {
                     e.preventDefault();
                     items[currentIndex].click();
@@ -1602,33 +1915,52 @@
                     showPage('home');
                 }
             }
-            // 3. 퀴즈 화면에서의 단축키
+            // C. 학습 및 퀴즈 화면 단축키
             else {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleQuizAction();
-                } else if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    prevQuizItem();
-                } else if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    if (quizState === 'answer') {
-                        nextQuizItem();
-                    } else {
-                        showAnswer();
+                // 1. 공부 모드 상태에서의 키 제어
+                if (currentSubMode === 'study') {
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        nextStudyCard();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        prevStudyCard();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        speakStudyMainItem();
+                    } else if (e.key === 'Backspace' || e.key === 'Escape') {
+                        e.preventDefault();
+                        showPage('home');
                     }
-                } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') {
-                    e.preventDefault();
-                    replayAudio();
-                } else if (e.key === 'Backspace' || e.key === 'Escape') {
-                    e.preventDefault();
-                    showPage('home');
+                } 
+                // 2. 퀴즈 모드 상태에서의 키 제어
+                else {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleQuizAction();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        prevQuizItem();
+                    } else if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        if (quizState === 'answer') {
+                            nextQuizItem();
+                        } else {
+                            showAnswerUI();
+                        }
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') {
+                        e.preventDefault();
+                        replayAudio();
+                    } else if (e.key === 'Backspace' || e.key === 'Escape') {
+                        e.preventDefault();
+                        showPage('home');
+                    }
                 }
             }
         });
 
         // ==========================================
-        // 8. 설정 모달 및 초기화
+        // 9. 설정 및 구동 시작
         // ==========================================
         function openSettings() {
             document.getElementById('settingSingleUrl').value = localStorage.getItem("sheet_url_single") || "";
@@ -1640,22 +1972,20 @@
         }
 
         function saveSettings() {
-            const singleVal = document.getElementById('settingSingleUrl').value.trim();
-            if (singleVal) {
-                localStorage.setItem("sheet_url_single", singleVal);
+            const val = document.getElementById('settingSingleUrl').value.trim();
+            if (val) {
+                localStorage.setItem("sheet_url_single", val);
             } else {
                 localStorage.removeItem("sheet_url_single");
             }
             closeSettings();
             
-            // 상태 초기화 및 재로드
             initData().then(() => {
-                alert("설정이 저장되었습니다. 새로운 데이터를 로드합니다.");
+                alert("설정이 저장되었습니다. 데이터를 새로 동기화합니다.");
                 showPage('home');
             });
         }
 
-        // 실행 진입점
         window.addEventListener('DOMContentLoaded', () => {
             initData().then(() => {
                 showPage('home');
