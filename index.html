@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日本語を勉強しよう!! - TV Menu</title>
+    <title>日本語敎室 (Japanese Study Portal)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&family=Noto+Sans+JP:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSV 파싱 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <style>
         :root {
-            --bg-color: #080710;
-            --card-bg: #131224; 
-            --card-border: rgba(255, 255, 255, 0.12);
+            --bg-color: #06050b;
+            --card-bg: #121026;
+            --card-hover: #1c1a3a;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --focus-ring: #c084fc;
+            --focus-glow: rgba(192, 132, 252, 0.4);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
+            --text-muted: #64748b;
             
-            --color-theme1: #c084fc; 
-            --color-theme2: #34d399; 
-            --color-theme3: #fbbf24; 
-            --color-theme4: #38bdf8; 
+            --color-theme-shadow: #c084fc; 
+            --color-theme-word: #34d399; 
+            --color-theme-pattern: #fbbf24; 
+            --color-theme-expression: #38bdf8; 
             
-            --transition-speed: 0.2s;
+            --transition-speed: 0.25s;
         }
 
         * {
@@ -33,77 +40,146 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 80%);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
             color: var(--text-primary);
             font-family: 'Outfit', 'Noto Sans KR', 'Noto Sans JP', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             overflow: hidden;
         }
 
-        /* [수정된 부분] 헤더 정렬 및 여백 조정 */
+        /* 공통 헤더 */
         header {
             width: 100%;
             max-width: 1600px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center; /* 제목 중앙 정렬 */
+            justify-content: space-between;
             align-items: center;
-            padding: 60px 40px 20px 40px; /* 좌우 여백 축소 */
+            padding: 40px 60px 20px 60px;
+            z-index: 10;
+        }
+
+        .header-title-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         h1 {
-            font-size: 52px;
+            font-size: 38px;
             font-weight: 800;
-            margin: 0;
             font-family: 'Noto Sans JP', sans-serif;
             background: linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
+            cursor: pointer;
         }
 
-        .container {
-            width: 100%;
+        .header-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* 네비게이션 */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-btn:focus, .nav-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--focus-ring);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px var(--focus-glow);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active-nav {
+            background: var(--focus-ring);
+            color: #000;
+            border-color: var(--focus-ring);
+            font-weight: 800;
+        }
+
+        /* 메인 컨테이너 */
+        main {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 80px;
-        }
-
-        .horizontal-menu {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
             width: 100%;
-            padding: 20px; /* 여백 축소 */
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-behavior: smooth;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px 60px 40px 60px;
+            position: relative;
         }
 
-        .horizontal-menu::-webkit-scrollbar {
+        .page {
             display: none;
-        }
-        .horizontal-menu {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
         }
 
-        .menu-btn {
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* -------------------------------------
+           모드 A: 홈 (대시보드)
+           ------------------------------------- */
+        #homePage {
+            padding-top: 40px;
+        }
+
+        .welcome-text {
+            font-size: 22px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .menu-card {
             background: var(--card-bg);
             border: 2px solid var(--card-border);
-            border-radius: 36px; 
-            width: 280px;     /* 버튼 크기 조정 */
-            height: 380px;    /* 버튼 크기 조정 */
+            border-radius: 32px;
+            width: 290px;
+            height: 390px;
             padding: 40px 30px;
-            flex-shrink: 0; 
-            margin-right: 20px; /* 간격 축소 */
-            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -111,132 +187,1478 @@
             text-align: center;
             cursor: pointer;
             outline: none;
-            
-            transition: transform var(--transition-speed) ease, 
-                        border-color var(--transition-speed) ease, 
-                        background-color var(--transition-speed) ease,
-                        box-shadow var(--transition-speed) ease;
+            position: relative;
+            transition: all var(--transition-speed) ease;
         }
 
-        .menu-btn:last-child {
-            margin-right: 0;
-        }
-
-        .menu-icon {
-            font-size: 56px;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.04);
+        .menu-card-icon {
+            font-size: 54px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.03);
             width: 110px;
             height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all var(--transition-speed) ease;
         }
 
-        .menu-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .menu-text h3 {
-            font-size: 26px;
+        .menu-card h3 {
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 12px;
-            transition: color var(--transition-speed) ease;
             word-break: keep-all;
         }
 
-        .menu-text p {
-            font-size: 16px;
-            font-weight: 400;
+        .menu-card p {
+            font-size: 15px;
             line-height: 1.5;
             color: var(--text-secondary);
             word-break: keep-all;
         }
 
-        /* 테마별 호버 효과 (생략 가능, 기존 유지) */
-        .menu-btn.theme-1:hover { border-color: var(--color-theme1); }
-        .menu-btn.theme-2:hover { border-color: var(--color-theme2); }
-        .menu-btn.theme-3:hover { border-color: var(--color-theme3); }
-        .menu-btn.theme-4:hover { border-color: var(--color-theme4); }
+        /* 모드별 테마 컬러 매핑 */
+        .menu-card.theme-shadow:focus, .menu-card.theme-shadow:hover { border-color: var(--color-theme-shadow); box-shadow: 0 0 25px rgba(192, 132, 252, 0.25); transform: translateY(-8px); }
+        .menu-card.theme-word:focus, .menu-card.theme-word:hover { border-color: var(--color-theme-word); box-shadow: 0 0 25px rgba(52, 211, 153, 0.25); transform: translateY(-8px); }
+        .menu-card.theme-pattern:focus, .menu-card.theme-pattern:hover { border-color: var(--color-theme-pattern); box-shadow: 0 0 25px rgba(251, 191, 36, 0.25); transform: translateY(-8px); }
+        .menu-card.theme-expression:focus, .menu-card.theme-expression:hover { border-color: var(--color-theme-expression); box-shadow: 0 0 25px rgba(56, 189, 248, 0.25); transform: translateY(-8px); }
 
+        .menu-card.theme-shadow:focus .menu-card-icon { background: rgba(192, 132, 252, 0.1); border-color: var(--color-theme-shadow); }
+        .menu-card.theme-word:focus .menu-card-icon { background: rgba(52, 211, 153, 0.1); border-color: var(--color-theme-word); }
+        .menu-card.theme-pattern:focus .menu-card-icon { background: rgba(251, 191, 36, 0.1); border-color: var(--color-theme-pattern); }
+        .menu-card.theme-expression:focus .menu-card-icon { background: rgba(56, 189, 248, 0.1); border-color: var(--color-theme-expression); }
+
+        /* -------------------------------------
+           모드 B: 쉐도잉 연습 뷰
+           ------------------------------------- */
+        .shadow-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+            height: calc(100vh - 220px);
+        }
+
+        .shadow-audio-player {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            padding: 20px 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .shadow-player-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .shadow-audio-ctrl {
+            flex: 1;
+            max-width: 600px;
+            height: 36px;
+            outline: none;
+            border-radius: 8px;
+        }
+
+        .shadow-toggle-all-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 8px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .shadow-toggle-all-btn:focus, .shadow-toggle-all-btn:hover {
+            border-color: var(--color-theme-shadow);
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+        }
+
+        .shadow-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .shadow-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .shadow-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .shadow-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .shadow-item {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .shadow-item:focus, .shadow-item:hover {
+            border-color: var(--color-theme-shadow);
+            background: var(--card-hover);
+            box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
+            transform: scale(1.01);
+        }
+
+        .shadow-play-btn {
+            background: rgba(192, 132, 252, 0.15);
+            border: 1px solid var(--color-theme-shadow);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--color-theme-shadow);
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .shadow-item:focus .shadow-play-btn, .shadow-play-btn:hover {
+            background: var(--color-theme-shadow);
+            color: #000;
+            box-shadow: 0 0 10px var(--color-theme-shadow);
+        }
+
+        .shadow-content {
+            flex: 1;
+        }
+
+        .shadow-ja {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .shadow-ja ruby rt {
+            color: #f87171;
+            font-size: 12px;
+            padding-bottom: 2px;
+        }
+
+        .shadow-ko {
+            font-size: 16px;
+            color: var(--text-secondary);
+            display: none;
+            transition: opacity 0.3s;
+        }
+
+        .shadow-ko.reveal {
+            display: block;
+        }
+
+        /* -------------------------------------
+           모드 C: 통합 퀴즈 플레이어 뷰
+           ------------------------------------- */
+        .quiz-layout {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            padding-top: 10px;
+        }
+
+        .quiz-header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .quiz-progress-bar-container {
+            width: 100%;
+            max-width: 800px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--focus-ring), #06b6d4);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* 플래시 카드 */
+        .flash-card {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 36px;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .flash-card:focus {
+            border-color: var(--focus-ring);
+            box-shadow: 0 0 30px var(--focus-glow);
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-question {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.5;
+            color: var(--text-primary);
+            word-break: keep-all;
+        }
+
+        .card-divider {
+            width: 100%;
+            max-width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 25px 0;
+            display: none;
+        }
+
+        .card-answer-container {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-answer-container.reveal {
+            display: flex;
+        }
+
+        .card-answer {
+            font-size: 38px;
+            font-weight: 700;
+            color: #fbbf24; /* 디폴트 강조색 */
+            margin-bottom: 12px;
+            font-family: 'Noto Sans JP', sans-serif;
+            word-break: keep-all;
+        }
+
+        /* 퀴즈 정답 강조 컬러 */
+        .quiz-word .card-answer { color: var(--color-theme-word); }
+        .quiz-pattern .card-answer { color: var(--color-theme-pattern); }
+        .quiz-expression .card-answer { color: var(--color-theme-expression); }
+
+        .card-meta {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-family: 'Noto Sans KR', sans-serif;
+            word-break: keep-all;
+        }
+
+        .card-usage-box {
+            margin-top: 15px;
+            font-size: 15px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 90%;
+        }
+
+        /* 컨트롤 및 팁 영역 */
+        .quiz-controls {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .quiz-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 15px 35px;
+            border-radius: 24px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-btn:focus, .quiz-btn:hover {
+            background: var(--text-primary);
+            color: #000;
+            border-color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .quiz-btn-primary {
+            background: var(--focus-ring);
+            color: #000;
+            border-color: var(--focus-ring);
+        }
+        .quiz-btn-primary:focus, .quiz-btn-primary:hover {
+            background: #d8b4fe;
+            border-color: #d8b4fe;
+            box-shadow: 0 0 15px var(--focus-glow);
+        }
+
+        .quiz-tip-bar {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 15px;
+        }
+
+        .tip-tag {
+            background: rgba(255,255,255,0.03);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* 주간 필터 */
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .select-custom {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .select-custom:focus {
+            border-color: var(--focus-ring);
+            box-shadow: 0 0 10px var(--focus-glow);
+        }
+
+        /* 설정 모달 */
+        .settings-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .settings-btn:focus, .settings-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--focus-ring);
+            box-shadow: 0 0 10px var(--focus-glow);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #110f22;
+            border: 2px solid var(--card-border);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        .modal h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--focus-ring);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* -------------------------------------
+           반응형 폰트 조정 및 TV 최적화
+           ------------------------------------- */
+        @media (max-width: 1280px) {
+            .menu-card {
+                width: 250px;
+                height: 350px;
+                padding: 30px 20px;
+            }
+            .menu-card-icon {
+                width: 90px;
+                height: 90px;
+                font-size: 44px;
+            }
+            .card-question { font-size: 28px; }
+            .card-answer { font-size: 32px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>日本語 敎室</h1>
+        <div class="header-title-container" onclick="showPage('home')">
+            <h1>日本語 敎室</h1>
+            <div class="header-subtitle">Smart TV Edition</div>
+        </div>
+        <div class="nav-container" id="nav">
+            <button class="nav-btn active-nav" onclick="showPage('home')">홈 (Home)</button>
+            <button class="nav-btn" onclick="startShadowing()">🎤 쉐도잉 (Shadowing)</button>
+            <button class="nav-btn" onclick="startQuiz('word')">📚 단어/문법 (Vocabulary)</button>
+            <button class="nav-btn" onclick="startQuiz('pattern')">🧩 문형 80 (Patterns)</button>
+            <button class="nav-btn" onclick="startQuiz('expression')">💬 일상 표현 (Expressions)</button>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="horizontal-menu" id="menuContainer">
-            <button class="menu-btn theme-1" tabindex="1" data-url="https://tajunii.github.io/japanese-study/">
-                <div class="menu-icon">🎤</div>
-                <div class="menu-text">
+    <main>
+        <!-- 1. 홈 화면 (대시보드) -->
+        <div id="homePage" class="page active">
+            <div class="welcome-text">스마트 TV 리모컨의 방향키[←/→/↑/↓]와 [확인(Enter)] 버튼으로 편리하게 공부해보세요!</div>
+            <div class="menu-grid">
+                <button class="menu-card theme-shadow" onclick="startShadowing()" tabindex="1">
+                    <div class="menu-card-icon">🎤</div>
                     <h3>쉐도잉 연습</h3>
-                    <p>원어민의 발음과<br>억양을 따라해 보세요</p>
-                </div>
-            </button>
-
-            <button class="menu-btn theme-2" tabindex="2" data-url="https://tajunii.github.io/wpstudy/">
-                <div class="menu-icon">📚</div>
-                <div class="menu-text">
+                    <p>원어민 발음을 듣고<br>따라 하는 쉐도잉 훈련</p>
+                </button>
+                <button class="menu-card theme-word" onclick="startQuiz('word')" tabindex="2">
+                    <div class="menu-card-icon">📚</div>
                     <h3>단어 / 문법</h3>
-                    <p>핵심 어휘와 문법을<br>확실하게 다져보세요</p>
-                </div>
-            </button>
-
-            <button class="menu-btn theme-3" tabindex="3" data-url="https://tajunii.github.io/conversationstudy/">
-                <div class="menu-icon">💬</div>
-                <div class="menu-text">
-                    <h3>일상 표현 익히기</h3>
-                    <p>실제 생활에서 쓰이는<br>자연스러운 회화 표현</p>
-                </div>
-            </button>
-
-            <button class="menu-btn theme-4" tabindex="4" data-url="https://tajunii.github.io/ptn-convstudy/">
-                <div class="menu-icon">🧩</div>
-                <div class="menu-text">
+                    <p>쉐도잉 대본 기반의<br>어휘 및 문법 퀴즈</p>
+                </button>
+                <button class="menu-card theme-pattern" onclick="startQuiz('pattern')" tabindex="3">
+                    <div class="menu-card-icon">🧩</div>
                     <h3>문형 익히기</h3>
-                    <p>다양한 패턴과 문형을<br>통해 응용력을 키우세요</p>
+                    <p>핵심 80개 패턴 기반<br>문장 훈련 퀴즈</p>
+                </button>
+                <button class="menu-card theme-expression" onclick="startQuiz('expression')" tabindex="4">
+                    <div class="menu-card-icon">💬</div>
+                    <h3>일상 표현</h3>
+                    <p>생활 속 유용한<br>일본어 회화 표현 익히기</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. 쉐도잉 연습 화면 -->
+        <div id="shadowPage" class="page">
+            <div class="shadow-layout">
+                <div class="shadow-audio-player">
+                    <span class="shadow-player-title">전체 오디오 재생 (Full Track)</span>
+                    <audio id="shadowFullAudio" controls class="shadow-audio-ctrl">
+                        <source src="" type="audio/mpeg">
+                    </audio>
+                    <button id="shadowToggleAllBtn" class="shadow-toggle-all-btn" onclick="toggleAllShadowTranslations()">해석 전체 보기/숨기기</button>
                 </div>
-            </button>
+                <div class="shadow-list" id="shadowListContainer">
+                    <!-- 쉐도잉 문장 카드들이 동적으로 생성됨 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 통합 퀴즈 플레이어 화면 -->
+        <div id="quizPage" class="page">
+            <div class="quiz-layout" id="quizLayoutContainer">
+                <div class="quiz-header">
+                    <span id="quizModeLabel">문형 익히기</span>
+                    <div class="filter-section" id="quizFilterContainer">
+                        <label for="quizWeekSelect">주차 선택:</label>
+                        <select id="quizWeekSelect" class="select-custom" onchange="changeQuizFilter(this.value)">
+                            <option value="all">전체보기</option>
+                        </select>
+                    </div>
+                    <span id="quizProgressLabel">진행률 : 0 / 0</span>
+                </div>
+                <div class="quiz-progress-bar-container">
+                    <div class="quiz-progress-bar" id="quizProgressBar"></div>
+                </div>
+
+                <!-- 플래시 카드 -->
+                <div class="flash-card" id="flashCard" tabindex="1" onclick="handleCardClick()">
+                    <div class="card-inner">
+                        <div class="card-question" id="quizQuestion">한국어 질문이 표시됩니다.</div>
+                        <div class="card-divider" id="cardDivider"></div>
+                        <div class="card-answer-container" id="quizAnswerContainer">
+                            <div class="card-answer" id="quizAnswer">일본어 정답</div>
+                            <div class="card-meta" id="quizMeta">독음 및 후리가나</div>
+                            <div class="card-usage-box" id="quizUsageBox" style="display:none;">설명</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 조작 버튼 -->
+                <div class="quiz-controls">
+                    <button class="quiz-btn" id="quizBackBtn" onclick="prevQuizItem()">← 이전 문제</button>
+                    <button class="quiz-btn" id="quizResetBtn" onclick="resetQuizProgress()">처음부터 다시</button>
+                    <button class="quiz-btn" id="quizAudioBtn" onclick="replayAudio()">🔊 다시 듣기 (Space)</button>
+                    <button class="quiz-btn quiz-btn-primary" id="quizActionBtn" onclick="handleQuizAction()">정답 보기 (Enter)</button>
+                </div>
+
+                <!-- 리모컨 단축키 팁 -->
+                <div class="quiz-tip-bar">
+                    <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
+                    <div><span class="tip-tag">방향키 좌(←)</span> 이전 문제</div>
+                    <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 오디오 다시듣기</div>
+                    <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 우하단 설정 버튼 -->
+    <button class="settings-btn" onclick="openSettings()" title="데이터 연동 설정">⚙️</button>
+
+    <!-- 설정 모달 -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <h2>구글 스프레드시트 데이터 연동 설정</h2>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+                통합 시트 주소(CSV)를 입력해 주세요. 입력하지 않으면 개별 기본 시트 주소들로부터 데이터를 연동합니다.
+            </div>
+            <div class="form-group">
+                <label>통합 스프레드시트 CSV URL (선택)</label>
+                <input type="text" id="settingSingleUrl" class="form-control" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv">
+            </div>
+            <div style="font-size:12px; color: var(--text-muted); line-height: 1.5;">
+                * <strong>개별 연동용 시트</strong>는 스프레드시트 공유 시 아래의 gid를 사용합니다:<br>
+                - 단어/문법: gid=0, gid=97570951<br>
+                - 일상회화: gid=619535186<br>
+                - 문형80: gid=1779898264
+            </div>
+            <div class="modal-footer">
+                <button class="nav-btn" onclick="closeSettings()">취소</button>
+                <button class="nav-btn active-nav" onclick="saveSettings()">저장 및 새로고침</button>
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = Array.from(document.querySelectorAll('.menu-btn'));
-            if (buttons.length > 0) buttons[0].focus();
+        // ==========================================
+        // 1. 상태 관리 (State Management)
+        // ==========================================
+        let allData = []; // 통합 데이터베이스 [{id, type, category, group, cycle, week, jp, kr, audio, meta}]
+        let currentMode = 'home'; // 'home' | 'shadow' | 'word' | 'pattern' | 'expression'
+        
+        // 퀴즈 엔진 상태
+        let quizFilteredItems = [];
+        let quizRemainingIndices = [];
+        let quizSolvedHistory = []; // [index] 이전으로 돌아가기용
+        let quizCurrentIndex = -1; // quizFilteredItems 기준
+        let quizState = 'question'; // 'question' | 'answer' | 'finished'
+        let currentQuizWeekFilter = 'all';
 
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const targetUrl = this.getAttribute('data-url');
-                    if(targetUrl) window.location.href = targetUrl;
-                });
+        // 쉐도잉 상태
+        let isShadowTranslationVisible = false;
+
+        // 오디오 시스템
+        const globalAudioPlayer = new Audio();
+
+        // 환경 변수 (로컬 vs 배포)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+
+        // 기본 내장 쉐도잉 대본 데이터 (심야식당 s1ep1)
+        const defaultShadowingData = [
+            {
+                id: "shadow_1",
+                type: "shadow",
+                category: "대본",
+                group: "심야식당 S1E1-1",
+                jp: "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。",
+                meta: "いちにち が 오わり、ひとびと が いえじ へと いそぐころ、おれ の いちにち は はじまる。",
+                kr: "하루가 끝나고 사람들이 집으로 서두를 때, 나의 하루는 시작된다.",
+                audio: "1.mp3"
+            },
+            {
+                id: "shadow_2",
+                type: "shadow",
+                category: "대본",
+                group: "심야식당 S1E1-1",
+                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。",
+                meta: "メニュー は これだけ、あとは かって に ちゅうもん してくれりゃ できるもんなら つくるよ ってのが、おれ の えいぎょうほうしん さ。",
+                kr: "메뉴는 이것뿐, 나머지는 마음대로 주문해서 할 수 있는 거라면 만드는 게 내 영업 방침이지.",
+                audio: "2.mp3"
+            },
+            {
+                id: "shadow_3",
+                type: "shadow",
+                category: "대본",
+                group: "심야식당 S1E1-1",
+                jp: "営業時間夜12時から朝7時ごろまで、人は深夜食堂って言ってるよ。",
+                meta: "えいぎょうじかん は よる じゅうにじ から あさ ななじ ごろまで、ひと は しんやしょくどう って いってるよ。",
+                kr: "영업시간은 밤 12시부터 아침 7시경까지, 사람들은 심야식당이라고 불러.",
+                audio: "3.mp3"
+            },
+            {
+                id: "shadow_4",
+                type: "shadow",
+                category: "대본",
+                group: "심야식당 S1E1-1",
+                jp: "客が来るかって？",
+                meta: "きゃく が くるかって？",
+                kr: "손님이 오냐고?",
+                audio: "4.mp3"
+            },
+            {
+                id: "shadow_5",
+                type: "shadow",
+                category: "대본",
+                group: "심야식당 S1E1-1",
+                jp: "それが結構来るんだよ。",
+                meta: "それが けっこう くるんだよ。",
+                kr: "그게 꽤 온단 말이지.",
+                audio: "5.mp3"
+            }
+        ];
+
+        // ==========================================
+        // 2. 데이터 연동 (Data Sync)
+        // ==========================================
+        const DEFAULT_URLS = {
+            single: "",
+            word: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=0&single=true&output=csv",
+            pattern_info: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=97570951&single=true&output=csv",
+            expression: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=619535186&single=true&output=csv",
+            pattern_list: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=1779898264&single=true&output=csv"
+        };
+
+        // 로컬스토리지에서 URL 설정 불러오기
+        function getSheetUrls() {
+            const single = localStorage.getItem("sheet_url_single") || DEFAULT_URLS.single;
+            return {
+                single: single,
+                word: DEFAULT_URLS.word,
+                pattern_info: DEFAULT_URLS.pattern_info,
+                expression: DEFAULT_URLS.expression,
+                pattern_list: DEFAULT_URLS.pattern_list
+            };
+        }
+
+        // 데이터 통합 파싱 및 불러오기
+        async function initData() {
+            const urls = getSheetUrls();
+            allData = [];
+
+            try {
+                if (urls.single) {
+                    // 1. 단일 통합 시트 로드
+                    console.log("통합 시트 불러오기 중...");
+                    const res = await fetch(urls.single);
+                    const csvText = await res.text();
+                    const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+                    
+                    allData = parsed.data.map((row, idx) => ({
+                        id: row.id || `single_${idx}`,
+                        type: row.type || 'word',
+                        category: row.category || '',
+                        group: row.group || '',
+                        cycle: row.cycle || '',
+                        week: row.week || '',
+                        jp: row.jp || '',
+                        kr: row.kr || '',
+                        audio: row.audio || '',
+                        meta: row.meta || row.additional || ''
+                    })).filter(item => item.jp && item.kr);
+                    console.log(`통합 시트로부터 ${allData.length}개 데이터를 성공적으로 파싱했습니다.`);
+                } else {
+                    // 2. 기존 개별 시트들 fetch 후 단일 포맷으로 통합 병합 (하위 호환)
+                    console.log("개별 시트들을 각각 로드하여 통합 중...");
+                    
+                    // A. 단어/문법 로드
+                    const wordRes = await fetch(urls.word);
+                    const wordCsv = await wordRes.text();
+                    const wordParsed = Papa.parse(wordCsv, { header: false, skipEmptyLines: true });
+                    const wordRows = wordParsed.data.slice(1);
+                    wordRows.forEach((cols, idx) => {
+                        if(cols[0] && cols[2]) {
+                            // 단어 행
+                            allData.push({
+                                id: `word_${idx}`,
+                                type: 'word',
+                                category: cols[2] || '', // 품사
+                                group: '단어',
+                                cycle: '',
+                                week: cols[10] || '',
+                                jp: cols[0],
+                                kr: cols[2] + (cols[3] ? `, ${cols[3]}` : ''),
+                                audio: '',
+                                meta: cols[1] ? `[독음: ${cols[1]}]` : ''
+                            });
+                        }
+                        if(cols[4] && cols[6]) {
+                            // 예문 1
+                            allData.push({
+                                id: `word_ex1_${idx}`,
+                                type: 'word',
+                                category: '예문',
+                                group: '단어 예문',
+                                cycle: '',
+                                week: cols[10] || '',
+                                jp: cols[4],
+                                kr: cols[6],
+                                audio: '',
+                                meta: cols[5] ? `독음: ${cols[5]}` : ''
+                            });
+                        }
+                        if(cols[7] && cols[9]) {
+                            // 예문 2
+                            allData.push({
+                                id: `word_ex2_${idx}`,
+                                type: 'word',
+                                category: '예문',
+                                group: '단어 예문',
+                                cycle: '',
+                                week: cols[10] || '',
+                                jp: cols[7],
+                                kr: cols[9],
+                                audio: '',
+                                meta: cols[8] ? `독음: ${cols[8]}` : ''
+                            });
+                        }
+                    });
+
+                    // B. 문형 정보 및 예문 로드 (wpstudy gid=97570951)
+                    const ptnInfoRes = await fetch(urls.pattern_info);
+                    const ptnInfoCsv = await ptnInfoRes.text();
+                    const ptnInfoParsed = Papa.parse(ptnInfoCsv, { header: false, skipEmptyLines: true });
+                    const ptnInfoRows = ptnInfoParsed.data.slice(1);
+                    ptnInfoRows.forEach((cols, idx) => {
+                        if(cols[0] && cols[1]) {
+                            allData.push({
+                                id: `ptn_info_${idx}`,
+                                type: 'pattern',
+                                category: '문형 기본',
+                                group: cols[0], // 문형명
+                                cycle: '',
+                                week: cols[10] || '',
+                                jp: cols[0],
+                                kr: cols[1] + (cols[2] ? `, ${cols[2]}` : '') + ` (설명: ${cols[3] || ''})`,
+                                audio: '',
+                                meta: cols[3] || ''
+                            });
+                        }
+                        if(cols[4] && cols[6]) {
+                            allData.push({
+                                id: `ptn_info_ex1_${idx}`,
+                                type: 'pattern',
+                                category: '문형 예문',
+                                group: cols[0],
+                                cycle: '',
+                                week: cols[10] || '',
+                                jp: cols[4],
+                                kr: cols[6],
+                                audio: '',
+                                meta: cols[5] ? `독음: ${cols[5]}` : ''
+                            });
+                        }
+                    });
+
+                    // C. 일상회화 로드 (convstudy gid=619535186)
+                    const exprRes = await fetch(urls.expression);
+                    const exprCsv = await exprRes.text();
+                    const exprParsed = Papa.parse(exprCsv, { header: false, skipEmptyLines: true });
+                    const exprRows = exprParsed.data.slice(1);
+                    exprRows.forEach((cols, idx) => {
+                        const jpVal = cols[4] || "";
+                        const krVal = cols[5] || "";
+                        if (jpVal && krVal) {
+                            allData.push({
+                                id: `expr_${idx}`,
+                                type: 'expression',
+                                category: cols[2] || '일상회화',
+                                group: cols[3] || '인사/공감',
+                                cycle: '',
+                                week: cols[6] || '',
+                                jp: jpVal,
+                                kr: krVal,
+                                audio: '',
+                                meta: ''
+                            });
+                        }
+                    });
+
+                    // D. 문형 80 퀴즈 데이터 로드 (ptn&convstudy gid=1779898264)
+                    const ptnListRes = await fetch(urls.pattern_list);
+                    const ptnListCsv = await ptnListRes.text();
+                    const ptnListParsed = Papa.parse(ptnListCsv, { header: false, skipEmptyLines: true });
+                    const ptnListRows = ptnListParsed.data.slice(1);
+                    ptnListRows.forEach((cols, idx) => {
+                        const jpVal = cols[4] || "";
+                        const krVal = cols[5] || "";
+                        const audioVal = cols[6] || "";
+                        if (jpVal && krVal) {
+                            allData.push({
+                                id: `ptn_80_${idx}`,
+                                type: 'pattern',
+                                category: cols[2] || '문형80 예문',
+                                group: cols[3] || '80 패턴',
+                                cycle: cols[1] || '',
+                                week: cols[0] || '', // 주차
+                                jp: jpVal,
+                                kr: krVal,
+                                audio: audioVal,
+                                meta: cols[3] ? `문형: ${cols[3]}` : ''
+                            });
+                        }
+                    });
+
+                    console.log(`개별 시트 병합 완료. 총 ${allData.length}개의 데이터 로드됨.`);
+                }
+            } catch (err) {
+                console.error("데이터 로드 중 에러 발생, 내장 백업 데이터를 활용합니다.", err);
+            }
+
+            // 쉐도잉 데이터를 통합 데이터에 삽입
+            allData = allData.concat(defaultShadowingData);
+        }
+
+        // ==========================================
+        // 3. 페이지 네비게이션 (SPA Navigation)
+        // ==========================================
+        function showPage(pageId) {
+            currentMode = pageId;
+
+            // 모든 페이지 숨기기
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 네비게이션 탭 스타일 리셋
+            document.querySelectorAll('#nav button').forEach(btn => {
+                btn.classList.remove('active-nav');
             });
 
-            document.addEventListener('keydown', (e) => {
+            // 오디오 중지
+            globalAudioPlayer.pause();
+
+            // 대상 페이지 보이기
+            const targetPage = document.getElementById(pageId + 'Page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // 활성화 탭 표시
+            let targetNavBtn;
+            if (pageId === 'home') {
+                targetNavBtn = document.querySelector(`#nav button[onclick*="showPage('home')"]`);
+            } else if (pageId === 'shadow') {
+                targetNavBtn = document.querySelector(`#nav button[onclick*="startShadowing()"]`);
+            } else {
+                targetNavBtn = document.querySelector(`#nav button[onclick*="startQuiz('${pageId}')"]`);
+            }
+            if (targetNavBtn) {
+                targetNavBtn.classList.add('active-nav');
+            }
+
+            // 포커스 자동 관리
+            if (pageId === 'home') {
+                const firstCard = document.querySelector('.menu-card');
+                if (firstCard) firstCard.focus();
+            } else if (pageId === 'quiz') {
+                const flashCard = document.getElementById('flashCard');
+                if (flashCard) flashCard.focus();
+            }
+        }
+
+        // ==========================================
+        // 4. 쉐도잉 연습 (Shadowing practice)
+        // ==========================================
+        function startShadowing() {
+            showPage('shadow');
+
+            const shadowItems = allData.filter(d => d.type === 'shadow');
+            const shadowList = document.getElementById('shadowListContainer');
+            shadowList.innerHTML = '';
+
+            // 전체 오디오 경로 연결
+            const fullAudioEl = document.getElementById('shadowFullAudio');
+            fullAudioEl.src = getAudioUrl('shadow', 'full.mp3');
+
+            shadowItems.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'shadow-item';
+                div.tabIndex = idx + 1;
+                div.id = `shadow-item-${idx}`;
+                div.onclick = () => playShadowItemAudio(item.audio);
+                
+                // 루비 후리가나 태그가 meta에 들어있는 형태
+                // 기존 대본 ruby 적용
+                const rubyText = item.jp === "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。" 
+                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>が<ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>い소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
+                    : item.jp === "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。" || item.jp.includes("メニュー")
+                    ? `メニューはこれだけ、あとは<ruby>勝手<rt>かって</rt></ruby>に<ruby>注文<rt>ちゅうもん</rt></ruby>してくれりゃできるもんなら<ruby>作<rt>つく</rt></ruby>るよってのが、<ruby>俺<rt>おれ</rt></ruby>의 <ruby>営業方針<rt>えいぎょうほうしん</rt></ruby>さ。`
+                    : item.jp.includes("営業時間")
+                    ? `<ruby>営業時間<rt>えいぎょうじかん</rt></ruby>は<ruby>夜<rt>よる</rt></ruby>12<ruby>時<rt>じ</rt></ruby>から<ruby>朝<rt>あさ</rt></ruby>7<ruby>時<rt>じ</rt></ruby>ごろまで、<ruby>人<rt>ひと</rt></ruby>は<ruby>深夜食堂<rt>しんやしょくどう</rt></ruby>って<ruby>言<rt>い</rt></ruby>ってるよ。`
+                    : item.jp.includes("客")
+                    ? `<ruby>客<rt>きゃく</rt></ruby>が<ruby>来<rt>く</rt></ruby>るかって？`
+                    : item.jp.includes("結構")
+                    ? `それが<ruby>結構<rt>けっこう</rt></ruby><ruby>来<rt>く</rt></ruby>るんだ요。`
+                    : item.jp;
+
+                div.innerHTML = `
+                    <button class="shadow-play-btn">▶</button>
+                    <div class="shadow-content">
+                        <div class="shadow-ja">${rubyText}</div>
+                        <div class="shadow-ko ${isShadowTranslationVisible ? 'reveal' : ''}" id="shadow-ko-${idx}">${item.kr}</div>
+                    </div>
+                `;
+                shadowList.appendChild(div);
+            });
+
+            // 첫 아이템 포커스
+            setTimeout(() => {
+                const firstItem = document.getElementById('shadow-item-0');
+                if(firstItem) firstItem.focus();
+            }, 100);
+        }
+
+        function playShadowItemAudio(filename) {
+            const url = getAudioUrl('shadow', filename);
+            globalAudioPlayer.src = url;
+            globalAudioPlayer.play().catch(e => console.error("오디오 재생 실패:", e));
+        }
+
+        function toggleAllShadowTranslations() {
+            isShadowTranslationVisible = !isShadowTranslationVisible;
+            document.querySelectorAll('.shadow-ko').forEach(el => {
+                if (isShadowTranslationVisible) el.classList.add('reveal');
+                else el.classList.remove('reveal');
+            });
+            document.getElementById('shadowToggleAllBtn').textContent = 
+                isShadowTranslationVisible ? '해석 전체 숨기기' : '해석 전체 보기';
+        }
+
+        // ==========================================
+        // 5. 통합 퀴즈 플레이어 (Quiz Engine)
+        // ==========================================
+        function startQuiz(type) {
+            currentMode = type;
+            showPage('quiz');
+
+            // 퀴즈 레이아웃 스타일 구분
+            const layout = document.getElementById('quizLayoutContainer');
+            layout.className = `quiz-layout quiz-${type}`;
+
+            // 타이틀 설정
+            const titleMap = {
+                word: '📚 단어 및 문법 퀴즈',
+                pattern: '🧩 문형 익히기 퀴즈',
+                expression: '💬 일상 표현 퀴즈'
+            };
+            document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 퀴즈';
+
+            // 데이터 필터링
+            quizFilteredItems = allData.filter(d => d.type === type);
+
+            // 주차 필터 드롭다운 구성
+            buildWeekFilter(type);
+
+            // 진행 상태 로드
+            currentQuizWeekFilter = 'all';
+            document.getElementById('quizWeekSelect').value = 'all';
+            initQuizItems();
+        }
+
+        function buildWeekFilter(type) {
+            const select = document.getElementById('quizWeekSelect');
+            const filterContainer = document.getElementById('quizFilterContainer');
+            
+            // 일상회화(expression)는 주차가 거의 없으므로 필터 숨김 처리
+            if (type === 'expression') {
+                filterContainer.style.display = 'none';
+                return;
+            }
+            filterContainer.style.display = 'flex';
+
+            const weeks = new Set();
+            allData.filter(d => d.type === type).forEach(item => {
+                if (item.week) weeks.add(item.week);
+            });
+
+            const sortedWeeks = Array.from(weeks).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+
+            let html = '<option value="all">전체보기</option>';
+            sortedWeeks.forEach(w => {
+                html += `<option value="${w}">${w}주차</option>`;
+            });
+            select.innerHTML = html;
+        }
+
+        function changeQuizFilter(weekVal) {
+            currentQuizWeekFilter = weekVal;
+            initQuizItems();
+        }
+
+        function initQuizItems() {
+            // 필터링 적용
+            let items = allData.filter(d => d.type === currentMode);
+            if (currentQuizWeekFilter !== 'all') {
+                items = items.filter(d => String(d.week) === String(currentQuizWeekFilter));
+            }
+            quizFilteredItems = items;
+
+            if (quizFilteredItems.length === 0) {
+                document.getElementById('quizQuestion').textContent = '해당하는 데이터가 없습니다.';
+                document.getElementById('quizAnswerContainer').classList.remove('reveal');
+                document.getElementById('quizProgressLabel').textContent = '진행률 : 0 / 0';
+                document.getElementById('quizProgressBar').style.width = '0%';
+                document.getElementById('quizActionBtn').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('quizActionBtn').style.display = 'block';
+
+            // 로컬스토리지에서 푼 목록 복구
+            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+            const saved = localStorage.getItem(progressKey);
+            
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                quizRemainingIndices = parsed.remainingIndices || [];
+                quizSolvedHistory = parsed.solvedHistory || [];
+            } else {
+                resetRemainingIndices();
+            }
+
+            quizState = 'question';
+            quizCurrentIndex = -1;
+            nextQuizItem();
+        }
+
+        function resetRemainingIndices() {
+            // 남은 인덱스를 전체 셔플하여 배열로 저장
+            quizRemainingIndices = quizFilteredItems.map((_, idx) => idx);
+            // 피셔-예이츠 셔플
+            for (let i = quizRemainingIndices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [quizRemainingIndices[i], quizRemainingIndices[j]] = [quizRemainingIndices[j], quizRemainingIndices[i]];
+            }
+            quizSolvedHistory = [];
+            saveProgress();
+        }
+
+        function saveProgress() {
+            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+            localStorage.setItem(progressKey, JSON.stringify({
+                remainingIndices: quizRemainingIndices,
+                solvedHistory: quizSolvedHistory
+            }));
+        }
+
+        function updateQuizProgressUI() {
+            const total = quizFilteredItems.length;
+            const solved = total - quizRemainingIndices.length;
+            
+            document.getElementById('quizProgressLabel').textContent = `진행률 : ${solved} / ${total}`;
+            const pct = total > 0 ? (solved / total) * 100 : 0;
+            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+        }
+
+        function nextQuizItem() {
+            if (quizRemainingIndices.length === 0) {
+                // 한 사이클 다 풀었을 때
+                showQuizFinished();
+                return;
+            }
+
+            // 남은 인덱스 목록의 첫 번째 원소 꺼내기
+            const nextIdx = quizRemainingIndices.shift();
+            quizSolvedHistory.push(nextIdx);
+            quizCurrentIndex = nextIdx;
+
+            saveProgress();
+            updateQuizProgressUI();
+
+            // 질문 세팅 (한국어)
+            const item = quizFilteredItems[quizCurrentIndex];
+            document.getElementById('quizQuestion').textContent = item.kr;
+            
+            // 정답 컨테이너 숨기기
+            document.getElementById('quizAnswerContainer').classList.remove('reveal');
+            document.getElementById('cardDivider').style.display = 'none';
+
+            // 버튼 세팅
+            quizState = 'question';
+            document.getElementById('quizActionBtn').textContent = '정답 보기 (Enter)';
+            document.getElementById('quizActionBtn').className = 'quiz-btn quiz-btn-primary';
+
+            // 카드 리포커스
+            document.getElementById('flashCard').focus();
+        }
+
+        function prevQuizItem() {
+            if (quizSolvedHistory.length <= 1) {
+                alert("이전 문제가 없습니다.");
+                return;
+            }
+
+            // 현재 보던 문제를 다시 남은 인덱스 맨 앞에 끼워넣음
+            const currentIdx = quizSolvedHistory.pop();
+            quizRemainingIndices.unshift(currentIdx);
+
+            // 바로 직전 푼 문제 꺼내기
+            const prevIdx = quizSolvedHistory[quizSolvedHistory.length - 1];
+            quizCurrentIndex = prevIdx;
+
+            saveProgress();
+            updateQuizProgressUI();
+
+            const item = quizFilteredItems[quizCurrentIndex];
+            document.getElementById('quizQuestion').textContent = item.kr;
+            
+            // 이전 카드로 갈 때는 바로 정답을 볼 수 있게 세팅
+            showAnswer();
+        }
+
+        function showAnswer() {
+            quizState = 'answer';
+            const item = quizFilteredItems[quizCurrentIndex];
+
+            document.getElementById('cardDivider').style.display = 'block';
+            const ansContainer = document.getElementById('quizAnswerContainer');
+            ansContainer.classList.add('reveal');
+
+            document.getElementById('quizAnswer').textContent = item.jp;
+            
+            // 메타데이터 및 독음
+            const metaEl = document.getElementById('quizMeta');
+            metaEl.textContent = item.meta || '';
+
+            // 80문형의 경우 카테고리나 설명 표기
+            const usageEl = document.getElementById('quizUsageBox');
+            if (item.category && item.type === 'pattern') {
+                usageEl.textContent = `[분류: ${item.category}]`;
+                usageEl.style.display = 'block';
+            } else {
+                usageEl.style.display = 'none';
+            }
+
+            // 오디오 자동 재생
+            playItemAudio(item);
+
+            // 버튼 상태 변경
+            document.getElementById('quizActionBtn').textContent = '다음 문제 (Enter)';
+            document.getElementById('quizActionBtn').className = 'quiz-btn';
+            document.getElementById('flashCard').focus();
+        }
+
+        function handleQuizAction() {
+            if (quizState === 'question') {
+                showAnswer();
+            } else if (quizState === 'answer') {
+                nextQuizItem();
+            } else if (quizState === 'finished') {
+                resetQuizProgress();
+            }
+        }
+
+        function handleCardClick() {
+            handleQuizAction();
+        }
+
+        function showQuizFinished() {
+            quizState = 'finished';
+            document.getElementById('quizQuestion').textContent = "🎉 이번 회차의 모든 문제를 완료했습니다!";
+            document.getElementById('quizAnswerContainer').classList.remove('reveal');
+            document.getElementById('cardDivider').style.display = 'none';
+
+            document.getElementById('quizActionBtn').textContent = '다시 시작하기 (Enter)';
+            document.getElementById('quizActionBtn').className = 'quiz-btn quiz-btn-primary';
+            
+            // 진행 게이지 100% 강제
+            document.getElementById('quizProgressBar').style.width = '100%';
+            const total = quizFilteredItems.length;
+            document.getElementById('quizProgressLabel').textContent = `진행률 : ${total} / ${total}`;
+
+            // 오디오 축하 이펙트음 등 필요시 추가 가능
+        }
+
+        function resetQuizProgress() {
+            if (quizState !== 'finished' && !confirm("학습 진행 상황을 초기화하고 처음부터 다시 공부하시겠습니까?")) {
+                return;
+            }
+            const progressKey = `quiz_progress_${currentMode}_${currentQuizWeekFilter}`;
+            localStorage.removeItem(progressKey);
+            initQuizItems();
+        }
+
+        // ==========================================
+        // 6. 오디오 & TTS 재생 시스템 (Hybrid Audio)
+        // ==========================================
+        function getAudioUrl(type, filename) {
+            if (!filename) return '';
+            
+            if (type === 'shadow') {
+                return isLocal 
+                    ? `../2.japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`
+                    : `https://tajunii.github.io/japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`;
+            } else if (type === 'pattern') {
+                return isLocal
+                    ? `../5.ptn&convstudy/audio/${filename}`
+                    : `https://raw.githubusercontent.com/tajunii/ptn-convstudy/main/audio/${filename}`;
+            }
+            return '';
+        }
+
+        function playItemAudio(item) {
+            // 오디오 파일 우선 재생 시도
+            const audioUrl = getAudioUrl(item.type, item.audio);
+            if (audioUrl) {
+                globalAudioPlayer.src = audioUrl;
+                globalAudioPlayer.play().catch(err => {
+                    console.warn("mp3 파일 재생 실패, TTS 재생을 진행합니다.", err);
+                    speakText(item.jp);
+                });
+            } else {
+                // mp3가 명시되지 않은 경우 브라우저 TTS 출력
+                speakText(item.jp);
+            }
+        }
+
+        function replayAudio() {
+            if (currentMode === 'home' || currentMode === 'shadow') return;
+            if (quizCurrentIndex !== -1 && quizFilteredItems[quizCurrentIndex]) {
+                playItemAudio(quizFilteredItems[quizCurrentIndex]);
+            }
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // 기존 재생 중단
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP';
+                
+                const voices = window.speechSynthesis.getVoices();
+                const jpVoice = voices.find(v => v.lang.includes('ja-JP') || v.lang.includes('ja_JP'));
+                if (jpVoice) utterance.voice = jpVoice;
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // 브라우저 보이스 사전 로딩
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+        }
+
+        // ==========================================
+        // 7. 스마트 TV 리모컨 제어 모듈 (TV Keyboard Bindings)
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            // 인풋창 포커스 중일 때는 단축키 오동작 방지
+            if (document.activeElement.tagName === 'INPUT') return;
+
+            // 1. 홈 화면에서의 단축키
+            if (currentMode === 'home') {
+                const buttons = Array.from(document.querySelectorAll('.menu-grid .menu-card'));
                 const currentIndex = buttons.indexOf(document.activeElement);
+
                 if (e.key === 'ArrowRight') {
-                    e.preventDefault(); 
-                    const nextIndex = currentIndex + 1 < buttons.length ? currentIndex + 1 : 0;
-                    buttons[nextIndex].focus();
-                    buttons[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    e.preventDefault();
+                    const next = (currentIndex + 1) % buttons.length;
+                    buttons[next].focus();
                 } else if (e.key === 'ArrowLeft') {
                     e.preventDefault();
-                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
-                    buttons[prevIndex].focus();
-                    buttons[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    const prev = (currentIndex - 1 + buttons.length) % buttons.length;
+                    buttons[prev].focus();
                 } else if (e.key === 'Enter' && currentIndex !== -1) {
-                    const targetUrl = buttons[currentIndex].getAttribute('data-url');
-                    if(targetUrl) window.location.href = targetUrl;
+                    buttons[currentIndex].click();
                 }
+            } 
+            // 2. 쉐도잉 화면에서의 단축키
+            else if (currentMode === 'shadow') {
+                const items = Array.from(document.querySelectorAll('.shadow-list .shadow-item'));
+                const currentIndex = items.indexOf(document.activeElement);
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (currentIndex < items.length - 1) {
+                        items[currentIndex + 1].focus();
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (currentIndex > 0) {
+                        items[currentIndex - 1].focus();
+                    }
+                } else if (e.key === 'Enter' && currentIndex !== -1) {
+                    e.preventDefault();
+                    items[currentIndex].click();
+                } else if (e.key === 'Backspace' || e.key === 'Escape') {
+                    e.preventDefault();
+                    showPage('home');
+                }
+            }
+            // 3. 퀴즈 화면에서의 단축키
+            else {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleQuizAction();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevQuizItem();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (quizState === 'answer') {
+                        nextQuizItem();
+                    } else {
+                        showAnswer();
+                    }
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') {
+                    e.preventDefault();
+                    replayAudio();
+                } else if (e.key === 'Backspace' || e.key === 'Escape') {
+                    e.preventDefault();
+                    showPage('home');
+                }
+            }
+        });
+
+        // ==========================================
+        // 8. 설정 모달 및 초기화
+        // ==========================================
+        function openSettings() {
+            document.getElementById('settingSingleUrl').value = localStorage.getItem("sheet_url_single") || "";
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function saveSettings() {
+            const singleVal = document.getElementById('settingSingleUrl').value.trim();
+            if (singleVal) {
+                localStorage.setItem("sheet_url_single", singleVal);
+            } else {
+                localStorage.removeItem("sheet_url_single");
+            }
+            closeSettings();
+            
+            // 상태 초기화 및 재로드
+            initData().then(() => {
+                alert("설정이 저장되었습니다. 새로운 데이터를 로드합니다.");
+                showPage('home');
+            });
+        }
+
+        // 실행 진입점
+        window.addEventListener('DOMContentLoaded', () => {
+            initData().then(() => {
+                showPage('home');
             });
         });
     </script>
