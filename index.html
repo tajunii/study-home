@@ -1230,17 +1230,16 @@
             };
             document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 학습관';
 
-            // 일상회화는 퀴즈 전용 -> 공부 탭 숨기고 바로 퀴즈 시작
-            if (type === 'expression') {
-                document.getElementById('subTabs').style.display = 'none';
-                buildWeekFilter(type);
-                setSubMode('quiz');
+            // 일상회화와 문법80은 퀴즈 전용 -> 공부 탭 숨기고 바로 퀴즈 시작
+            if (type === 'expression' || type === 'pattern') {
+               document.getElementById('subTabs').style.display = 'none';
+               buildWeekFilter(type);
+               setSubMode('quiz');
             } else {
-                document.getElementById('subTabs').style.display = 'flex';
-                buildWeekFilter(type);
-                setSubMode('study'); // 기본적으로 공부(study) 모드로 시작
+               document.getElementById('subTabs').style.display = 'flex';
+               buildWeekFilter(type);
+               setSubMode('study'); // 기본적으로 공부(study) 모드로 시작
             }
-        }
 
         // 주차 필터링 드롭다운 빌드 (타입 꼬임 해결)
         function buildWeekFilter(type) {
