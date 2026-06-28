@@ -3,33 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日本語敎室 (Japanese Study Portal)</title>
+    <title>日本語を勉強しよう!! - TV Menu</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700&family=Noto+Sans+JP:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSV 파싱 라이브러리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <style>
         :root {
-            --bg-color: #06050b;
-            --card-bg: #121026;
-            --card-hover: #1c1a3a;
-            --card-border: rgba(255, 255, 255, 0.08);
-            --focus-ring: #c084fc;
-            --focus-glow: rgba(192, 132, 252, 0.4);
+            --bg-color: #080710;
+            --card-bg: #131224; 
+            --card-border: rgba(255, 255, 255, 0.12);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --text-muted: #64748b;
             
-            --color-theme-shadow: #c084fc; 
-            --color-theme-word: #34d399; 
-            --color-theme-pattern: #fbbf24; 
-            --color-theme-expression: #38bdf8; 
+            --color-theme1: #c084fc; 
+            --color-theme2: #34d399; 
+            --color-theme3: #fbbf24; 
+            --color-theme4: #38bdf8; 
             
-            --transition-speed: 0.25s;
+            --transition-speed: 0.2s;
         }
 
         * {
@@ -40,146 +33,77 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
-            background-attachment: fixed;
+            background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 80%);
             color: var(--text-primary);
             font-family: 'Outfit', 'Noto Sans KR', 'Noto Sans JP', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            align-items: center;
             overflow: hidden;
         }
 
-        /* 공통 헤더 */
+        /* [수정된 부분] 헤더 정렬 및 여백 조정 */
         header {
             width: 100%;
-            max-width: 1800px;
-            margin: 0 auto;
+            max-width: 1600px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* 제목 중앙 정렬 */
             align-items: center;
-            padding: 30px 60px 15px 60px;
-            z-index: 10;
-        }
-
-        .header-title-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            padding: 60px 40px 20px 40px; /* 좌우 여백 축소 */
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 52px;
             font-weight: 800;
+            margin: 0;
             font-family: 'Noto Sans JP', sans-serif;
             background: linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
-            cursor: pointer;
         }
 
-        .header-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* 네비게이션 */
-        .nav-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            color: var(--text-secondary);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-            transition: all var(--transition-speed) ease;
-        }
-
-        .nav-btn:focus, .nav-btn:hover {
-            color: var(--text-primary);
-            border-color: var(--focus-ring);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 15px var(--focus-glow);
-            transform: translateY(-2px);
-        }
-
-        .nav-btn.active-nav {
-            background: var(--focus-ring);
-            color: #000;
-            border-color: var(--focus-ring);
-            font-weight: 800;
-        }
-
-        /* 메인 컨테이너 */
-        main {
+        .container {
+            width: 100%;
             flex: 1;
-            width: 100%;
-            max-width: 1800px; /* 전체 너비 대폭 확장 */
-            margin: 0 auto;
-            padding: 10px 60px 30px 60px;
-            position: relative;
-        }
-
-        .page {
-            display: none;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
-        }
-
-        .page.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* -------------------------------------
-           모드 A: 홈 (대시보드)
-           ------------------------------------- */
-        #homePage {
-            padding-top: 30px;
-        }
-
-        .welcome-text {
-            font-size: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .menu-grid {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 35px;
-            flex-wrap: wrap;
-            width: 100%;
-            padding-bottom: 40px;
+            align-items: center;
+            padding-bottom: 80px;
         }
 
-        .menu-card {
+        .horizontal-menu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px; /* 여백 축소 */
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .horizontal-menu::-webkit-scrollbar {
+            display: none;
+        }
+        .horizontal-menu {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .menu-btn {
             background: var(--card-bg);
             border: 2px solid var(--card-border);
-            border-radius: 32px;
-            width: 320px; /* 카드 크기 확대 */
-            height: 400px;
+            border-radius: 36px; 
+            width: 280px;     /* 버튼 크기 조정 */
+            height: 380px;    /* 버튼 크기 조정 */
             padding: 40px 30px;
+            flex-shrink: 0; 
+            margin-right: 20px; /* 간격 축소 */
+            
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -187,1777 +111,132 @@
             text-align: center;
             cursor: pointer;
             outline: none;
-            position: relative;
-            transition: all var(--transition-speed) ease;
+            
+            transition: transform var(--transition-speed) ease, 
+                        border-color var(--transition-speed) ease, 
+                        background-color var(--transition-speed) ease,
+                        box-shadow var(--transition-speed) ease;
         }
 
-        .menu-card-icon {
-            font-size: 60px;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.03);
-            width: 120px;
-            height: 120px;
+        .menu-btn:last-child {
+            margin-right: 0;
+        }
+
+        .menu-icon {
+            font-size: 56px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.04);
+            width: 110px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all var(--transition-speed) ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease;
         }
 
-        .menu-card h3 {
+        .menu-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-text h3 {
             font-size: 26px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 15px;
-            word-break: keep-all;
-        }
-
-        .menu-card p {
-            font-size: 16px;
-            line-height: 1.5;
-            color: var(--text-secondary);
-            word-break: keep-all;
-        }
-
-        .menu-card.theme-shadow:focus, .menu-card.theme-shadow:hover { border-color: var(--color-theme-shadow); box-shadow: 0 0 25px rgba(192, 132, 252, 0.25); transform: translateY(-8px); }
-        .menu-card.theme-word:focus, .menu-card.theme-word:hover { border-color: var(--color-theme-word); box-shadow: 0 0 25px rgba(52, 211, 153, 0.25); transform: translateY(-8px); }
-        .menu-card.theme-pattern:focus, .menu-card.theme-pattern:hover { border-color: var(--color-theme-pattern); box-shadow: 0 0 25px rgba(251, 191, 36, 0.25); transform: translateY(-8px); }
-        .menu-card.theme-expression:focus, .menu-card.theme-expression:hover { border-color: var(--color-theme-expression); box-shadow: 0 0 25px rgba(56, 189, 248, 0.25); transform: translateY(-8px); }
-
-        .menu-card.theme-shadow:focus .menu-card-icon { background: rgba(192, 132, 252, 0.1); border-color: var(--color-theme-shadow); }
-        .menu-card.theme-word:focus .menu-card-icon { background: rgba(52, 211, 153, 0.1); border-color: var(--color-theme-word); }
-        .menu-card.theme-pattern:focus .menu-card-icon { background: rgba(251, 191, 36, 0.1); border-color: var(--color-theme-pattern); }
-        .menu-card.theme-expression:focus .menu-card-icon { background: rgba(56, 189, 248, 0.1); border-color: var(--color-theme-expression); }
-
-        /* -------------------------------------
-           모드 B: 쉐도잉 연습 뷰
-           ------------------------------------- */
-        .shadow-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
-            height: calc(100vh - 200px);
-        }
-
-        .shadow-audio-player {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--card-border);
-            padding: 15px 30px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .shadow-player-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-
-        .shadow-audio-ctrl {
-            flex: 1;
-            max-width: 800px;
-            height: 36px;
-            outline: none;
-            border-radius: 8px;
-        }
-
-        .shadow-toggle-all-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 8px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .shadow-toggle-all-btn:focus, .shadow-toggle-all-btn:hover {
-            border-color: var(--color-theme-shadow);
-            box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
-        }
-
-        .shadow-list {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .shadow-list::-webkit-scrollbar {
-            width: 8px;
-        }
-        .shadow-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .shadow-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-
-        .shadow-item {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: 20px;
-            padding: 20px 30px;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .shadow-item:focus, .shadow-item:hover {
-            border-color: var(--color-theme-shadow);
-            background: var(--card-hover);
-            box-shadow: 0 4px 20px rgba(192, 132, 252, 0.15);
-            transform: scale(1.01);
-        }
-
-        .shadow-play-btn {
-            background: rgba(192, 132, 252, 0.15);
-            border: 1px solid var(--color-theme-shadow);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--color-theme-shadow);
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-
-        .shadow-item:focus .shadow-play-btn, .shadow-play-btn:hover {
-            background: var(--color-theme-shadow);
-            color: #000;
-            box-shadow: 0 0 10px var(--color-theme-shadow);
-        }
-
-        .shadow-content {
-            flex: 1;
-        }
-
-        .shadow-ja {
-            font-size: 28px;
-            font-weight: 500;
-            line-height: 1.6;
-            margin-bottom: 8px;
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-
-        .shadow-ja ruby rt {
-            color: #f87171;
-            font-size: 14px;
-            padding-bottom: 2px;
-        }
-
-        .shadow-ko {
-            font-size: 20px;
-            color: var(--text-secondary);
-            display: none;
-        }
-
-        .shadow-ko.reveal {
-            display: block;
-        }
-
-        /* -------------------------------------
-           모드 C: 통합 학습 / 퀴즈 뷰
-           ------------------------------------- */
-        .quiz-layout {
-            max-width: 1400px; /* 와이드 대응 확대 */
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding-top: 5px;
-        }
-
-        .quiz-header {
-            width: 100%;
-            max-width: 1200px; /* 헤더 폭 확대 */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .quiz-progress-bar-container {
-            width: 100%;
-            max-width: 1200px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .quiz-progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--focus-ring), #06b6d4);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        /* 공부 / 퀴즈 서브 탭 스위치 */
-        .sub-tab-container {
-            display: flex;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 4px;
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            margin-bottom: 5px;
-        }
-
-        .sub-tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 10px 30px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .sub-tab-btn.active-subtab {
-            background: var(--focus-ring);
-            color: #000;
-            box-shadow: 0 2px 8px var(--focus-glow);
-        }
-
-        /* 학습(Study)용 상세 공부 카드 */
-        .study-card-content {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-            gap: 20px;
-        }
-
-        .study-word-header {
-            display: flex;
-            align-items: baseline;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            padding-bottom: 15px;
-        }
-
-        .study-word-title {
-            font-size: 46px; /* 폰트 확대 */
-            font-weight: 800;
-            color: var(--color-theme-word);
-            font-family: 'Noto Sans JP', sans-serif;
-            cursor: pointer;
-        }
-        .quiz-pattern .study-word-title { color: var(--color-theme-pattern); }
-        .quiz-expression .study-word-title { color: var(--color-theme-expression); }
-
-        .study-word-furigana {
-            font-size: 24px;
-            color: var(--text-secondary);
-        }
-
-        .study-meanings-box {
-            display: flex;
-            flex-direction: row; /* 뜻을 가로로 배치 */
-            flex-wrap: wrap; /* 내용이 너무 길면 줄바꿈 허용 */
-            gap: 20px;
-            width: 100%;
-            align-items: center;
-        }
-
-        .study-meaning-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .study-badge {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 800;
-        }
-
-        .study-examples-box {
-            display: flex;
-            flex-direction: row; /* 세로 2줄 문제를 해결! 가로 배치 */
-            gap: 25px;
-            width: 100%;
-            background: transparent; /* 외부 배경 투명 */
-        }
-
-        .study-example-item {
-            flex: 1; /* 구역 50:50 분할 */
-            min-width: 0; /* 넘침 방지 */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            cursor: pointer;
-            padding: 20px 25px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: background 0.2s, transform 0.2s;
-        }
-        
-        .study-example-item:hover, .study-example-item:focus {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-        .study-ex-ja {
-            font-size: 24px;
-            font-weight: 500;
-            color: var(--text-primary);
-            font-family: 'Noto Sans JP', sans-serif;
-            line-height: 1.4;
-        }
-        .study-ex-ko {
-            font-size: 18px;
-            color: var(--text-secondary);
-        }
-
-        /* 퀴즈용 플래시 카드 */
-        .flash-card {
-            width: 100%;
-            max-width: 1200px; /* 플래시카드 폭 대폭 확장 */
-            min-height: 450px;
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: 36px;
-            padding: 40px 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            cursor: pointer;
-            outline: none;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: all var(--transition-speed) ease;
-        }
-
-        .flash-card:focus {
-            border-color: var(--focus-ring);
-            box-shadow: 0 0 30px var(--focus-glow);
-        }
-
-        /* 공부 모드일 때는 카드가 전체 오픈된 뷰로 크기 유연하게 대응 */
-        .flash-card.study-mode-view {
-            justify-content: flex-start;
-            cursor: default;
-        }
-
-        .card-inner {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-question {
-            font-size: 38px;
-            font-weight: 700;
-            line-height: 1.5;
-            color: var(--text-primary);
-            word-break: keep-all;
-        }
-
-        .card-divider {
-            width: 100%;
-            max-width: 300px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 30px 0;
-            display: none;
-        }
-
-        .card-answer-container {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card-answer-container.reveal {
-            display: flex;
-        }
-
-        .card-answer {
-            font-size: 44px;
-            font-weight: 700;
-            color: #fbbf24;
             margin-bottom: 12px;
-            font-family: 'Noto Sans JP', sans-serif;
+            transition: color var(--transition-speed) ease;
             word-break: keep-all;
         }
 
-        .quiz-word .card-answer { color: var(--color-theme-word); }
-        .quiz-pattern .card-answer { color: var(--color-theme-pattern); }
-        .quiz-expression .card-answer { color: var(--color-theme-expression); }
-
-        .card-meta {
-            font-size: 22px;
+        .menu-text p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
             color: var(--text-secondary);
-            font-family: 'Noto Sans KR', sans-serif;
             word-break: keep-all;
         }
 
-        .card-usage-box {
-            margin-top: 15px;
-            font-size: 18px;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            max-width: 100%;
-        }
-
-        /* 컨트롤 및 팁 영역 */
-        .quiz-controls {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .quiz-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            padding: 15px 40px;
-            border-radius: 24px;
-            font-size: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .quiz-btn:focus, .quiz-btn:hover {
-            background: var(--text-primary);
-            color: #000;
-            border-color: var(--text-primary);
-            box-shadow: 0 0 15px rgba(255,255,255,0.25);
-            transform: translateY(-2px);
-        }
-
-        .quiz-btn-primary {
-            background: var(--focus-ring);
-            color: #000;
-            border-color: var(--focus-ring);
-        }
-        .quiz-btn-primary:focus, .quiz-btn-primary:hover {
-            background: #d8b4fe;
-            border-color: #d8b4fe;
-            box-shadow: 0 0 15px var(--focus-glow);
-        }
-
-        .quiz-tip-bar {
-            margin-top: 20px;
-            font-size: 16px;
-            color: var(--text-muted);
-            display: flex;
-            gap: 15px;
-        }
-
-        .tip-tag {
-            background: rgba(255,255,255,0.03);
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* 주간 필터 */
-        .filter-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
-        .select-custom {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .select-custom:focus {
-            border-color: var(--focus-ring);
-            box-shadow: 0 0 10px var(--focus-glow);
-        }
-
-        /* 설정 모달 */
-        .settings-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--card-border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            color: var(--text-secondary);
-            outline: none;
-            transition: all 0.2s;
-        }
-        .settings-btn:focus, .settings-btn:hover {
-            color: var(--text-primary);
-            border-color: var(--focus-ring);
-            box-shadow: 0 0 10px var(--focus-glow);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            backdrop-filter: blur(8px);
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: #110f22;
-            border: 2px solid var(--card-border);
-            width: 90%;
-            max-width: 600px;
-            border-radius: 28px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
-
-        .modal h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .form-control {
-            width: 100%;
-            background: rgba(0,0,0,0.25);
-            border: 1px solid var(--card-border);
-            padding: 12px 16px;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--focus-ring);
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 30px;
-        }
+        /* 테마별 호버 효과 (생략 가능, 기존 유지) */
+        .menu-btn.theme-1:hover { border-color: var(--color-theme1); }
+        .menu-btn.theme-2:hover { border-color: var(--color-theme2); }
+        .menu-btn.theme-3:hover { border-color: var(--color-theme3); }
+        .menu-btn.theme-4:hover { border-color: var(--color-theme4); }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-title-container" onclick="showPage('home')">
-            <h1>日本語 敎室</h1>
-            <div class="header-subtitle">Smart TV Edition</div>
-        </div>
-        <div class="nav-container" id="nav">
-            <button class="nav-btn active-nav" onclick="showPage('home')">홈 (Home)</button>
-            <button class="nav-btn" onclick="startShadowing()">🎤 쉐도잉 (Shadowing)</button>
-            <button class="nav-btn" onclick="startStudyOrQuiz('word')">📚 단어/문법 (Vocabulary)</button>
-            <button class="nav-btn" onclick="startStudyOrQuiz('pattern')">🧩 문형 80 (Patterns)</button>
-            <button class="nav-btn" onclick="startStudyOrQuiz('expression')">💬 일상 표현 (Expressions)</button>
-        </div>
+        <h1>日本語 敎室</h1>
     </header>
 
-    <main>
-        <!-- 1. 홈 화면 (대시보드) -->
-        <div id="homePage" class="page active">
-            <div class="welcome-text">스마트 TV 리모컨의 방향키[←/→/↑/↓]와 [확인(Enter)] 버튼으로 편리하게 공부해보세요!</div>
-            <div class="menu-grid">
-                <button class="menu-card theme-shadow" onclick="startShadowing()" tabindex="1">
-                    <div class="menu-card-icon">🎤</div>
+    <div class="container">
+        <div class="horizontal-menu" id="menuContainer">
+            <button class="menu-btn theme-1" tabindex="1" data-url="https://tajunii.github.io/japanese-study/">
+                <div class="menu-icon">🎤</div>
+                <div class="menu-text">
                     <h3>쉐도잉 연습</h3>
-                    <p>원어민 발음을 듣고<br>따라 하는 쉐도잉 훈련</p>
-                </button>
-                <button class="menu-card theme-word" onclick="startStudyOrQuiz('word')" tabindex="2">
-                    <div class="menu-card-icon">📚</div>
+                    <p>원어민의 발음과<br>억양을 따라해 보세요</p>
+                </div>
+            </button>
+
+            <button class="menu-btn theme-2" tabindex="2" data-url="https://tajunii.github.io/wpstudy/">
+                <div class="menu-icon">📚</div>
+                <div class="menu-text">
                     <h3>단어 / 문법</h3>
-                    <p>쉐도잉 대본 기반의<br>어휘 및 문법 학습/퀴즈</p>
-                </button>
-                <button class="menu-card theme-pattern" onclick="startStudyOrQuiz('pattern')" tabindex="3">
-                    <div class="menu-card-icon">🧩</div>
+                    <p>핵심 어휘와 문법을<br>확실하게 다져보세요</p>
+                </div>
+            </button>
+
+            <button class="menu-btn theme-3" tabindex="3" data-url="https://tajunii.github.io/conversationstudy/">
+                <div class="menu-icon">💬</div>
+                <div class="menu-text">
+                    <h3>일상 표현 익히기</h3>
+                    <p>실제 생활에서 쓰이는<br>자연스러운 회화 표현</p>
+                </div>
+            </button>
+
+            <button class="menu-btn theme-4" tabindex="4" data-url="https://tajunii.github.io/ptn-convstudy/">
+                <div class="menu-icon">🧩</div>
+                <div class="menu-text">
                     <h3>문형 익히기</h3>
-                    <p>핵심 80개 패턴 기반<br>문장 훈련 학습/퀴즈</p>
-                </button>
-                <button class="menu-card theme-expression" onclick="startStudyOrQuiz('expression')" tabindex="4">
-                    <div class="menu-card-icon">💬</div>
-                    <h3>일상 표현</h3>
-                    <p>생활 속 유용한<br>일본어 회화 표현 익히기</p>
-                </button>
-            </div>
-        </div>
-
-        <!-- 2. 쉐도잉 연습 화면 -->
-        <div id="shadowPage" class="page">
-            <div class="shadow-layout">
-                <div class="shadow-audio-player">
-                    <span class="shadow-player-title">전체 오디오 재생 (Full Track)</span>
-                    <audio id="shadowFullAudio" controls class="shadow-audio-ctrl">
-                        <source src="" type="audio/mpeg">
-                    </audio>
-                    <button id="shadowToggleAllBtn" class="shadow-toggle-all-btn" onclick="toggleAllShadowTranslations()">해석 전체 보기/숨기기</button>
+                    <p>다양한 패턴과 문형을<br>통해 응용력을 키우세요</p>
                 </div>
-                <div class="shadow-list" id="shadowListContainer">
-                    <!-- 쉐도잉 문장 카드들이 동적으로 생성됨 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. 통합 학습/퀴즈 플레이어 화면 -->
-        <div id="quizPage" class="page">
-            <div class="quiz-layout" id="quizLayoutContainer">
-                <div class="quiz-header">
-                    <span id="quizModeLabel">문형 익히기</span>
-                    
-                    <!-- 공부 / 퀴즈 모드 전환 탭 스위치 -->
-                    <div class="sub-tab-container" id="subTabs">
-                        <button class="sub-tab-btn active-subtab" id="subtab-study" onclick="setSubMode('study')">📖 공부</button>
-                        <button class="sub-tab-btn" id="subtab-quiz" onclick="setSubMode('quiz')">🎯 퀴즈</button>
-                    </div>
-
-                    <div class="filter-section" id="quizFilterContainer">
-                        <label for="quizWeekSelect">주차:</label>
-                        <select id="quizWeekSelect" class="select-custom" onchange="changeQuizFilter(this.value)">
-                            <option value="all">전체보기</option>
-                        </select>
-                    </div>
-                    <span id="quizProgressLabel">진행률 : 0 / 0</span>
-                </div>
-                <div class="quiz-progress-bar-container">
-                    <div class="quiz-progress-bar" id="quizProgressBar"></div>
-                </div>
-
-                <!-- 플래시 카드 (학습/퀴즈 겸용) -->
-                <div class="flash-card" id="flashCard" tabindex="1" onclick="handleCardClick()">
-                    <div class="card-inner" id="cardInnerContent">
-                        <!-- 공부 혹은 퀴즈 구성 요소가 동적으로 교체되어 들어감 -->
-                    </div>
-                </div>
-
-                <!-- 조작 버튼 -->
-                <div class="quiz-controls" id="quizControlsContainer">
-                    <!-- 하단 조작 버튼 영역 동적 생성 -->
-                </div>
-
-                <!-- 리모컨 단축키 팁 -->
-                <div class="quiz-tip-bar" id="remoteTipsLabel">
-                    <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
-                    <div><span class="tip-tag">방향키 좌/우(←/→)</span> 이전/다음 문제</div>
-                    <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 음성 다시듣기</div>
-                    <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- 우하단 설정 버튼 -->
-    <button class="settings-btn" onclick="openSettings()" title="데이터 연동 설정">⚙️</button>
-
-    <!-- 설정 모달 -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal">
-            <h2>구글 스프레드시트 데이터 연동 설정</h2>
-            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
-                통합 시트 주소(CSV)를 입력해 주세요. 입력하지 않으면 개별 기본 시트 주소들로부터 데이터를 연동합니다.
-            </div>
-            <div class="form-group">
-                <label>통합 스프레드시트 CSV URL (선택)</label>
-                <input type="text" id="settingSingleUrl" class="form-control" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv">
-            </div>
-            <div style="font-size:12px; color: var(--text-muted); line-height: 1.5;">
-                * <strong>개별 연동용 시트</strong>는 스프레드시트 공유 시 아래의 gid를 사용합니다:<br>
-                - 단어/문법: gid=0, gid=97570951<br>
-                - 일상회화: gid=619535186<br>
-                - 문형80: gid=1779898264
-            </div>
-            <div class="modal-footer">
-                <button class="nav-btn" onclick="closeSettings()">취소</button>
-                <button class="nav-btn active-nav" onclick="saveSettings()">저장 및 새로고침</button>
-            </div>
+            </button>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // 1. 상태 관리 (State Management)
-        // ==========================================
-        let allData = []; // 원본 1행 단위 통합 데이터 [{id, type, ...}]
-        let currentMode = 'home'; // 'home' | 'shadow' | 'word' | 'pattern' | 'expression'
-        let currentSubMode = 'study'; // 'study' (공부) | 'quiz' (퀴즈)
-        let currentQuizWeekFilter = 'all';
-
-        // 퀴즈 엔진용 문항 단위 데이터셋
-        let quizItems = []; // [{question, answer, audio, meta, week}]
-        let quizRemainingIndices = [];
-        let quizSolvedHistory = [];
-        let quizCurrentIndex = -1;
-        let quizState = 'question'; // 'question' | 'answer' | 'finished'
-
-        // 공부 엔진용 1행 단위 데이터셋
-        let studyItems = []; // 원본 allData 필터링본
-        let studyCurrentIndex = -1;
-
-        // 쉐도잉 상태
-        let isShadowTranslationVisible = false;
-
-        const globalAudioPlayer = new Audio();
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
-
-        // 기본 내장 쉐도잉 데이터
-        const defaultShadowingData = [
-            {
-                id: "shadow_1",
-                type: "shadow",
-                category: "대본",
-                group: "심야식당 S1E1-1",
-                jp: "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。",
-                kr: "하루가 끝나고 사람들이 집으로 서두를 때, 나의 하루는 시작된다.",
-                audio: "1.mp3"
-            },
-            {
-                id: "shadow_2",
-                type: "shadow",
-                category: "대본",
-                group: "심야식당 S1E1-1",
-                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。",
-                kr: "메뉴는 이것뿐, 나머지는 마음대로 주문해서 할 수 있는 거라면 만드는 게 내 영업 방침이지.",
-                audio: "2.mp3"
-            },
-            {
-                id: "shadow_3",
-                type: "shadow",
-                category: "대본",
-                group: "심야식당 S1E1-1",
-                jp: "営業時間夜12時から朝7時ごろまで、人は深夜食堂って言ってるよ。",
-                kr: "영업시간은 밤 12시부터 아침 7시경까지, 사람들은 심야식당이라고 불러.",
-                audio: "3.mp3"
-            },
-            {
-                id: "shadow_4",
-                type: "shadow",
-                category: "대본",
-                group: "심야식당 S1E1-1",
-                jp: "客が来るかって？",
-                kr: "손님이 오냐고?",
-                audio: "4.mp3"
-            },
-            {
-                id: "shadow_5",
-                type: "shadow",
-                category: "대본",
-                group: "심야식당 S1E1-1",
-                jp: "それが結構来るんだよ。",
-                kr: "그게 꽤 온단 말이지.",
-                audio: "5.mp3"
-            }
-        ];
-
-        // ==========================================
-        // 2. 데이터 동기화 & 파싱 (Data Sync)
-        // ==========================================
-        const DEFAULT_URLS = {
-            single: "",
-            word: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=0&single=true&output=csv",
-            pattern_info: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=97570951&single=true&output=csv",
-            expression: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=619535186&single=true&output=csv",
-            pattern_list: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTUWrzsscnZ3sHRvSenqLY4o1c-mkvZLYV9GDTdhjvwkyBI7AYjkIRGFKX3Qjdftb7NL5m6HGnAYwS/pub?gid=1779898264&single=true&output=csv"
-        };
-
-        function getSheetUrls() {
-            const single = localStorage.getItem("sheet_url_single") || DEFAULT_URLS.single;
-            return {
-                single: single,
-                word: DEFAULT_URLS.word,
-                pattern_info: DEFAULT_URLS.pattern_info,
-                expression: DEFAULT_URLS.expression,
-                pattern_list: DEFAULT_URLS.pattern_list
-            };
-        }
-
-        async function initData() {
-            const urls = getSheetUrls();
-            allData = [];
-
-            try {
-                if (urls.single) {
-                    // 싱글 시트 처리 로직은 기존 유지
-                    const res = await fetch(urls.single);
-                    const csvText = await res.text();
-                    const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-                    allData = parsed.data.map((row, idx) => ({ ...row, id: row.id || `single_${idx}` }));
-                } else {
-                    console.log("개별 시트 통합 중...");
-                    
-                    // A. 단어 시트 (기존 유지)
-                    const wordRes = await fetch(urls.word);
-                    const wordCsv = await wordRes.text();
-                    const wordParsed = Papa.parse(wordCsv, { header: false, skipEmptyLines: true });
-                    const wordRows = wordParsed.data.slice(1);
-                    wordRows.forEach((cols, idx) => {
-                        allData.push({
-                            id: `word_${idx}`,
-                            type: 'word', // ★ 타입 분리 명확화
-                            word: cols[0]?.trim() || "",
-                            furigana: cols[1]?.trim() || "",
-                            meaning1: cols[2]?.trim() || "",
-                            meaning2: cols[3]?.trim() || "",
-                            example1: cols[4]?.trim() || "",
-                            reading1: cols[5]?.trim() || "",
-                            translation1: cols[6]?.trim() || "",
-                            example2: cols[7]?.trim() || "",
-                            reading2: cols[8]?.trim() || "",
-                            translation2: cols[9]?.trim() || "",
-                            week: cols[10]?.trim() || ""
-                        });
-                    });
-
-                    // B. 문형 정보 시트 (grammar로 이름 변경하여 pattern_80과 완전 분리)
-                    const ptnRes = await fetch(urls.pattern_info);
-                    const ptnCsv = await ptnRes.text();
-                    const ptnParsed = Papa.parse(ptnCsv, { header: false, skipEmptyLines: true });
-                    const ptnRows = ptnParsed.data.slice(1);
-                    ptnRows.forEach((cols, idx) => {
-                        allData.push({
-                            id: `grammar_${idx}`,
-                            type: 'grammar', // ★ 블리딩 방지를 위해 grammar로 이름 변경
-                            pattern: cols[0]?.trim() || "",
-                            meaning1: cols[1]?.trim() || "",
-                            meaning2: cols[2]?.trim() || "",
-                            usage: cols[3]?.trim() || "",
-                            example1: cols[4]?.trim() || "",
-                            reading1: cols[5]?.trim() || "",
-                            translation1: cols[6]?.trim() || "",
-                            example2: cols[7]?.trim() || "",
-                            reading2: cols[8]?.trim() || "",
-                            translation2: cols[9]?.trim() || "",
-                            week: cols[10]?.trim() || ""
-                        });
-                    });
-
-                    // C. 일상회화 로드 (변경된 10개 열 헤더 구조에 대응)
-                    // id[0] type[1] category[2] group[3] cycle[4] week[5] jp[6] kr[7] audio[8] meta[9]
-                    const exprRes = await fetch(urls.expression);
-                    const exprCsv = await exprRes.text();
-                    const exprParsed = Papa.parse(exprCsv, { header: false, skipEmptyLines: true });
-                    const exprRows = exprParsed.data;
-                    exprRows.forEach((cols, idx) => {
-                        if (cols[0] && cols[0].toLowerCase() === 'id') return; // 헤더행 스킵
-                        const jpVal = cols[6] || "";
-                        const krVal = cols[7] || "";
-                        if (jpVal && krVal) {
-                            allData.push({
-                                id: cols[0] || `expr_${idx}`,
-                                type: 'expression',
-                                category: cols[2] || '일상회화',
-                                group: cols[3] || '기본 표현',
-                                cycle: cols[4] || '',
-                                week: cols[5] || '', // ★ 주차 정보 정상 로드
-                                jp: jpVal,
-                                kr: krVal,
-                                audio: cols[8] || '', // ★ 오디오 로드
-                                meta: cols[9] || ''
-                            });
-                        }
-                    });
-
-                    // D. 문형 80 데이터 병합 (변경된 10개 열 구조에 대응)
-                    // id[0] type[1] category[2] group[3] cycle[4] week[5] jp[6] kr[7] audio[8] meta[9]
-                    const ptnListRes = await fetch(urls.pattern_list);
-                    const ptnListCsv = await ptnListRes.text();
-                    const ptnListParsed = Papa.parse(ptnListCsv, { header: false, skipEmptyLines: true });
-                    const ptnListRows = ptnListParsed.data;
-                    ptnListRows.forEach((cols, idx) => {
-                        if (cols[0] && cols[0].toLowerCase() === 'id') return; // 헤더행 스킵
-                        const jpVal = cols[6] || "";
-                        const krVal = cols[7] || "";
-                        if (jpVal && krVal) {
-                            allData.push({
-                                id: cols[0] || `ptn_80_${idx}`,
-                                type: 'pattern_80', // ★ grammar와 겹치지 않는 독립 타입 부여
-                                category: cols[2] || '문형80 예문',
-                                group: cols[3] || '80 패턴',
-                                cycle: cols[4] || '',
-                                week: cols[5] || '', // ★ 주차 정상 로드
-                                jp: jpVal,
-                                kr: krVal,
-                                audio: cols[8] || '',
-                                meta: cols[9] || '' // ★ 메타(패턴 설명) 로드
-                            });
-                        }
-                    });
-
-                    console.log(`데이터 파싱 완료. 총 ${allData.length}개 로드됨.`);
-                }
-            } catch (err) {
-                console.error("데이터 로드 중 에러 발생. 내장 데이터를 씁니다.", err);
-            }
-
-            allData = allData.concat(defaultShadowingData);
-        }
-
-        // ==========================================
-        // 3. 네비게이션 & 뷰 전환 (SPA Logic)
-        // ==========================================
-        function showPage(pageId) {
-            currentMode = pageId;
-            globalAudioPlayer.pause();
-
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('#nav button').forEach(btn => btn.classList.remove('active-nav'));
-
-            const targetPage = document.getElementById(pageId + 'Page');
-            if (targetPage) targetPage.classList.add('active');
-
-            let targetNavBtn = document.querySelector(`#nav button[onclick*="showPage('home')"]`);
-            if (pageId === 'shadow') {
-                targetNavBtn = document.querySelector(`#nav button[onclick*="startShadowing()"]`);
-            } else if (pageId === 'quiz') {
-                const typeNavMap = {
-                    word: "startStudyOrQuiz('word')",
-                    pattern: "startStudyOrQuiz('pattern')",
-                    expression: "startStudyOrQuiz('expression')"
-                };
-                targetNavBtn = document.querySelector(`#nav button[onclick*="${typeNavMap[currentSubCategory]}"]`);
-            }
-
-            if (targetNavBtn) targetNavBtn.classList.add('active-nav');
-
-            if (pageId === 'home') {
-                const firstCard = document.querySelector('.menu-card');
-                if (firstCard) firstCard.focus();
-            }
-        }
-
-        let currentSubCategory = 'word'; 
-
-        function startStudyOrQuiz(type) {
-            currentSubCategory = type;
-            currentMode = 'quiz'; 
-            currentQuizWeekFilter = 'all';
-
-            showPage('quiz');
-
-            const titleMap = {
-                word: '📚 단어 / 문법 학습관',
-                pattern: '🧩 핵심 문형 학습관',
-                expression: '💬 일상 표현 학습관'
-            };
-            document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 학습관';
-
-            // 일상회화와 문법80은 퀴즈 전용 -> 공부 탭 숨기고 바로 퀴즈 시작
-            if (type === 'expression' || type === 'pattern') {
-               document.getElementById('subTabs').style.display = 'none';
-               buildWeekFilter(type);
-               setSubMode('quiz');
-            } else {
-                    document.getElementById('subTabs').style.display = 'flex';
-                    buildWeekFilter(type);
-                    setSubMode('study');
-              }
-        }
-
-        // 주차 필터링 드롭다운 빌드 (타입 꼬임 해결)
-        function buildWeekFilter(type) {
-            const select = document.getElementById('quizWeekSelect');
-            const filterContainer = document.getElementById('quizFilterContainer');
-
-            const weeks = new Set();
-            allData.filter(d => {
-                // 타입 분리 대응 완벽 필터링
-                if (type === 'word') return d.type === 'word' || d.type === 'grammar';
-                if (type === 'pattern') return d.type === 'pattern_80';
-                return d.type === type;
-            }).forEach(item => {
-                const w = String(item.week || '').trim();
-                if (w) weeks.add(w);
-            });
-
-            if (weeks.size === 0) {
-                filterContainer.style.display = 'none';
-                return;
-            }
-            filterContainer.style.display = 'flex';
-
-            const sortedWeeks = Array.from(weeks).sort((a, b) => {
-                const numA = parseInt(a, 10);
-                const numB = parseInt(b, 10);
-                if(!isNaN(numA) && !isNaN(numB)) return numA - numB;
-                return String(a).localeCompare(String(b));
-            });
-
-            let html = '<option value="all">전체보기</option>';
-            sortedWeeks.forEach(w => {
-                html += `<option value="${w}">${w}주차</option>`;
-            });
-            select.innerHTML = html;
-            select.value = 'all';
-        }
-
-        function changeQuizFilter(weekVal) {
-            currentQuizWeekFilter = weekVal;
-            if (currentSubMode === 'study') {
-                initStudyEngine();
-            } else {
-                initQuizEngine();
-            }
-        }
-
-        function setSubMode(subMode) {
-            currentSubMode = subMode;
-
-            document.getElementById('subtab-study').classList.remove('active-subtab');
-            document.getElementById('subtab-quiz').classList.remove('active-subtab');
-            document.getElementById(`subtab-${subMode}`).classList.add('active-subtab');
-
-            const layout = document.getElementById('quizLayoutContainer');
-            layout.className = `quiz-layout quiz-${currentSubCategory}`;
-
-            if (subMode === 'study') {
-                initStudyEngine();
-            } else {
-                initQuizEngine();
-            }
-        }
-
-        // ==========================================
-        // 4. 원래 있었던 공부 기능 (Study Engine)
-        // ==========================================
-        function initStudyEngine() {
-            // 필터링 적용된 데이터 수집 (타입 블리딩 방지)
-            let items;
-            if (currentSubCategory === 'word') {
-                // 단어/문법 메뉴는 word와 grammar 정보만 표시
-                items = allData.filter(d => d.type === 'word' || d.type === 'grammar');
-            } else if (currentSubCategory === 'pattern') {
-                // 문형 80 메뉴는 pattern_80 예문만 표시
-                items = allData.filter(d => d.type === 'pattern_80');
-            } else {
-                items = allData.filter(d => d.type === currentSubCategory);
-            }
-
-            if (currentQuizWeekFilter !== 'all') {
-                items = items.filter(d => String(d.week) === String(currentQuizWeekFilter));
-            }
-            studyItems = items;
-            studyCurrentIndex = studyItems.length > 0 ? 0 : -1;
-
-            updateStudyUI();
-        }
-
-        function updateStudyUI() {
-            const cardInner = document.getElementById('cardInnerContent');
-            const flashCard = document.getElementById('flashCard');
-            const controls = document.getElementById('quizControlsContainer');
-            const progress = document.getElementById('quizProgressLabel');
-            const progressBar = document.getElementById('quizProgressBar');
-
-            flashCard.className = "flash-card study-mode-view";
-
-            if (studyCurrentIndex === -1 || studyItems.length === 0) {
-                cardInner.innerHTML = '<div class="card-question">등록된 학습 데이터가 없습니다.</div>';
-                progress.textContent = '진행률 : 0 / 0';
-                progressBar.style.width = '0%';
-                controls.innerHTML = '';
-                return;
-            }
-
-            const item = studyItems[studyCurrentIndex];
-            
-            const currentNum = studyCurrentIndex + 1;
-            const totalNum = studyItems.length;
-            progress.textContent = `카드 이동 : ${currentNum} / ${totalNum}`;
-            progressBar.style.width = `${(currentNum / totalNum) * 100}%`;
-
-            // 모드별 렌더링 분기
-            if (currentSubCategory === 'word') {
-                // 1. 단어/문법 공부 카드
-                if (item.type === 'grammar') {
-                    // 문법(grammar) 카드
-                    cardInner.innerHTML = `
-                        <div class="study-card-content">
-                            <div style="font-size:14px; color:var(--color-theme-pattern); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📐 문법</div>
-                            <div class="study-word-header">
-                                <span class="study-word-title" style="color:var(--color-theme-pattern);" onclick="speakText('${item.pattern.replace(/'/g, "\'")}')">${item.pattern}</span>
-                            </div>
-                            <!-- 뜻 두 줄 현상을 해결하기 위해 가로 정렬(row)된 box 사용 -->
-                            <div class="study-meanings-box">
-                                <div class="study-meaning-row"><span class="study-badge">뜻</span> ${item.meaning1}${item.meaning2 ? `, ${item.meaning2}` : ''}</div>
-                                ${item.usage ? `<div class="card-usage-box" style="margin-left: 10px;">💡 활용: ${item.usage}</div>` : ''}
-                            </div>
-                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 20px 0 10px 0;"></div>` : ''}
-                            ${(item.example1 || item.example2) ? `
-                                <!-- 예문 세로 배열 현상을 해결하기 위해 가로 정렬(row)된 box 사용 -->
-                                <div class="study-examples-box">
-                                    ${item.example1 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')" tabindex="0">
-                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
-                                            <div class="study-ex-ko">${item.translation1}</div>
-                                        </div>
-                                    ` : ''}
-                                    ${item.example2 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')" tabindex="0">
-                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
-                                            <div class="study-ex-ko">${item.translation2}</div>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                } else {
-                    // 단어(word) 카드
-                    cardInner.innerHTML = `
-                        <div class="study-card-content">
-                            <div style="font-size:14px; color:var(--color-theme-word); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📖 단어</div>
-                            <div class="study-word-header">
-                                <span class="study-word-title" onclick="speakText('${item.word.replace(/'/g, "\'")}')">${item.word}</span>
-                                ${item.furigana ? `<span class="study-word-furigana">(${item.furigana})</span>` : ''}
-                            </div>
-                            <!-- 뜻 두 줄 현상을 해결하기 위해 가로 정렬(row) 박스 사용 -->
-                            <div class="study-meanings-box">
-                                <div class="study-meaning-row"><span class="study-badge">1</span> ${item.meaning1}</div>
-                                ${item.meaning2 ? `<div class="study-meaning-row"><span class="study-badge">2</span> ${item.meaning2}</div>` : ''}
-                            </div>
-                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 20px 0 10px 0;"></div>` : ''}
-                            ${(item.example1 || item.example2) ? `
-                                <!-- 예문 세로 배열 현상을 해결하기 위해 가로 정렬(row) 박스 사용 -->
-                                <div class="study-examples-box">
-                                    ${item.example1 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')" tabindex="0">
-                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
-                                            <div class="study-ex-ko">${item.translation1}</div>
-                                        </div>
-                                    ` : ''}
-                                    ${item.example2 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')" tabindex="0">
-                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
-                                            <div class="study-ex-ko">${item.translation2}</div>
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                }
-            } else if (currentSubCategory === 'pattern') {
-                // 2. 문형 80 공부 카드 (새로 적용된 10열 구조에 맞춤)
-                cardInner.innerHTML = `
-                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:350px;">
-                        ${item.meta ? `<div style="font-size:22px; color:var(--color-theme-pattern); font-weight:800; margin-bottom:15px;">${item.meta}</div>` : ''}
-                        <div class="study-word-title" style="font-size:54px; margin-bottom:20px;" onclick="speakStudyMainItem()">🔊 ${item.jp}</div>
-                        <div class="card-divider" style="display:block; margin: 20px auto; width: 60%; max-width: 500px;"></div>
-                        <div class="study-word-furigana" style="font-size:32px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
-                        ${item.group ? `<div style="margin-top:30px; color:var(--text-muted); font-size:18px;">[${item.group} / ${item.category}]</div>` : ''}
-                    </div>
-                `;
-            } else {
-                // 3. 일상회화 공부 카드
-                cardInner.innerHTML = `
-                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:350px;">
-                        <div class="study-word-title" style="font-size:54px; margin-bottom:20px;" onclick="speakStudyMainItem()">🔊 ${item.jp}</div>
-                        <div class="card-divider" style="display:block; margin: 20px auto; width: 60%; max-width: 500px;"></div>
-                        <div class="study-word-furigana" style="font-size:32px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
-                        ${item.category ? `<div style="margin-top:30px; color:var(--text-muted); font-size:18px;">[분류: ${item.category} - ${item.group}]</div>` : ''}
-                    </div>
-                `;
-            }
-
-            // 하단 이동 컨트롤 버튼
-            controls.innerHTML = `
-                <button class="quiz-btn" onclick="prevStudyCard()">← 이전 카드</button>
-                <button class="quiz-btn" onclick="speakStudyMainItem()">🔊 대표음성 듣기</button>
-                <button class="quiz-btn quiz-btn-primary" onclick="nextStudyCard()">다음 카드 →</button>
-            `;
-
-            // 대표 음성 자동 재생 (mp3가 있으면 mp3 재생, 없으면 TTS 재생)
-            speakStudyMainItem();
-            flashCard.focus();
-
-            document.getElementById('remoteTipsLabel').innerHTML = `
-                <div>리모컨 팁: <span class="tip-tag">방향키 좌/우(←/→)</span> 이전/다음 카드 이동</div>
-                <div><span class="tip-tag">확인(Enter) / 스페이스</span> 음성 다시듣기</div>
-                <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
-            `;
-        }
-
-        function prevStudyCard() {
-            if (studyItems.length === 0) return;
-            studyCurrentIndex = (studyCurrentIndex - 1 + studyItems.length) % studyItems.length;
-            updateStudyUI();
-        }
-
-        function nextStudyCard() {
-            if (studyItems.length === 0) return;
-            studyCurrentIndex = (studyCurrentIndex + 1) % studyItems.length;
-            updateStudyUI();
-        }
-
-        function speakStudyMainItem() {
-            if (studyCurrentIndex === -1 || studyItems.length === 0) return;
-            const item = studyItems[studyCurrentIndex];
-            
-            // audio 열에 mp3 파일이 정의되어 있다면 우선 재생
-            if (item.audio) {
-                playItemAudio(item);
-                return;
-            }
-            
-            // 없으면 TTS로 읽어주기
-            if (currentSubCategory === 'word') {
-                if (item.type === 'grammar') speakText(item.pattern);
-                else speakText(item.word);
-            } else {
-                speakText(item.jp);
-            }
-        }
-
-        // ==========================================
-        // 5. 통합 퀴즈 플레이어 (Quiz Engine)
-        // ==========================================
-        function initQuizEngine() {
-            quizItems = [];
-            
-            // 필터링 규칙 동일하게 적용
-            let filteredRaw = allData.filter(d => {
-                if (currentSubCategory === 'word') return d.type === 'word' || d.type === 'grammar';
-                if (currentSubCategory === 'pattern') return d.type === 'pattern_80';
-                return d.type === currentSubCategory;
-            });
-
-            if (currentQuizWeekFilter !== 'all') {
-                filteredRaw = filteredRaw.filter(d => String(d.week) === String(currentQuizWeekFilter));
-            }
-
-            filteredRaw.forEach(item => {
-                if (item.type === 'word' || item.type === 'grammar') {
-                    // 단어/문법: 예문 기반 퀴즈 출제
-                    const metaLabel = item.type === 'grammar' ? `[문법: ${item.pattern}]` : `[단어: ${item.word}]`;
-                    if (item.translation1 && item.example1) {
-                        quizItems.push({
-                            question: item.translation1,
-                            answer: item.example1,
-                            audio: '',
-                            meta: metaLabel,
-                            week: item.week
-                        });
-                    }
-                    if (item.translation2 && item.example2) {
-                        quizItems.push({
-                            question: item.translation2,
-                            answer: item.example2,
-                            audio: '',
-                            meta: metaLabel,
-                            week: item.week
-                        });
-                    }
-                } else {
-                    // 80문형 및 일상회화: jp/kr 쌍으로 출제 (변경된 열에 매핑)
-                    quizItems.push({
-                        question: item.kr,
-                        answer: item.jp,
-                        audio: item.audio || '',
-                        meta: item.meta || '',
-                        week: item.week
-                    });
-                }
-            });
-
-            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
-            const saved = localStorage.getItem(progressKey);
-            
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                quizRemainingIndices = parsed.remainingIndices || [];
-                quizSolvedHistory = parsed.solvedHistory || [];
-            } else {
-                resetQuizProgressData();
-            }
-
-            quizState = 'question';
-            quizCurrentIndex = -1;
-            nextQuizItem();
-        }
-
-        function resetQuizProgressData() {
-            quizRemainingIndices = quizItems.map((_, idx) => idx);
-            for (let i = quizRemainingIndices.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [quizRemainingIndices[i], quizRemainingIndices[j]] = [quizRemainingIndices[j], quizRemainingIndices[i]];
-            }
-            quizSolvedHistory = [];
-            saveQuizProgress();
-        }
-
-        function saveQuizProgress() {
-            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
-            localStorage.setItem(progressKey, JSON.stringify({
-                remainingIndices: quizRemainingIndices,
-                solvedHistory: quizSolvedHistory
-            }));
-        }
-
-        function updateQuizProgressUI() {
-            const progress = document.getElementById('quizProgressLabel');
-            const progressBar = document.getElementById('quizProgressBar');
-            const total = quizItems.length;
-            const solved = total - quizRemainingIndices.length;
-
-            progress.textContent = `퀴즈 진행 : ${solved} / ${total}`;
-            const pct = total > 0 ? (solved / total) * 100 : 0;
-            progressBar.style.width = `${pct}%`;
-        }
-
-        function nextQuizItem() {
-            const cardInner = document.getElementById('cardInnerContent');
-            const flashCard = document.getElementById('flashCard');
-            const controls = document.getElementById('quizControlsContainer');
-
-            flashCard.className = "flash-card";
-
-            if (quizItems.length === 0) {
-                cardInner.innerHTML = '<div class="card-question">해당 주차에 등록된 퀴즈가 없습니다.</div>';
-                updateQuizProgressUI();
-                controls.innerHTML = '';
-                return;
-            }
-
-            if (quizRemainingIndices.length === 0) {
-                showQuizFinishedUI();
-                return;
-            }
-
-            const nextIdx = quizRemainingIndices.shift();
-            quizSolvedHistory.push(nextIdx);
-            quizCurrentIndex = nextIdx;
-
-            saveQuizProgress();
-            updateQuizProgressUI();
-
-            const item = quizItems[quizCurrentIndex];
-
-            cardInner.innerHTML = `
-                <div class="card-question" id="quizQuestion">${item.question}</div>
-                <div class="card-divider" id="cardDivider"></div>
-                <div class="card-answer-container" id="quizAnswerContainer">
-                    <div class="card-answer" id="quizAnswer">${item.answer}</div>
-                    <div class="card-meta" id="quizMeta">${item.meta || ''}</div>
-                </div>
-            `;
-
-            quizState = 'question';
-
-            controls.innerHTML = `
-                <button class="quiz-btn" id="quizBackBtn" onclick="prevQuizItem()">← 이전 문제</button>
-                <button class="quiz-btn" id="quizResetBtn" onclick="resetQuizProgress()">처음부터 다시</button>
-                <button class="quiz-btn" id="quizAudioBtn" onclick="replayAudio()" style="display:none;">🔊 다시 듣기 (Space)</button>
-                <button class="quiz-btn quiz-btn-primary" id="quizActionBtn" onclick="handleQuizAction()">정답 보기 (Enter)</button>
-            `;
-
-            flashCard.focus();
-
-            document.getElementById('remoteTipsLabel').innerHTML = `
-                <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
-                <div><span class="tip-tag">방향키 좌(←)</span> 이전 문제</div>
-                <div><span class="tip-tag">방향키 상/하(↑/↓) / 스페이스</span> 음성 다시듣기</div>
-                <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
-            `;
-        }
-
-        function prevQuizItem() {
-            if (quizSolvedHistory.length <= 1) {
-                alert("이전 문제가 없습니다.");
-                return;
-            }
-
-            const currentIdx = quizSolvedHistory.pop();
-            quizRemainingIndices.unshift(currentIdx);
-
-            const prevIdx = quizSolvedHistory[quizSolvedHistory.length - 1];
-            quizCurrentIndex = prevIdx;
-
-            saveQuizProgress();
-            updateQuizProgressUI();
-
-            const item = quizItems[quizCurrentIndex];
-            
-            const cardInner = document.getElementById('cardInnerContent');
-            cardInner.innerHTML = `
-                <div class="card-question" id="quizQuestion">${item.question}</div>
-                <div class="card-divider" id="cardDivider"></div>
-                <div class="card-answer-container" id="quizAnswerContainer">
-                    <div class="card-answer" id="quizAnswer">${item.answer}</div>
-                    <div class="card-meta" id="quizMeta">${item.meta || ''}</div>
-                </div>
-            `;
-
-            showAnswerUI();
-        }
-
-        function showAnswerUI() {
-            quizState = 'answer';
-            const item = quizItems[quizCurrentIndex];
-
-            document.getElementById('cardDivider').style.display = 'block';
-            document.getElementById('quizAnswerContainer').classList.add('reveal');
-
-            const audioBtn = document.getElementById('quizAudioBtn');
-            if (audioBtn) audioBtn.style.display = 'flex';
-
-            const actionBtn = document.getElementById('quizActionBtn');
-            if (actionBtn) {
-                actionBtn.textContent = '다음 문제 (Enter)';
-                actionBtn.className = 'quiz-btn quiz-btn-primary';
-            }
-
-            playItemAudio(item);
-            document.getElementById('flashCard').focus();
-        }
-
-        function handleQuizAction() {
-            if (quizState === 'question') {
-                showAnswerUI();
-            } else if (quizState === 'answer') {
-                nextQuizItem();
-            } else if (quizState === 'finished') {
-                resetQuizProgress();
-            }
-        }
-
-        function handleCardClick() {
-            if (currentSubMode === 'quiz') {
-                handleQuizAction();
-            }
-        }
-
-        function showQuizFinishedUI() {
-            quizState = 'finished';
-            const cardInner = document.getElementById('cardInnerContent');
-            const controls = document.getElementById('quizControlsContainer');
-
-            cardInner.innerHTML = '<div class="card-question">🎉 이번 회차의 모든 문제를 완료했습니다!</div>';
-            
-            controls.innerHTML = `
-                <button class="quiz-btn quiz-btn-primary" onclick="resetQuizProgress()">다시 시작하기 (Enter)</button>
-            `;
-            
-            updateQuizProgressUI();
-            document.getElementById('flashCard').focus();
-        }
-
-        function resetQuizProgress() {
-            if (quizState !== 'finished' && !confirm("학습 진행 상황을 초기화하고 처음부터 다시 공부하시겠습니까?")) {
-                return;
-            }
-            const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
-            localStorage.removeItem(progressKey);
-            initQuizEngine();
-        }
-
-        // ==========================================
-        // 6. 오디오 & TTS 재생 시스템 (Hybrid Audio)
-        // ==========================================
-        function getAudioUrl(type, filename) {
-            if (!filename) return '';
-            
-            if (type === 'shadow') {
-                return isLocal 
-                    ? `../2.japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`
-                    : `https://tajunii.github.io/japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`;
-            } else if (type === 'pattern' || type === 'pattern_80' || type === 'expression') {
-                return isLocal
-                    ? `../5.ptn&convstudy/audio/${filename}`
-                    : `https://raw.githubusercontent.com/tajunii/ptn-convstudy/main/audio/${filename}`;
-            }
-            return '';
-        }
-
-        function playItemAudio(item) {
-            // item.audio나 item.jp 정보로 재생
-            const audioUrl = getAudioUrl(currentSubCategory, item.audio);
-            if (audioUrl) {
-                globalAudioPlayer.src = audioUrl;
-                globalAudioPlayer.play().catch(err => {
-                    console.warn("mp3 파일 재생 실패. TTS로 Fallback 재생합니다.", err);
-                    speakText(item.answer || item.jp);
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = Array.from(document.querySelectorAll('.menu-btn'));
+            if (buttons.length > 0) buttons[0].focus();
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetUrl = this.getAttribute('data-url');
+                    if(targetUrl) window.location.href = targetUrl;
                 });
-            } else {
-                speakText(item.answer || item.jp);
-            }
-        }
-
-        function replayAudio() {
-            if (currentMode === 'home' || currentMode === 'shadow') return;
-            if (currentSubMode === 'quiz' && quizCurrentIndex !== -1 && quizItems[quizCurrentIndex]) {
-                playItemAudio(quizItems[quizCurrentIndex]);
-            } else if (currentSubMode === 'study') {
-                speakStudyMainItem();
-            }
-        }
-
-        function speakText(text) {
-            if (!text) return;
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ja-JP';
-                
-                const voices = window.speechSynthesis.getVoices();
-                const jpVoice = voices.find(v => v.lang.includes('ja-JP') || v.lang.includes('ja_JP'));
-                if (jpVoice) utterance.voice = jpVoice;
-                
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        // ==========================================
-        // 7. 쉐도잉 연습 모드 (Shadowing Engine)
-        // ==========================================
-        function startShadowing() {
-            showPage('shadow');
-
-            const shadowItems = allData.filter(d => d.type === 'shadow');
-            const shadowList = document.getElementById('shadowListContainer');
-            shadowList.innerHTML = '';
-
-            const fullAudioEl = document.getElementById('shadowFullAudio');
-            fullAudioEl.src = getAudioUrl('shadow', 'full.mp3');
-
-            shadowItems.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'shadow-item';
-                div.tabIndex = idx + 1;
-                div.id = `shadow-item-${idx}`;
-                div.onclick = () => playShadowItemAudio(item.audio);
-                
-                const rubyText = item.jp === "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。" || item.jp.includes("一日")
-                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>가 <ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>い소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
-                    : item.jp.includes("メニュー")
-                    ? `メニューはこれだけ、あとは<ruby>勝手<rt>かって</rt></ruby>に<ruby>注文<rt>ちゅうもん</rt></ruby>してくれりゃできるもんなら<ruby>作<rt>つく</rt></ruby>るよってのが、<ruby>俺<rt>おれ</rt></ruby>の<ruby>営業方針<rt>えいぎょうほうしん</rt></ruby>사。`
-                    : item.jp.includes("営業時間")
-                    ? `<ruby>営業時間<rt>えいぎょうじかん</rt></ruby>는 <ruby>夜<rt>よる</rt></ruby>12<ruby>時<rt>じ</rt></ruby>から<ruby>朝<rt>あさ</rt></ruby>7<ruby>時<rt>じ</rt></ruby>ごろまで、<ruby>人<rt>ひと</rt></ruby>는 <ruby>深夜食堂<rt>しんやしょくどう</rt></ruby>って<ruby>言<rt>い</rt></ruby>ってるよ。`
-                    : item.jp.includes("客")
-                    ? `<ruby>客<rt>きゃく</rt></ruby>이 <ruby>来<rt>く</rt></ruby>るかって？`
-                    : item.jp.includes("結構")
-                    ? `それが<ruby>結構<rt>けっこう</rt></ruby><ruby>来<rt>く</rt></ruby>るんだよ。`
-                    : item.jp;
-
-                div.innerHTML = `
-                    <button class="shadow-play-btn">▶</button>
-                    <div class="shadow-content">
-                        <div class="shadow-ja">${rubyText}</div>
-                        <div class="shadow-ko ${isShadowTranslationVisible ? 'reveal' : ''}" id="shadow-ko-${idx}">${item.kr}</div>
-                    </div>
-                `;
-                shadowList.appendChild(div);
             });
 
-            setTimeout(() => {
-                const firstItem = document.getElementById('shadow-item-0');
-                if(firstItem) firstItem.focus();
-            }, 100);
-        }
-
-        function playShadowItemAudio(filename) {
-            const url = getAudioUrl('shadow', filename);
-            globalAudioPlayer.src = url;
-            globalAudioPlayer.play().catch(e => console.error(e));
-        }
-
-        // ==========================================
-        // 8. 스마트 TV 리모컨 조작 바인딩
-        // ==========================================
-        document.addEventListener('keydown', function(e) {
-            if (document.activeElement.tagName === 'INPUT') return;
-
-            if (currentMode === 'home') {
-                const buttons = Array.from(document.querySelectorAll('.menu-grid .menu-card'));
+            document.addEventListener('keydown', (e) => {
                 const currentIndex = buttons.indexOf(document.activeElement);
-
                 if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    buttons[(currentIndex + 1) % buttons.length].focus();
+                    e.preventDefault(); 
+                    const nextIndex = currentIndex + 1 < buttons.length ? currentIndex + 1 : 0;
+                    buttons[nextIndex].focus();
+                    buttons[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else if (e.key === 'ArrowLeft') {
                     e.preventDefault();
-                    buttons[(currentIndex - 1 + buttons.length) % buttons.length].focus();
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    buttons[prevIndex].focus();
+                    buttons[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else if (e.key === 'Enter' && currentIndex !== -1) {
-                    buttons[currentIndex].click();
+                    const targetUrl = buttons[currentIndex].getAttribute('data-url');
+                    if(targetUrl) window.location.href = targetUrl;
                 }
-            } 
-            else if (currentMode === 'shadow') {
-                const items = Array.from(document.querySelectorAll('.shadow-list .shadow-item'));
-                const currentIndex = items.indexOf(document.activeElement);
-
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    if (currentIndex < items.length - 1) items[currentIndex + 1].focus();
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (currentIndex > 0) items[currentIndex - 1].focus();
-                } else if (e.key === 'Enter' && currentIndex !== -1) {
-                    e.preventDefault();
-                    items[currentIndex].click();
-                } else if (e.key === 'Backspace' || e.key === 'Escape') {
-                    e.preventDefault();
-                    showPage('home');
-                }
-            }
-            else {
-                if (currentSubMode === 'study') {
-                    if (e.key === 'ArrowRight') {
-                        e.preventDefault();
-                        nextStudyCard();
-                    } else if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        prevStudyCard();
-                    } else if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        speakStudyMainItem();
-                    } else if (e.key === 'Backspace' || e.key === 'Escape') {
-                        e.preventDefault();
-                        showPage('home');
-                    }
-                } 
-                else {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleQuizAction();
-                    } else if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        prevQuizItem();
-                    } else if (e.key === 'ArrowRight') {
-                        e.preventDefault();
-                        if (quizState === 'answer') {
-                            nextQuizItem();
-                        } else {
-                            showAnswerUI();
-                        }
-                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ') {
-                        e.preventDefault();
-                        replayAudio();
-                    } else if (e.key === 'Backspace' || e.key === 'Escape') {
-                        e.preventDefault();
-                        showPage('home');
-                    }
-                }
-            }
-        });
-
-        // ==========================================
-        // 9. 설정 및 구동 시작
-        // ==========================================
-        function openSettings() {
-            document.getElementById('settingSingleUrl').value = localStorage.getItem("sheet_url_single") || "";
-            document.getElementById('settingsModal').classList.add('active');
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
-        }
-
-        function saveSettings() {
-            const val = document.getElementById('settingSingleUrl').value.trim();
-            if (val) {
-                localStorage.setItem("sheet_url_single", val);
-            } else {
-                localStorage.removeItem("sheet_url_single");
-            }
-            closeSettings();
-            
-            initData().then(() => {
-                alert("설정이 저장되었습니다. 데이터를 새로 동기화합니다.");
-                showPage('home');
-            });
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            initData().then(() => {
-                showPage('home');
             });
         });
     </script>
