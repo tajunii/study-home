@@ -1249,21 +1249,26 @@
 
             showPage('quiz');
 
-            // 서브 탭 노출 제어 (일상회화는 퀴즈 위주이나 공부 모드도 단순 노출 제공)
-            document.getElementById('subTabs').style.display = 'flex';
-
             const titleMap = {
                 word: '📚 단어 / 문법 학습관',
                 pattern: '🧩 핵심 문형 학습관',
                 expression: '💬 일상 표현 학습관'
             };
             document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 학습관';
-            
-            // 필터링 주차 데이터 생성 및 드롭다운 갱신
-            buildWeekFilter(type);
 
-            // 기본 공부(study) 모드로 시작
-            setSubMode('study');
+            // 일상회화는 퀴즈 전용 → 공부 탭 숨기고 바로 퀴즈 시작
+            if (type === 'expression') {
+                document.getElementById('subTabs').style.display = 'none';
+                // 필터링 주차 데이터 생성 및 드롭다운 갱신
+                buildWeekFilter(type);
+                setSubMode('quiz');
+            } else {
+                document.getElementById('subTabs').style.display = 'flex';
+                // 필터링 주차 데이터 생성 및 드롭다운 갱신
+                buildWeekFilter(type);
+                // 기본 공부(study) 모드로 시작
+                setSubMode('study');
+            }
         }
 
         // 주차 필터링 드롭다운 빌드
@@ -1276,9 +1281,12 @@
             allData.filter(d => {
                 // pattern_80_quiz 데이터도 pattern으로 묶어 필터 적용
                 if (type === 'pattern') return d.type === 'pattern' || d.type === 'pattern_80_quiz';
+                // 단어/문법 학습관: word + pattern 두 타입 모두 포함
+                if (type === 'word') return d.type === 'word' || d.type === 'pattern';
                 return d.type === type;
             }).forEach(item => {
-                if (item.week) weeks.add(item.week);
+                const w = String(item.week || '').trim();
+                if (w) weeks.add(w);
             });
 
             // 주차가 전혀 없는 경우 필터 레이블 숨김
@@ -1336,7 +1344,13 @@
         // ==========================================
         function initStudyEngine() {
             // 필터링 적용된 원본 1행 데이터 수집
-            let items = allData.filter(d => d.type === currentSubCategory);
+            // 단어/문법은 word + pattern 타입 모두 포함 (단어 + 문법 통합)
+            let items;
+            if (currentSubCategory === 'word') {
+                items = allData.filter(d => d.type === 'word' || d.type === 'pattern');
+            } else {
+                items = allData.filter(d => d.type === currentSubCategory);
+            }
             if (currentQuizWeekFilter !== 'all') {
                 items = items.filter(d => String(d.week) === String(currentQuizWeekFilter));
             }
@@ -1373,36 +1387,71 @@
 
             // 공부 모드 렌더링 분기
             if (currentSubCategory === 'word') {
-                // 1. 단어/문법 공부 카드
-                cardInner.innerHTML = `
-                    <div class="study-card-content">
-                        <div class="study-word-header">
-                            <span class="study-word-title" onclick="speakText('${item.word.replace(/'/g, "\\'")}')">${item.word}</span>
-                            ${item.furigana ? `<span class="study-word-furigana">(${item.furigana})</span>` : ''}
-                        </div>
-                        <div class="study-meanings-box">
-                            <div class="study-meaning-row"><span class="study-badge">1</span> ${item.meaning1}</div>
-                            ${item.meaning2 ? `<div class="study-meaning-row"><span class="study-badge">2</span> ${item.meaning2}</div>` : ''}
-                        </div>
-                        ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
-                        ${(item.example1 || item.example2) ? `
-                            <div class="study-examples-box">
-                                ${item.example1 ? `
-                                    <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\\'")}')">
-                                        <div class="study-ex-ja">🔊 ${item.example1} ${item.reading1 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
-                                        <div class="study-ex-ko">${item.translation1}</div>
-                                    </div>
-                                ` : ''}
-                                ${item.example2 ? `
-                                    <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\\'")}')">
-                                        <div class="study-ex-ja">🔊 ${item.example2} ${item.reading2 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
-                                        <div class="study-ex-ko">${item.translation2}</div>
-                                    </div>
-                                ` : ''}
+                // 1. 단어/문법 공부 카드 — item.type이 'pattern'이면 문법, 'word'면 단어로 분기
+                if (item.type === 'pattern') {
+                    // 문법(pattern) 카드
+                    cardInner.innerHTML = `
+                        <div class="study-card-content">
+                            <div style="font-size:12px; color:var(--color-theme-pattern); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📐 문법</div>
+                            <div class="study-word-header">
+                                <span class="study-word-title" style="color:var(--color-theme-pattern);" onclick="speakText('${item.pattern.replace(/'/g, "\'")}')">${item.pattern}</span>
                             </div>
-                        ` : ''}
-                    </div>
-                `;
+                            <div class="study-meanings-box">
+                                <div class="study-meaning-row"><span class="study-badge">뜻</span> ${item.meaning1}${item.meaning2 ? `, ${item.meaning2}` : ''}</div>
+                                ${item.usage ? `<div class="card-usage-box" style="display:block; margin-top:5px; max-width:100%;">💡 활용: ${item.usage}</div>` : ''}
+                            </div>
+                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                            ${(item.example1 || item.example2) ? `
+                                <div class="study-examples-box">
+                                    ${item.example1 ? `
+                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')">
+                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                            <div class="study-ex-ko">${item.translation1}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${item.example2 ? `
+                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')">
+                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                            <div class="study-ex-ko">${item.translation2}</div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                } else {
+                    // 단어(word) 카드
+                    cardInner.innerHTML = `
+                        <div class="study-card-content">
+                            <div style="font-size:12px; color:var(--color-theme-word); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📖 단어</div>
+                            <div class="study-word-header">
+                                <span class="study-word-title" onclick="speakText('${item.word.replace(/'/g, "\'")}')">${item.word}</span>
+                                ${item.furigana ? `<span class="study-word-furigana">(${item.furigana})</span>` : ''}
+                            </div>
+                            <div class="study-meanings-box">
+                                <div class="study-meaning-row"><span class="study-badge">1</span> ${item.meaning1}</div>
+                                ${item.meaning2 ? `<div class="study-meaning-row"><span class="study-badge">2</span> ${item.meaning2}</div>` : ''}
+                            </div>
+                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                            ${(item.example1 || item.example2) ? `
+                                <div class="study-examples-box">
+                                    ${item.example1 ? `
+                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')">
+                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                            <div class="study-ex-ko">${item.translation1}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${item.example2 ? `
+                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')">
+                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                            <div class="study-ex-ko">${item.translation2}</div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
             } else if (currentSubCategory === 'pattern') {
                 // 2. 핵심 문형 공부 카드
                 cardInner.innerHTML = `
@@ -1480,7 +1529,12 @@
             if (studyCurrentIndex === -1 || studyItems.length === 0) return;
             const item = studyItems[studyCurrentIndex];
             if (currentSubCategory === 'word') {
-                speakText(item.word);
+                // 단어 또는 문법 카드에 따라 분기
+                if (item.type === 'pattern') {
+                    speakText(item.pattern);
+                } else {
+                    speakText(item.word);
+                }
             } else if (currentSubCategory === 'pattern') {
                 speakText(item.pattern);
             } else {
