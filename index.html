@@ -55,7 +55,7 @@
         /* 공통 헤더 */
         header {
             width: 100%;
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -129,7 +129,7 @@
         main {
             flex: 1;
             width: 100%;
-            max-width: 1600px;
+            max-width: 1800px; /* 전체 너비 대폭 확장 */
             margin: 0 auto;
             padding: 10px 60px 30px 60px;
             position: relative;
@@ -167,7 +167,7 @@
         .menu-grid {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 35px;
             flex-wrap: wrap;
             width: 100%;
             padding-bottom: 40px;
@@ -177,8 +177,8 @@
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 32px;
-            width: 290px;
-            height: 380px;
+            width: 320px; /* 카드 크기 확대 */
+            height: 400px;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
@@ -192,11 +192,11 @@
         }
 
         .menu-card-icon {
-            font-size: 54px;
+            font-size: 60px;
             margin-bottom: 25px;
             background: rgba(255, 255, 255, 0.03);
-            width: 110px;
-            height: 110px;
+            width: 120px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -206,15 +206,15 @@
         }
 
         .menu-card h3 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             word-break: keep-all;
         }
 
         .menu-card p {
-            font-size: 15px;
+            font-size: 16px;
             line-height: 1.5;
             color: var(--text-secondary);
             word-break: keep-all;
@@ -237,7 +237,7 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
             height: calc(100vh - 200px);
         }
@@ -262,7 +262,7 @@
 
         .shadow-audio-ctrl {
             flex: 1;
-            max-width: 600px;
+            max-width: 800px;
             height: 36px;
             outline: none;
             border-radius: 8px;
@@ -351,7 +351,7 @@
         }
 
         .shadow-ja {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 500;
             line-height: 1.6;
             margin-bottom: 8px;
@@ -360,12 +360,12 @@
 
         .shadow-ja ruby rt {
             color: #f87171;
-            font-size: 12px;
+            font-size: 14px;
             padding-bottom: 2px;
         }
 
         .shadow-ko {
-            font-size: 16px;
+            font-size: 20px;
             color: var(--text-secondary);
             display: none;
         }
@@ -378,7 +378,8 @@
            모드 C: 통합 학습 / 퀴즈 뷰
            ------------------------------------- */
         .quiz-layout {
-            max-width: 1000px;
+            max-width: 1400px; /* 와이드 대응 확대 */
+            width: 100%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -389,18 +390,18 @@
 
         .quiz-header {
             width: 100%;
-            max-width: 850px;
+            max-width: 1200px; /* 헤더 폭 확대 */
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
 
         .quiz-progress-bar-container {
             width: 100%;
-            max-width: 850px;
+            max-width: 1200px;
             height: 8px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 4px;
@@ -430,9 +431,9 @@
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 8px 24px;
+            padding: 10px 30px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             outline: none;
@@ -465,7 +466,7 @@
         }
 
         .study-word-title {
-            font-size: 42px;
+            font-size: 46px; /* 폰트 확대 */
             font-weight: 800;
             color: var(--color-theme-word);
             font-family: 'Noto Sans JP', sans-serif;
@@ -475,22 +476,24 @@
         .quiz-expression .study-word-title { color: var(--color-theme-expression); }
 
         .study-word-furigana {
-            font-size: 22px;
+            font-size: 24px;
             color: var(--text-secondary);
         }
 
         .study-meanings-box {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: row; /* 뜻을 가로로 배치 */
+            flex-wrap: wrap; /* 내용이 너무 길면 줄바꿈 허용 */
+            gap: 20px;
             width: 100%;
+            align-items: center;
         }
 
         .study-meaning-row {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 600;
         }
 
@@ -498,56 +501,61 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
-            padding: 2px 10px;
+            padding: 4px 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
         }
 
         .study-examples-box {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row; /* 세로 2줄 문제를 해결! 가로 배치 */
+            gap: 25px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 20px;
-            border-radius: 16px;
+            background: transparent; /* 외부 배경 투명 */
         }
 
         .study-example-item {
+            flex: 1; /* 구역 50:50 분할 */
+            min-width: 0; /* 넘침 방지 */
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: background 0.2s;
+            padding: 20px 25px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.2s, transform 0.2s;
         }
-        .study-example-item:hover {
-            background: rgba(255,255,255,0.03);
+        
+        .study-example-item:hover, .study-example-item:focus {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+            outline: none;
         }
 
         .study-ex-ja {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 500;
             color: var(--text-primary);
             font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.4;
         }
         .study-ex-ko {
-            font-size: 16px;
+            font-size: 18px;
             color: var(--text-secondary);
         }
 
         /* 퀴즈용 플래시 카드 */
         .flash-card {
             width: 100%;
-            max-width: 850px;
-            min-height: 400px;
+            max-width: 1200px; /* 플래시카드 폭 대폭 확장 */
+            min-height: 450px;
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             border-radius: 36px;
-            padding: 40px 45px;
+            padding: 40px 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -581,7 +589,7 @@
         }
 
         .card-question {
-            font-size: 34px;
+            font-size: 38px;
             font-weight: 700;
             line-height: 1.5;
             color: var(--text-primary);
@@ -590,10 +598,10 @@
 
         .card-divider {
             width: 100%;
-            max-width: 200px;
+            max-width: 300px;
             height: 2px;
             background: rgba(255, 255, 255, 0.1);
-            margin: 25px 0;
+            margin: 30px 0;
             display: none;
         }
 
@@ -609,7 +617,7 @@
         }
 
         .card-answer {
-            font-size: 38px;
+            font-size: 44px;
             font-weight: 700;
             color: #fbbf24;
             margin-bottom: 12px;
@@ -622,7 +630,7 @@
         .quiz-expression .card-answer { color: var(--color-theme-expression); }
 
         .card-meta {
-            font-size: 20px;
+            font-size: 22px;
             color: var(--text-secondary);
             font-family: 'Noto Sans KR', sans-serif;
             word-break: keep-all;
@@ -630,13 +638,13 @@
 
         .card-usage-box {
             margin-top: 15px;
-            font-size: 15px;
+            font-size: 18px;
             color: var(--text-muted);
             background: rgba(255, 255, 255, 0.03);
-            padding: 8px 20px;
+            padding: 10px 20px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
-            max-width: 90%;
+            max-width: 100%;
         }
 
         /* 컨트롤 및 팁 영역 */
@@ -644,7 +652,7 @@
             display: flex;
             gap: 20px;
             width: 100%;
-            max-width: 850px;
+            max-width: 1200px;
             justify-content: center;
             margin-top: 15px;
         }
@@ -653,9 +661,9 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--card-border);
             color: var(--text-primary);
-            padding: 15px 35px;
+            padding: 15px 40px;
             border-radius: 24px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             cursor: pointer;
             outline: none;
@@ -686,7 +694,7 @@
 
         .quiz-tip-bar {
             margin-top: 20px;
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-muted);
             display: flex;
             gap: 15px;
@@ -694,7 +702,7 @@
 
         .tip-tag {
             background: rgba(255,255,255,0.03);
-            padding: 2px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             border: 1px solid rgba(255,255,255,0.05);
         }
@@ -711,9 +719,9 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             color: var(--text-primary);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             outline: none;
             cursor: pointer;
@@ -730,8 +738,8 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--card-border);
             border-radius: 50%;
@@ -739,7 +747,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 24px;
             color: var(--text-secondary);
             outline: none;
             transition: all 0.2s;
@@ -819,20 +827,6 @@
             margin-top: 30px;
         }
 
-        @media (max-width: 1280px) {
-            .menu-card {
-                width: 250px;
-                height: 350px;
-                padding: 30px 20px;
-            }
-            .menu-card-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 44px;
-            }
-            .card-question { font-size: 28px; }
-            .card-answer { font-size: 32px; }
-        }
     </style>
 </head>
 <body>
@@ -1011,7 +1005,7 @@
                 type: "shadow",
                 category: "대본",
                 group: "심야식당 S1E1-1",
-                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできる도んなら作るよってのが、俺の営業方針さ。",
+                jp: "メニューはこれだけ、あとは勝手に注文してくれりゃできるもんなら作るよってのが、俺の営業方針さ。",
                 kr: "메뉴는 이것뿐, 나머지는 마음대로 주문해서 할 수 있는 거라면 만드는 게 내 영업 방침이지.",
                 audio: "2.mp3"
             },
@@ -1029,7 +1023,7 @@
                 type: "shadow",
                 category: "대본",
                 group: "심야식당 S1E1-1",
-                jp: "客이来るかって？",
+                jp: "客が来るかって？",
                 kr: "손님이 오냐고?",
                 audio: "4.mp3"
             },
@@ -1072,39 +1066,15 @@
 
             try {
                 if (urls.single) {
-                    console.log("통합 시트 불러오기 중...");
+                    // 싱글 시트 처리 로직은 기존 유지
                     const res = await fetch(urls.single);
                     const csvText = await res.text();
                     const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-                    
-                    allData = parsed.data.map((row, idx) => ({
-                        id: row.id || `single_${idx}`,
-                        type: row.type || 'word',
-                        category: row.category || '',
-                        group: row.group || '',
-                        cycle: row.cycle || '',
-                        week: row.week || '',
-                        jp: row.jp || '',
-                        kr: row.kr || '',
-                        audio: row.audio || '',
-                        meta: row.meta || row.additional || '',
-                        // 공부 카드 구조용 확장
-                        word: row.word || '',
-                        furigana: row.furigana || '',
-                        meaning1: row.meaning1 || '',
-                        meaning2: row.meaning2 || '',
-                        usage: row.usage || '',
-                        example1: row.example1 || '',
-                        reading1: row.reading1 || '',
-                        translation1: row.translation1 || '',
-                        example2: row.example2 || '',
-                        reading2: row.reading2 || '',
-                        translation2: row.translation2 || ''
-                    })).filter(item => item.jp || item.word || item.pattern);
+                    allData = parsed.data.map((row, idx) => ({ ...row, id: row.id || `single_${idx}` }));
                 } else {
                     console.log("개별 시트 통합 중...");
                     
-                    // A. 단어/문법 시트 로드 (원본 1행 구조를 온전히 보관)
+                    // A. 단어 시트 (기존 유지)
                     const wordRes = await fetch(urls.word);
                     const wordCsv = await wordRes.text();
                     const wordParsed = Papa.parse(wordCsv, { header: false, skipEmptyLines: true });
@@ -1112,7 +1082,7 @@
                     wordRows.forEach((cols, idx) => {
                         allData.push({
                             id: `word_${idx}`,
-                            type: 'word',
+                            type: 'word', // ★ 타입 분리 명확화
                             word: cols[0]?.trim() || "",
                             furigana: cols[1]?.trim() || "",
                             meaning1: cols[2]?.trim() || "",
@@ -1127,15 +1097,15 @@
                         });
                     });
 
-                    // B. 문형 정보 시트 로드 (원본 1행 구조 온전히 보관)
+                    // B. 문형 정보 시트 (grammar로 이름 변경하여 pattern_80과 완전 분리)
                     const ptnRes = await fetch(urls.pattern_info);
                     const ptnCsv = await ptnRes.text();
                     const ptnParsed = Papa.parse(ptnCsv, { header: false, skipEmptyLines: true });
                     const ptnRows = ptnParsed.data.slice(1);
                     ptnRows.forEach((cols, idx) => {
                         allData.push({
-                            id: `ptn_${idx}`,
-                            type: 'pattern',
+                            id: `grammar_${idx}`,
+                            type: 'grammar', // ★ 블리딩 방지를 위해 grammar로 이름 변경
                             pattern: cols[0]?.trim() || "",
                             meaning1: cols[1]?.trim() || "",
                             meaning2: cols[2]?.trim() || "",
@@ -1150,54 +1120,59 @@
                         });
                     });
 
-                    // C. 일상회화 로드 (convstudy)
+                    // C. 일상회화 로드 (변경된 10개 열 헤더 구조에 대응)
+                    // id[0] type[1] category[2] group[3] cycle[4] week[5] jp[6] kr[7] audio[8] meta[9]
                     const exprRes = await fetch(urls.expression);
                     const exprCsv = await exprRes.text();
                     const exprParsed = Papa.parse(exprCsv, { header: false, skipEmptyLines: true });
-                    const exprRows = exprParsed.data.slice(1);
+                    const exprRows = exprParsed.data;
                     exprRows.forEach((cols, idx) => {
-                        const jpVal = cols[4] || "";
-                        const krVal = cols[5] || "";
+                        if (cols[0] && cols[0].toLowerCase() === 'id') return; // 헤더행 스킵
+                        const jpVal = cols[6] || "";
+                        const krVal = cols[7] || "";
                         if (jpVal && krVal) {
                             allData.push({
-                                id: `expr_${idx}`,
+                                id: cols[0] || `expr_${idx}`,
                                 type: 'expression',
                                 category: cols[2] || '일상회화',
                                 group: cols[3] || '기본 표현',
-                                week: cols[5] || '', // 주차
+                                cycle: cols[4] || '',
+                                week: cols[5] || '', // ★ 주차 정보 정상 로드
                                 jp: jpVal,
                                 kr: krVal,
-                                audio: '',
-                                meta: ''
+                                audio: cols[8] || '', // ★ 오디오 로드
+                                meta: cols[9] || ''
                             });
                         }
                     });
 
-                    // D. 문형 80 퀴즈 전용 데이터 병합 (80문형)
+                    // D. 문형 80 데이터 병합 (변경된 10개 열 구조에 대응)
+                    // id[0] type[1] category[2] group[3] cycle[4] week[5] jp[6] kr[7] audio[8] meta[9]
                     const ptnListRes = await fetch(urls.pattern_list);
                     const ptnListCsv = await ptnListRes.text();
                     const ptnListParsed = Papa.parse(ptnListCsv, { header: false, skipEmptyLines: true });
-                    const ptnListRows = ptnListParsed.data.slice(1);
+                    const ptnListRows = ptnListParsed.data;
                     ptnListRows.forEach((cols, idx) => {
-                        const jpVal = cols[4] || "";
-                        const krVal = cols[5] || "";
+                        if (cols[0] && cols[0].toLowerCase() === 'id') return; // 헤더행 스킵
+                        const jpVal = cols[6] || "";
+                        const krVal = cols[7] || "";
                         if (jpVal && krVal) {
                             allData.push({
-                                id: `ptn_80_${idx}`,
-                                type: 'pattern_80_quiz', // 기존 퀴즈 하위호환용 구분
+                                id: cols[0] || `ptn_80_${idx}`,
+                                type: 'pattern_80', // ★ grammar와 겹치지 않는 독립 타입 부여
                                 category: cols[2] || '문형80 예문',
                                 group: cols[3] || '80 패턴',
-                                cycle: cols[1] || '',
-                                week: cols[0] || '',
+                                cycle: cols[4] || '',
+                                week: cols[5] || '', // ★ 주차 정상 로드
                                 jp: jpVal,
                                 kr: krVal,
-                                audio: cols[6] || '',
-                                meta: cols[3] ? `문형: ${cols[3]}` : ''
+                                audio: cols[8] || '',
+                                meta: cols[9] || '' // ★ 메타(패턴 설명) 로드
                             });
                         }
                     });
 
-                    console.log(`개별 시트 병합 완료. 총 ${allData.length}개 로드.`);
+                    console.log(`데이터 파싱 완료. 총 ${allData.length}개 로드됨.`);
                 }
             } catch (err) {
                 console.error("데이터 로드 중 에러 발생. 내장 데이터를 씁니다.", err);
@@ -1223,7 +1198,6 @@
             if (pageId === 'shadow') {
                 targetNavBtn = document.querySelector(`#nav button[onclick*="startShadowing()"]`);
             } else if (pageId === 'quiz') {
-                // 서브 페이지 진입 시 해당 타입 네비 활성화
                 const typeNavMap = {
                     word: "startStudyOrQuiz('word')",
                     pattern: "startStudyOrQuiz('pattern')",
@@ -1240,11 +1214,11 @@
             }
         }
 
-        let currentSubCategory = 'word'; // 'word' | 'pattern' | 'expression'
+        let currentSubCategory = 'word'; 
 
         function startStudyOrQuiz(type) {
             currentSubCategory = type;
-            currentMode = 'quiz'; // HTML 상의 quizPage 영역 공유
+            currentMode = 'quiz'; 
             currentQuizWeekFilter = 'all';
 
             showPage('quiz');
@@ -1256,40 +1230,34 @@
             };
             document.getElementById('quizModeLabel').textContent = titleMap[type] || '일본어 학습관';
 
-            // 일상회화는 퀴즈 전용 → 공부 탭 숨기고 바로 퀴즈 시작
+            // 일상회화는 퀴즈 전용 -> 공부 탭 숨기고 바로 퀴즈 시작
             if (type === 'expression') {
                 document.getElementById('subTabs').style.display = 'none';
-                // 필터링 주차 데이터 생성 및 드롭다운 갱신
                 buildWeekFilter(type);
                 setSubMode('quiz');
             } else {
                 document.getElementById('subTabs').style.display = 'flex';
-                // 필터링 주차 데이터 생성 및 드롭다운 갱신
                 buildWeekFilter(type);
-                // 기본 공부(study) 모드로 시작
-                setSubMode('study');
+                setSubMode('study'); // 기본적으로 공부(study) 모드로 시작
             }
         }
 
-        // 주차 필터링 드롭다운 빌드
+        // 주차 필터링 드롭다운 빌드 (타입 꼬임 해결)
         function buildWeekFilter(type) {
             const select = document.getElementById('quizWeekSelect');
             const filterContainer = document.getElementById('quizFilterContainer');
 
-            // allData에서 해당 type의 주차 목록 수집
             const weeks = new Set();
             allData.filter(d => {
-                // pattern_80_quiz 데이터도 pattern으로 묶어 필터 적용
-                if (type === 'pattern') return d.type === 'pattern' || d.type === 'pattern_80_quiz';
-                // 단어/문법 학습관: word + pattern 두 타입 모두 포함
-                if (type === 'word') return d.type === 'word' || d.type === 'pattern';
+                // 타입 분리 대응 완벽 필터링
+                if (type === 'word') return d.type === 'word' || d.type === 'grammar';
+                if (type === 'pattern') return d.type === 'pattern_80';
                 return d.type === type;
             }).forEach(item => {
                 const w = String(item.week || '').trim();
                 if (w) weeks.add(w);
             });
 
-            // 주차가 전혀 없는 경우 필터 레이블 숨김
             if (weeks.size === 0) {
                 filterContainer.style.display = 'none';
                 return;
@@ -1323,12 +1291,10 @@
         function setSubMode(subMode) {
             currentSubMode = subMode;
 
-            // 탭 스타일 활성화
             document.getElementById('subtab-study').classList.remove('active-subtab');
             document.getElementById('subtab-quiz').classList.remove('active-subtab');
             document.getElementById(`subtab-${subMode}`).classList.add('active-subtab');
 
-            // 테마 클래스 재결합
             const layout = document.getElementById('quizLayoutContainer');
             layout.className = `quiz-layout quiz-${currentSubCategory}`;
 
@@ -1343,14 +1309,18 @@
         // 4. 원래 있었던 공부 기능 (Study Engine)
         // ==========================================
         function initStudyEngine() {
-            // 필터링 적용된 원본 1행 데이터 수집
-            // 단어/문법은 word + pattern 타입 모두 포함 (단어 + 문법 통합)
+            // 필터링 적용된 데이터 수집 (타입 블리딩 방지)
             let items;
             if (currentSubCategory === 'word') {
-                items = allData.filter(d => d.type === 'word' || d.type === 'pattern');
+                // 단어/문법 메뉴는 word와 grammar 정보만 표시
+                items = allData.filter(d => d.type === 'word' || d.type === 'grammar');
+            } else if (currentSubCategory === 'pattern') {
+                // 문형 80 메뉴는 pattern_80 예문만 표시
+                items = allData.filter(d => d.type === 'pattern_80');
             } else {
                 items = allData.filter(d => d.type === currentSubCategory);
             }
+
             if (currentQuizWeekFilter !== 'all') {
                 items = items.filter(d => String(d.week) === String(currentQuizWeekFilter));
             }
@@ -1379,39 +1349,40 @@
 
             const item = studyItems[studyCurrentIndex];
             
-            // 진행률 게이지 바 매핑 (공부는 푼 진도가 아니라 현재 인덱스 위치 표시)
             const currentNum = studyCurrentIndex + 1;
             const totalNum = studyItems.length;
             progress.textContent = `카드 이동 : ${currentNum} / ${totalNum}`;
             progressBar.style.width = `${(currentNum / totalNum) * 100}%`;
 
-            // 공부 모드 렌더링 분기
+            // 모드별 렌더링 분기
             if (currentSubCategory === 'word') {
-                // 1. 단어/문법 공부 카드 — item.type이 'pattern'이면 문법, 'word'면 단어로 분기
-                if (item.type === 'pattern') {
-                    // 문법(pattern) 카드
+                // 1. 단어/문법 공부 카드
+                if (item.type === 'grammar') {
+                    // 문법(grammar) 카드
                     cardInner.innerHTML = `
                         <div class="study-card-content">
-                            <div style="font-size:12px; color:var(--color-theme-pattern); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📐 문법</div>
+                            <div style="font-size:14px; color:var(--color-theme-pattern); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📐 문법</div>
                             <div class="study-word-header">
                                 <span class="study-word-title" style="color:var(--color-theme-pattern);" onclick="speakText('${item.pattern.replace(/'/g, "\'")}')">${item.pattern}</span>
                             </div>
+                            <!-- 뜻 두 줄 현상을 해결하기 위해 가로 정렬(row)된 box 사용 -->
                             <div class="study-meanings-box">
                                 <div class="study-meaning-row"><span class="study-badge">뜻</span> ${item.meaning1}${item.meaning2 ? `, ${item.meaning2}` : ''}</div>
-                                ${item.usage ? `<div class="card-usage-box" style="display:block; margin-top:5px; max-width:100%;">💡 활용: ${item.usage}</div>` : ''}
+                                ${item.usage ? `<div class="card-usage-box" style="margin-left: 10px;">💡 활용: ${item.usage}</div>` : ''}
                             </div>
-                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 20px 0 10px 0;"></div>` : ''}
                             ${(item.example1 || item.example2) ? `
+                                <!-- 예문 세로 배열 현상을 해결하기 위해 가로 정렬(row)된 box 사용 -->
                                 <div class="study-examples-box">
                                     ${item.example1 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')">
-                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')" tabindex="0">
+                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
                                             <div class="study-ex-ko">${item.translation1}</div>
                                         </div>
                                     ` : ''}
                                     ${item.example2 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')">
-                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')" tabindex="0">
+                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
                                             <div class="study-ex-ko">${item.translation2}</div>
                                         </div>
                                     ` : ''}
@@ -1423,27 +1394,29 @@
                     // 단어(word) 카드
                     cardInner.innerHTML = `
                         <div class="study-card-content">
-                            <div style="font-size:12px; color:var(--color-theme-word); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📖 단어</div>
+                            <div style="font-size:14px; color:var(--color-theme-word); font-weight:800; letter-spacing:1px; margin-bottom:4px;">📖 단어</div>
                             <div class="study-word-header">
                                 <span class="study-word-title" onclick="speakText('${item.word.replace(/'/g, "\'")}')">${item.word}</span>
                                 ${item.furigana ? `<span class="study-word-furigana">(${item.furigana})</span>` : ''}
                             </div>
+                            <!-- 뜻 두 줄 현상을 해결하기 위해 가로 정렬(row) 박스 사용 -->
                             <div class="study-meanings-box">
                                 <div class="study-meaning-row"><span class="study-badge">1</span> ${item.meaning1}</div>
                                 ${item.meaning2 ? `<div class="study-meaning-row"><span class="study-badge">2</span> ${item.meaning2}</div>` : ''}
                             </div>
-                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
+                            ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 20px 0 10px 0;"></div>` : ''}
                             ${(item.example1 || item.example2) ? `
+                                <!-- 예문 세로 배열 현상을 해결하기 위해 가로 정렬(row) 박스 사용 -->
                                 <div class="study-examples-box">
                                     ${item.example1 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')">
-                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
+                                        <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\'")}')" tabindex="0">
+                                            <div class="study-ex-ja">🔊 ${item.example1}${item.reading1 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
                                             <div class="study-ex-ko">${item.translation1}</div>
                                         </div>
                                     ` : ''}
                                     ${item.example2 ? `
-                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')">
-                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
+                                        <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\'")}')" tabindex="0">
+                                            <div class="study-ex-ja">🔊 ${item.example2}${item.reading2 ? ` <span style="font-size:16px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
                                             <div class="study-ex-ko">${item.translation2}</div>
                                         </div>
                                     ` : ''}
@@ -1453,43 +1426,24 @@
                     `;
                 }
             } else if (currentSubCategory === 'pattern') {
-                // 2. 핵심 문형 공부 카드
+                // 2. 문형 80 공부 카드 (새로 적용된 10열 구조에 맞춤)
                 cardInner.innerHTML = `
-                    <div class="study-card-content">
-                        <div class="study-word-header">
-                            <span class="study-word-title" onclick="speakText('${item.pattern.replace(/'/g, "\\'")}')">${item.pattern}</span>
-                        </div>
-                        <div class="study-meanings-box">
-                            <div class="study-meaning-row"><span class="study-badge">뜻</span> ${item.meaning1} ${item.meaning2 ? `, ${item.meaning2}` : ''}</div>
-                            ${item.usage ? `<div class="card-usage-box" style="display:block; margin-top:5px; max-width:100%;">💡 활용: ${item.usage}</div>` : ''}
-                        </div>
-                        ${(item.example1 || item.example2) ? `<div class="card-divider" style="display:block; max-width: 100%; margin: 15px 0 10px 0;"></div>` : ''}
-                        ${(item.example1 || item.example2) ? `
-                            <div class="study-examples-box">
-                                ${item.example1 ? `
-                                    <div class="study-example-item" onclick="speakText('${item.example1.replace(/'/g, "\\'")}')">
-                                        <div class="study-ex-ja">🔊 ${item.example1} ${item.reading1 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading1})</span>` : ''}</div>
-                                        <div class="study-ex-ko">${item.translation1}</div>
-                                    </div>
-                                ` : ''}
-                                ${item.example2 ? `
-                                    <div class="study-example-item" onclick="speakText('${item.example2.replace(/'/g, "\\'")}')">
-                                        <div class="study-ex-ja">🔊 ${item.example2} ${item.reading2 ? `<span style="font-size:14px; color:var(--text-muted);">(${item.reading2})</span>` : ''}</div>
-                                        <div class="study-ex-ko">${item.translation2}</div>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
+                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:350px;">
+                        ${item.meta ? `<div style="font-size:22px; color:var(--color-theme-pattern); font-weight:800; margin-bottom:15px;">${item.meta}</div>` : ''}
+                        <div class="study-word-title" style="font-size:54px; margin-bottom:20px;" onclick="speakStudyMainItem()">🔊 ${item.jp}</div>
+                        <div class="card-divider" style="display:block; margin: 20px auto; width: 60%; max-width: 500px;"></div>
+                        <div class="study-word-furigana" style="font-size:32px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
+                        ${item.group ? `<div style="margin-top:30px; color:var(--text-muted); font-size:18px;">[${item.group} / ${item.category}]</div>` : ''}
                     </div>
                 `;
             } else {
-                // 3. 일상회화 공부 카드 (기본)
+                // 3. 일상회화 공부 카드
                 cardInner.innerHTML = `
-                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:250px;">
-                        <div class="study-word-title" style="font-size:38px; margin-bottom:15px;" onclick="speakText('${item.jp.replace(/'/g, "\\'")}')">🔊 ${item.jp}</div>
-                        <div class="card-divider" style="display:block; margin: 10px 0;"></div>
-                        <div class="study-word-furigana" style="font-size:24px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
-                        ${item.category ? `<div style="margin-top:15px; color:var(--text-muted); font-size:14px;">[분류: ${item.category} - ${item.group}]</div>` : ''}
+                    <div class="study-card-content" style="align-items:center; text-align:center; justify-content:center; height:100%; min-height:350px;">
+                        <div class="study-word-title" style="font-size:54px; margin-bottom:20px;" onclick="speakStudyMainItem()">🔊 ${item.jp}</div>
+                        <div class="card-divider" style="display:block; margin: 20px auto; width: 60%; max-width: 500px;"></div>
+                        <div class="study-word-furigana" style="font-size:32px; color:var(--text-primary); font-weight:700;">${item.kr}</div>
+                        ${item.category ? `<div style="margin-top:30px; color:var(--text-muted); font-size:18px;">[분류: ${item.category} - ${item.group}]</div>` : ''}
                     </div>
                 `;
             }
@@ -1501,14 +1455,13 @@
                 <button class="quiz-btn quiz-btn-primary" onclick="nextStudyCard()">다음 카드 →</button>
             `;
 
-            // 대표 음성 자동 재생
+            // 대표 음성 자동 재생 (mp3가 있으면 mp3 재생, 없으면 TTS 재생)
             speakStudyMainItem();
             flashCard.focus();
 
-            // 팁 텍스트 갱신
             document.getElementById('remoteTipsLabel').innerHTML = `
                 <div>리모컨 팁: <span class="tip-tag">방향키 좌/우(←/→)</span> 이전/다음 카드 이동</div>
-                <div><span class="tip-tag">확인(Enter)</span> 음성 다시듣기</div>
+                <div><span class="tip-tag">확인(Enter) / 스페이스</span> 음성 다시듣기</div>
                 <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
             `;
         }
@@ -1528,15 +1481,17 @@
         function speakStudyMainItem() {
             if (studyCurrentIndex === -1 || studyItems.length === 0) return;
             const item = studyItems[studyCurrentIndex];
+            
+            // audio 열에 mp3 파일이 정의되어 있다면 우선 재생
+            if (item.audio) {
+                playItemAudio(item);
+                return;
+            }
+            
+            // 없으면 TTS로 읽어주기
             if (currentSubCategory === 'word') {
-                // 단어 또는 문법 카드에 따라 분기
-                if (item.type === 'pattern') {
-                    speakText(item.pattern);
-                } else {
-                    speakText(item.word);
-                }
-            } else if (currentSubCategory === 'pattern') {
-                speakText(item.pattern);
+                if (item.type === 'grammar') speakText(item.pattern);
+                else speakText(item.word);
             } else {
                 speakText(item.jp);
             }
@@ -1546,11 +1501,12 @@
         // 5. 통합 퀴즈 플레이어 (Quiz Engine)
         // ==========================================
         function initQuizEngine() {
-            // 퀴즈 문제용 문항 데이터셋 빌드 (1문장 단위 퀴즈로 가공 추출)
             quizItems = [];
             
+            // 필터링 규칙 동일하게 적용
             let filteredRaw = allData.filter(d => {
-                if (currentSubCategory === 'pattern') return d.type === 'pattern' || d.type === 'pattern_80_quiz';
+                if (currentSubCategory === 'word') return d.type === 'word' || d.type === 'grammar';
+                if (currentSubCategory === 'pattern') return d.type === 'pattern_80';
                 return d.type === currentSubCategory;
             });
 
@@ -1559,14 +1515,15 @@
             }
 
             filteredRaw.forEach(item => {
-                if (item.type === 'word') {
+                if (item.type === 'word' || item.type === 'grammar') {
                     // 단어/문법: 예문 기반 퀴즈 출제
+                    const metaLabel = item.type === 'grammar' ? `[문법: ${item.pattern}]` : `[단어: ${item.word}]`;
                     if (item.translation1 && item.example1) {
                         quizItems.push({
                             question: item.translation1,
                             answer: item.example1,
                             audio: '',
-                            meta: item.word ? `[단어: ${item.word}]` : '',
+                            meta: metaLabel,
                             week: item.week
                         });
                     }
@@ -1575,41 +1532,12 @@
                             question: item.translation2,
                             answer: item.example2,
                             audio: '',
-                            meta: item.word ? `[단어: ${item.word}]` : '',
+                            meta: metaLabel,
                             week: item.week
                         });
                     }
-                } else if (item.type === 'pattern') {
-                    // 핵심 문형: 예문 기반 퀴즈 출제
-                    if (item.translation1 && item.example1) {
-                        quizItems.push({
-                            question: item.translation1,
-                            answer: item.example1,
-                            audio: '',
-                            meta: item.pattern ? `[문형: ${item.pattern}]` : '',
-                            week: item.week
-                        });
-                    }
-                    if (item.translation2 && item.example2) {
-                        quizItems.push({
-                            question: item.translation2,
-                            answer: item.example2,
-                            audio: '',
-                            meta: item.pattern ? `[문형: ${item.pattern}]` : '',
-                            week: item.week
-                        });
-                    }
-                } else if (item.type === 'pattern_80_quiz') {
-                    // 80문형 예문 퀴즈 리스트
-                    quizItems.push({
-                        question: item.kr,
-                        answer: item.jp,
-                        audio: item.audio,
-                        meta: item.meta || '',
-                        week: item.week
-                    });
                 } else {
-                    // 일상회화: jp/kr 한 쌍으로 퀴즈 출제
+                    // 80문형 및 일상회화: jp/kr 쌍으로 출제 (변경된 열에 매핑)
                     quizItems.push({
                         question: item.kr,
                         answer: item.jp,
@@ -1620,7 +1548,6 @@
                 }
             });
 
-            // 퀴즈 진행률 로컬스토리지 복구
             const progressKey = `quiz_progress_${currentSubCategory}_${currentQuizWeekFilter}`;
             const saved = localStorage.getItem(progressKey);
             
@@ -1639,7 +1566,6 @@
 
         function resetQuizProgressData() {
             quizRemainingIndices = quizItems.map((_, idx) => idx);
-            // 셔플
             for (let i = quizRemainingIndices.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [quizRemainingIndices[i], quizRemainingIndices[j]] = [quizRemainingIndices[j], quizRemainingIndices[i]];
@@ -1675,7 +1601,7 @@
             flashCard.className = "flash-card";
 
             if (quizItems.length === 0) {
-                cardInner.innerHTML = '<div class="card-question">등록된 퀴즈가 없습니다.</div>';
+                cardInner.innerHTML = '<div class="card-question">해당 주차에 등록된 퀴즈가 없습니다.</div>';
                 updateQuizProgressUI();
                 controls.innerHTML = '';
                 return;
@@ -1695,7 +1621,6 @@
 
             const item = quizItems[quizCurrentIndex];
 
-            // 퀴즈 카드 내부 구조 렌더링
             cardInner.innerHTML = `
                 <div class="card-question" id="quizQuestion">${item.question}</div>
                 <div class="card-divider" id="cardDivider"></div>
@@ -1707,7 +1632,6 @@
 
             quizState = 'question';
 
-            // 버튼 생성
             controls.innerHTML = `
                 <button class="quiz-btn" id="quizBackBtn" onclick="prevQuizItem()">← 이전 문제</button>
                 <button class="quiz-btn" id="quizResetBtn" onclick="resetQuizProgress()">처음부터 다시</button>
@@ -1717,11 +1641,10 @@
 
             flashCard.focus();
 
-            // 팁 텍스트 갱신
             document.getElementById('remoteTipsLabel').innerHTML = `
                 <div>리모컨 팁: <span class="tip-tag">확인(Enter)</span> 정답 확인 / 다음 문제</div>
                 <div><span class="tip-tag">방향키 좌(←)</span> 이전 문제</div>
-                <div><span class="tip-tag">방향키 상/하(↑/↓)</span> 음성 다시듣기</div>
+                <div><span class="tip-tag">방향키 상/하(↑/↓) / 스페이스</span> 음성 다시듣기</div>
                 <div><span class="tip-tag">이전(Back) / ESC</span> 메인 홈으로</div>
             `;
         }
@@ -1743,7 +1666,6 @@
 
             const item = quizItems[quizCurrentIndex];
             
-            // 질문 렌더링
             const cardInner = document.getElementById('cardInnerContent');
             cardInner.innerHTML = `
                 <div class="card-question" id="quizQuestion">${item.question}</div>
@@ -1764,17 +1686,15 @@
             document.getElementById('cardDivider').style.display = 'block';
             document.getElementById('quizAnswerContainer').classList.add('reveal');
 
-            // 다시듣기 버튼 및 액션 버튼 업데이트
             const audioBtn = document.getElementById('quizAudioBtn');
             if (audioBtn) audioBtn.style.display = 'flex';
 
             const actionBtn = document.getElementById('quizActionBtn');
             if (actionBtn) {
                 actionBtn.textContent = '다음 문제 (Enter)';
-                actionBtn.className = 'quiz-btn';
+                actionBtn.className = 'quiz-btn quiz-btn-primary';
             }
 
-            // 음성 자동 출력
             playItemAudio(item);
             document.getElementById('flashCard').focus();
         }
@@ -1829,7 +1749,7 @@
                 return isLocal 
                     ? `../2.japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`
                     : `https://tajunii.github.io/japanese-study/심야식당s1e1/s1ep1-1/audio/${filename}`;
-            } else if (type === 'pattern' || type === 'pattern_80_quiz') {
+            } else if (type === 'pattern' || type === 'pattern_80' || type === 'expression') {
                 return isLocal
                     ? `../5.ptn&convstudy/audio/${filename}`
                     : `https://raw.githubusercontent.com/tajunii/ptn-convstudy/main/audio/${filename}`;
@@ -1838,6 +1758,7 @@
         }
 
         function playItemAudio(item) {
+            // item.audio나 item.jp 정보로 재생
             const audioUrl = getAudioUrl(currentSubCategory, item.audio);
             if (audioUrl) {
                 globalAudioPlayer.src = audioUrl;
@@ -1894,9 +1815,8 @@
                 div.id = `shadow-item-${idx}`;
                 div.onclick = () => playShadowItemAudio(item.audio);
                 
-                // 루비 가이드라인 바인딩
-                const rubyText = item.jp === "一日가終わり、人々が家路へと急ぐころ、俺の一日は始まる。" || item.jp.includes("一日")
-                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>가 <ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>이소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
+                const rubyText = item.jp === "一日が終わり、人々が家路へと急ぐころ、俺の一日は始まる。" || item.jp.includes("一日")
+                    ? `<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<ruby>人々<rt>ひとびと</rt></ruby>가 <ruby>家路<rt>いえじ</rt></ruby>へと<ruby>急<rt>い소</rt></ruby>ぐころ、<ruby>俺<rt>おれ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>は<ruby>始<rt>はじ</rt></ruby>まる。`
                     : item.jp.includes("メニュー")
                     ? `メニューはこれだけ、あとは<ruby>勝手<rt>かって</rt></ruby>に<ruby>注文<rt>ちゅうもん</rt></ruby>してくれりゃできるもんなら<ruby>作<rt>つく</rt></ruby>るよってのが、<ruby>俺<rt>おれ</rt></ruby>の<ruby>営業方針<rt>えいぎょうほうしん</rt></ruby>사。`
                     : item.jp.includes("営業時間")
@@ -1935,7 +1855,6 @@
         document.addEventListener('keydown', function(e) {
             if (document.activeElement.tagName === 'INPUT') return;
 
-            // A. 홈 화면 단축키
             if (currentMode === 'home') {
                 const buttons = Array.from(document.querySelectorAll('.menu-grid .menu-card'));
                 const currentIndex = buttons.indexOf(document.activeElement);
@@ -1950,7 +1869,6 @@
                     buttons[currentIndex].click();
                 }
             } 
-            // B. 쉐도잉 화면 단축키
             else if (currentMode === 'shadow') {
                 const items = Array.from(document.querySelectorAll('.shadow-list .shadow-item'));
                 const currentIndex = items.indexOf(document.activeElement);
@@ -1969,9 +1887,7 @@
                     showPage('home');
                 }
             }
-            // C. 학습 및 퀴즈 화면 단축키
             else {
-                // 1. 공부 모드 상태에서의 키 제어
                 if (currentSubMode === 'study') {
                     if (e.key === 'ArrowRight') {
                         e.preventDefault();
@@ -1987,7 +1903,6 @@
                         showPage('home');
                     }
                 } 
-                // 2. 퀴즈 모드 상태에서의 키 제어
                 else {
                     if (e.key === 'Enter') {
                         e.preventDefault();
